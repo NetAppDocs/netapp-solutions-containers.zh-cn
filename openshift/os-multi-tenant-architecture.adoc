@@ -1,0 +1,62 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-multi-tenant-architecture.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
+summary: 使用NetApp在 Red Hat OpenShift 上配置多租户 
+---
+= 架构
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+尽管NetApp ONTAP支持的 Red Hat OpenShift 和Trident默认不提供工作负载之间的隔离，但它们提供了可用于配置多租户的广泛功能。为了更好地理解在由NetApp ONTAP支持的Trident的 Red Hat OpenShift 集群上设计多租户解决方案，让我们考虑一个具有一组要求的示例并概述围绕它的配置。
+
+假设一个组织在 Red Hat OpenShift 集群上运行两个工作负载，这是两个不同团队正在开展的两个项目的一部分。这些工作负载的数据驻留在由Trident在NetApp ONTAP NAS 后端动态配置的 PVC 上。该组织需要为这两个工作负载设计一个多租户解决方案，并隔离用于这些项目的资源，以确保维护安全性和性能，主要关注为这些应用程序提供服务的数据。
+
+下图描述了由NetApp ONTAP支持的带有Trident的 Red Hat OpenShift 集群上的多租户解决方案。
+
+image:redhat-openshift-040.png["Red Hat OpenShift 集群上的多租户功能，采用由NetApp ONTAP支持的Trident"]
+
+
+
+== 技术要求
+
+. NetApp ONTAP存储集群
+. Red Hat OpenShift 集群
+. Trident
+
+
+
+
+== Red Hat OpenShift – 集群资源
+
+从 Red Hat OpenShift 集群的角度来看，首先要启动的顶级资源是项目。 OpenShift 项目可以看作是一个集群资源，它将整个 OpenShift 集群划分为多个虚拟集群。因此，项目级别的隔离为配置多租户提供了基础。
+
+接下来是在集群中配置 RBAC。最佳做法是让所有开发人员在身份提供者 (IdP) 中将单个项目或工作负载配置到单个用户组中。 Red Hat OpenShift 允许 IdP 集成和用户组同步，从而允许将来自 IdP 的用户和组导入到集群中。这有助于集群管理员将专用于某个项目的集群资源的访问隔离给从事该项目的一个或多个用户组，从而限制对任何集群资源的未经授权的访问。要了解有关 IdP 与 Red Hat OpenShift 集成的更多信息，请参阅文档 https://docs.openshift.com/container-platform/4.7/authentication/understanding-identity-provider.html["此处"^]。
+
+
+
+== NetApp ONTAP
+
+隔离作为 Red Hat OpenShift 集群的持久存储提供程序的共享存储非常重要，以确保在每个项目的存储上创建的卷对于主机来说就像是在单独的存储上创建的一样。为此，请在NetApp ONTAP上创建与项目或工作负载数量相同的 SVM（存储虚拟机），并将每个 SVM 专用于一个工作负载。
+
+
+
+== Trident
+
+在NetApp ONTAP上为不同的项目创建不同的 SVM 后，必须将每个 SVM 映射到不同的Trident后端。 Trident上的后端配置驱动持久存储到 OpenShift 集群资源的分配，并且需要映射到 SVM 的详细信息。这至少应该是后端的协议驱动程序。或者，它允许您定义如何在存储上配置卷，并为卷的大小或聚合的使用等设置限制。关于Trident后端定义的详细信息可以参见 https://docs.netapp.com/us-en/trident/trident-use/backends.html["此处"^]。
+
+
+
+== Red Hat OpenShift – 存储资源
+
+配置Trident后端后，下一步是配置 StorageClasses。配置与后端数量相同的存储类，为每个存储类提供仅在一个后端上启动卷的访问权限。我们可以在定义存储类时使用 storagePools 参数将 StorageClass 映射到特定的Trident后端。定义存储类的详细信息可以在这里找到 https://docs.netapp.com/us-en/trident/trident-use/manage-stor-class.html["此处"^]。因此，从 StorageClass 到Trident后端存在一对一映射，该映射指向一个 SVM。这可确保通过分配给该项目的 StorageClass 提出的所有存储声明均由专用于该项目的 SVM 提供服务。
+
+由于存储类不是命名空间资源，我们如何确保另一个命名空间或项目中的 pod 对一个项目的存储类的存储声明被拒绝？答案是使用 ResourceQuotas。 ResourceQuotas 是控制每个项目资源总使用量的对象。它可以限制项目中对象可消耗的资源数量和总量。几乎所有项目的资源都可以使用 ResourceQuotas 进行限制，有效使用 ResourceQuotas 可以帮助组织削减因资源过度配置或过度消耗而导致的成本和中断。请参阅文档 https://docs.openshift.com/container-platform/4.7/applications/quotas/quotas-setting-per-project.html["此处"^]了解更多信息。
+
+对于这种用例，我们需要限制特定项目中的 pod 从非专用于其项目的存储类中声明存储。为此，我们需要通过设置来限制其他存储类的持久卷声明 `<storage-class-name>.storageclass.storage.k8s.io/persistentvolumeclaims`为 0。此外，集群管理员必须确保项目中的开发人员无权修改资源配额。

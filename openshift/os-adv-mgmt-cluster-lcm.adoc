@@ -1,0 +1,43 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-adv-mgmt-cluster-lcm.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, ONTAP, Trident, Red Hat OpenShift, Advanced Cluster Management, Advanced Cluster Management for Kubernetes 
+summary: NetApp助力 Red Hat OpenShift 上 Kubernetes 的高级集群管理 
+---
+= 集群生命周期管理
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+要管理不同的 OpenShift 集群，您可以创建它们或将它们导入高级集群管理。
+
+. 首先导航到自动化基础设施>集群。
+. 要创建新的 OpenShift 集群，请完成以下步骤：
++
+.. 创建提供商连接：导航到提供商连接并单击添加连接，提供与所选提供商类型相对应的所有详细信息，然后单击添加。
++
+image:redhat-openshift-075.png["添加提供商连接"]
+
+.. 要创建新集群，请导航至“集群”，然后单击“添加集群”>“创建集群”。提供集群和相应提供程序的详细信息，然后单击“创建”。
++
+image:redhat-openshift-076.png["添加集群"]
+
+.. 集群创建完成后，出现在集群列表中，状态为Ready。
+
+
+. 要导入现有集群，请完成以下步骤：
++
+.. 导航到集群并单击添加集群>导入现有集群。
+.. 输入集群名称，点击保存导入并生成代码。显示添加现有集群的命令。
+.. 单击“复制命令”，在要添加到中心集群的集群上运行该命令。这将启动集群上必要代理的安装，并且此过程完成后，集群将以“就绪”状态出现在集群列表中。
++
+image:redhat-openshift-077.png["导入现有集群"]
+
+
+
+. 创建并导入多个集群后，您可以从单个控制台监控和管理它们。
+

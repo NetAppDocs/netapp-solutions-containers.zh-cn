@@ -1,0 +1,30 @@
+---
+indexpage:
+  title: 观看有关使用NetApp 的容器的视频和演示
+  summary: 一系列视频和演示讨论了 NetApp 众多容器解决方案的功能
+  lead: 探索 NetApp 的综合视频库，展示跨 Anthos、OpenShift 和 VMware Tanzu 平台的容器解决方案。每个集合都侧重于特定的用例和集成场景。
+  tiles:
+  - title: Anthos 与NetApp合作
+    links:
+    - title: Anthos 部署和设置
+      url: anthos-videos.html#anthos-deployment-and-setup-on-bare-metal
+    - title: Trident部署和设置
+      url: anthos-videos.html#trident-deployment-and-setup-on-anthos
+  - title: Red Hat OpenShift 与NetApp
+    links:
+    - title: 灾难恢复和数据保护
+      url: openshift-videos.html#disaster-recovery-and-data-protection
+    - title: OpenShift 虚拟化和 VM 管理
+      url: openshift-videos.html#openshift-virtualization-and-vm-management
+    - title: 应用程序部署和存储
+      url: openshift-videos.html#application-deployment-and-storage
+    - title: 自动化与集成
+      url: openshift-videos.html#automation-and-integration
+    - title: 云和混合集成
+      url: openshift-videos.html#cloud-and-hybrid-integrations
+  - title: VMware Tanzu 与NetApp
+    links:
+    - title: 持久存储配置
+      url: tanzu-videos.html#persistent-storage-provisioning
+    - title: 应用程序克隆和数据保护
+      url: tanzu-videos.html#application-cloning-and-data-protection

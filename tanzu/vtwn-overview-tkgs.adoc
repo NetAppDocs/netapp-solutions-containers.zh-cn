@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: tanzu/vtwn-overview-tkgs.html 
+keywords: VMware Tanzu, Tanzu, Tanzu Kubernetes Grid Service, vSphere with Tanzu, DevOps, Netapp, Trident, Trident Protect 
+summary: VMware Tanzu Kubernetes Grid Service（也称为 vSphere with Tanzu）允许您在 vSphere 中本地创建和操作 Tanzu Kubernetes 集群，还允许您直接在 ESXi 主机上运行一些较小的工作负载。 
+---
+= VMware Tanzu Kubernetes Grid Service (TKGS) 概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+VMware Tanzu Kubernetes Grid Service（也称为 vSphere with Tanzu）允许您在 vSphere 中本地创建和操作 Tanzu Kubernetes 集群，还允许您直接在 ESXi 主机上运行一些较小的工作负载。它允许您将 vSphere 转变为在虚拟机管理程序层上本地运行容器化工作负载的平台。 Tanzu Kubernetes Grid Service 启用后会在 vSphere 上部署一个主管集群，用于部署和操作工作负载所需的集群。它与 vSphere 7 原生集成，并利用许多可靠的 vSphere 功能（如 vCenter SSO、内容库、vSphere 网络、vSphere 存储、vSphere HA 和 DRS 以及 vSphere 安全性），以实现更无缝的 Kubernetes 体验。
+
+vSphere with Tanzu 为混合应用程序环境提供了一个单一平台，您可以在容器或虚拟机中运行应用程序组件，从而为开发人员、DevOps 工程师和 vSphere 管理员提供更好的可视性和易操作性。  VMware TKGS 仅支持 vSphere 7 环境，并且是 Tanzu Kubernetes 运营产品组合中唯一允许您直接在 ESXi 主机上运行 pod 的产品。
+
+image:vtwn-003.png["VMware Tanzu Kubernetes 服务"]
+
+有关 Tanzu Kubernetes Grid Service 的更多信息，请关注文档link:https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-152BE7D2-E227-4DAA-B527-557B564D9718.html["此处"^]。
+
+关于功能集、网络等，有很多架构方面的考虑。根据所选的架构，Tanzu Kubernetes Grid Service 的先决条件和部署过程会有所不同。要在您的环境中部署和配置 Tanzu Kubernetes Grid Service，请遵循指南link:https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-74EC2571-4352-4E15-838E-5F56C8C68D15.html["此处"^]。此外，要登录通过 TKGS 部署的 Tanzu Kubernetes 集群节点，请按照此处列出的步骤操作 https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-37DC1DF2-119B-4E9E-8CA6-C194F39DDEDA.html["链接"^]。
+
+NetApp建议将所有生产环境部署在多个主部署中，以实现容错，并选择工作节点的配置来满足预期工作负载的要求。因此，针对高度密集型工作负载，建议的 VM 类至少具有 4 个 vCPU 和 12GB RAM。
+
+在命名空间中创建 Tanzu Kubernetes 集群时，具有 `owner`或者 `edit`权限可以使用用户帐户直接在任何命名空间中创建 pod。这是因为用户 `owner`或者 `edit`权限被分配给集群管理员角色。但是，在任何命名空间中创建部署、守护进程集、有状态集或其他内容时，必须为相应的服务帐户分配具有所需权限的角色。这是必需的，因为部署或守护进程集利用服务帐户来部署 pod。
+
+请参阅以下 ClusterRoleBinding 示例，将集群管理员角色分配给集群中的所有服务帐户：
+
+[listing]
+----
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: all_sa_ca
+subjects:
+- kind: Group
+  name: system:serviceaccounts
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: psp:vmware-system-privileged
+  apiGroup: rbac.authorization.k8s.io
+----

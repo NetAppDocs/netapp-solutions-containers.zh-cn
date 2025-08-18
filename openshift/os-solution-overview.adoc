@@ -1,0 +1,108 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-solution-overview.html 
+keywords: NVA-1160, Red Hat, OpenShift, Netapp, Trident 
+summary: '本参考文档提供了 Red Hat OpenShift 解决方案的部署验证，该解决方案通过安装程序配置基础架构 (IPI) 在多个不同的数据中心环境中部署，并由NetApp验证。它还详细介绍了如何利用Trident存储编排器管理持久存储，从而实现与NetApp存储系统的存储集成。最后，我们探索并记录了大量解决方案验证和实际用例。' 
+---
+= NVA-1160：Red Hat OpenShift 与NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+NetApp 的Alan Cowles 和 Nikhil M Kulkarni
+
+[role="lead"]
+本参考文档提供了 Red Hat OpenShift 解决方案的部署验证，该解决方案通过安装程序配置基础架构 (IPI) 在多个不同的数据中心环境中部署，并由NetApp验证。它还详细介绍了如何利用Trident存储编排器管理持久存储，从而实现与NetApp存储系统的存储集成。最后，我们探索并记录了大量解决方案验证和实际用例。
+
+
+
+== 使用情形
+
+Red Hat OpenShift 与NetApp解决方案的架构旨在通过以下用例为客户提供卓越的价值：
+
+* 易于部署和管理使用 IPI（安装程序配置基础架构）在裸机、Red Hat OpenStack 平台、Red Hat 虚拟化和 VMware vSphere 上部署的 Red Hat OpenShift。
+* 将企业容器和虚拟化工作负载的功能与 Red Hat OpenShift 结合起来，在 OSP、RHV 或 vSphere 上虚拟部署，或者在带有 OpenShift Virtualization 的裸机上部署。
+* 真实世界的配置和用例突出显示了 Red Hat OpenShift 与NetApp存储和Trident（ Kubernetes 的开源存储编排器）一起使用时的功能。
+
+
+
+
+== 商业价值
+
+企业越来越多地采用 DevOps 实践来创建新产品、缩短发布周期并快速添加新功能。由于其固有的敏捷特性，容器和微服务在支持 DevOps 实践方面发挥着至关重要的作用。然而，在企业环境中以生产规模实践 DevOps 也面临着自身的挑战，并对底层基础设施提出了一定的要求，例如：
+
+* 堆栈中所有层的高可用性
+* 简化部署程序
+* 无中断运行和升级
+* API 驱动和可编程的基础设施，以跟上微服务的敏捷性
+* 具有性能保证的多租户
+* 能够同时运行虚拟化和容器化工作负载
+* 能够根据工作负载需求独立扩展基础设施
+
+
+NetApp的 Red Hat OpenShift 承认这些挑战，并提出了一种解决方案，通过在客户选择的数据中心环境中实施 RedHat OpenShift IPI 的全自动部署来帮助解决每个问题。
+
+
+
+== 技术概述
+
+Red Hat OpenShift 与NetApp解决方案由以下主要组件组成：
+
+
+
+=== 红帽 OpenShift 容器平台
+
+Red Hat OpenShift Container Platform 是一个完全支持的企业级 Kubernetes 平台。  Red Hat 对开源 Kubernetes 进行了多项改进，以提供一个完全集成所有组件的应用程序平台，用于构建、部署和管理容器化应用程序。
+
+欲了解更多信息，请访问 OpenShift 网站 https://www.openshift.com["此处"]。
+
+
+
+=== NetApp存储系统
+
+NetApp拥有多种非常适合企业数据中心和混合云部署的存储系统。  NetApp产品组合包括NetApp ONTAP、 NetApp Element和NetApp e-Series 存储系统，所有这些系统都可以为容器化应用程序提供持久存储。
+
+欲了解更多信息，请访问NetApp网站 https://www.netapp.com["此处"]。
+
+
+
+=== NetApp存储集成
+
+Trident是一个开源且完全支持的容器和 Kubernetes 发行版（包括 Red Hat OpenShift）存储编排器。
+
+欲了解更多信息，请访问Trident网站 https://docs.netapp.com/us-en/trident/index.html["此处"]。
+
+
+
+== 高级配置选项
+
+本节专门介绍实际用户在将此解决方案部署到生产中时可能需要执行的自定义，例如创建专用私有映像注册表或部署自定义负载均衡器实例。
+
+
+
+== 已验证版本的当前支持矩阵
+
+|===
+
+
+| 技术 | 目的 | 软件版本 
+
+
+| NetApp ONTAP | 存储 | 9.8、9.9.1、9.12.1 
+
+
+| NetApp Element | 存储 | 12.3 
+
+
+| NetApp Trident | 存储编排 | 22.01.0、23.04、23.07、23.10、24.02 
+
+
+| 红帽 OpenShift | 容器编排 | 4.6 EUS，4.7，4.8，4.10，4.11，4.12，4.13，4.14 
+
+
+| VMware vSphere | 数据中心虚拟化 | 7.0、8.0.2 
+|===

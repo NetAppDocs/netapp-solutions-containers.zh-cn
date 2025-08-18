@@ -1,0 +1,32 @@
+---
+sidebar: sidebar 
+permalink: tanzu/vtwn-overview-tkgi.html 
+keywords: VMware Tanzu, Tanzu, Tanzu Kubernetes Grid Integrated, TKGI, DevOps, Netapp, Trident, Trident Protect 
+summary:  
+---
+= VMware Tanzu Kubernetes Grid 集成版 (TKGI) 概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+VMware Tanzu Kubernetes Grid Integrated (TKGI) Edition（以前称为 VMware Enterprise PKS）是一个基于 Kubernetes 的独立容器编排平台，具有生命周期管理、集群健康监控、高级网络、容器注册表等功能。  TKGI 使用由 BOSH 和 Ops Manager 组成的 TKGI 控制平面来配置和管理 Kubernetes 集群。
+
+TKGI 可以在本地 vSphere 或 OpenStack 环境中安装和运行，也可以在其各自的 IaaS 产品上的任何主要公共云中安装和运行。此外，TKGI 与 NSX-T 和 Harbour 的集成为企业工作负载提供了更广泛的用例。要了解有关 TKGI 及其功能的更多信息，请访问文档link:https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid-Integrated-Edition/index.html["此处"^]。
+
+image:vtwn-004.png["VMware Tanzu Kubernetes Grid集成版"]
+
+TKGI 根据不同的用例和设计以多种配置安装在各种平台上。按照指南操作link:https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid-Integrated-Edition/1.14/tkgi/GUID-index.html["此处"^]安装和配置 TKGI 及其先决条件。  TKGI 使用 Bosh VM 作为 Tanzu Kubernetes 集群的节点，这些集群运行不可变的配置映像，并且 Bosh VM 上的任何手动更改在重启后都不会保留。
+
+重要说明：
+
+* NetApp Trident需要特权容器访问。因此，在 TKGI 安装期间，请确保在配置 Tanzu Kubernetes 集群节点计划的步骤中选中“启用特权容器”复选框。
++
+image:vtwn-005.png["TKGI 中的特权容器"]
+
+* NetApp建议将所有生产环境部署在多个主部署中以实现容错，并选择工作节点的配置来满足预期工作负载的要求。因此，建议的 TKGI 集群计划将由至少三个主服务器和三个从服务器组成，并配备至少四个 vCPU 和 12GB RAM，以应对高强度的工作负载。
+

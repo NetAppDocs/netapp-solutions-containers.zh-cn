@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: tanzu/vtwn-additional-information.html 
+keywords:  
+summary:  
+---
+= 附加信息：VMware Tanzu 与NetApp
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+要了解有关本文档中描述的信息的更多信息，请查看以下网站：
+
+* NetApp 文档
++
+https://docs.netapp.com/["https://docs.netapp.com/"^]
+
+* Trident文档
++
+https://docs.netapp.com/us-en/trident/["https://docs.netapp.com/us-en/trident/"^]
+
+* Ansible 文档
++
+https://docs.ansible.com/["https://docs.ansible.com/"^]
+
+* VMware Tanzu 文档
++
+https://docs.vmware.com/en/VMware-Tanzu/index.html["https://docs.vmware.com/en/VMware-Tanzu/index.html"^]
+
+* VMware Tanzu Kubernetes 网格文档
++
+https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid/1.5/vmware-tanzu-kubernetes-grid-15/GUID-index.html["https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid/1.5/vmware-tanzu-kubernetes-grid-15/GUID-index.html"^]
+
+* VMware Tanzu Kubernetes Grid 服务文档
++
+https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-152BE7D2-E227-4DAA-B527-557B564D9718.html["https://docs.vmware.com/en/VMware-vSphere/7.0/vmware-vsphere-with-tanzu/GUID-152BE7D2-E227-4DAA-B527-557B564D9718.html"^]
+
+* VMware Tanzu Kubernetes Grid 集成版文档
++
+https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid-Integrated-Edition/index.html["https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid-Integrated-Edition/index.html"^]
+
+

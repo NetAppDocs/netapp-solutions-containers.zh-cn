@@ -1,0 +1,28 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-adv-mgmt-governance-risk.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, ONTAP, Trident, Red Hat OpenShift, Advanced Cluster Management, Advanced Cluster Management for Kubernetes 
+summary: NetApp助力 Red Hat OpenShift 上 Kubernetes 的高级集群管理 
+---
+= 治理与风险
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+此功能允许您为不同的集群定义合规策略并确保集群遵守该策略。您可以配置策略来通知或补救任何偏离或违反规则的行为。
+
+. 从侧边栏导航至“治理和风险”。
+. 要创建合规性策略，请单击创建策略，输入策略标准的详细信息，然后选择应遵守此策略的集群。如果您想自动纠正违反此策略的行为，请选中“如果支持则强制执行”复选框，然后单击“创建”。
++
+image:redhat-openshift-080.png["创建合规性策略"]
+
+. 配置所有必需的策略后，可以从高级集群管理中监控和修复任何策略或集群违规行为。
++
+image:redhat-openshift-081.png["政策监控"]
+
+

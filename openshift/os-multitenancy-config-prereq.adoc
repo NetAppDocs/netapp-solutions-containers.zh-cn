@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-multitenancy-config-prereq.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
+summary: 使用NetApp在 Red Hat OpenShift 上配置多租户 
+---
+= 配置
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+以下是使用NetApp在 Red Hat OpenShift 上配置多租户的先决条件。
+
+
+
+== 前提条件
+
+* NetApp ONTAP集群
+* Red Hat OpenShift 集群
+* 集群上安装的Trident
+* 安装了 tridentctl 和 oc 工具并添加到 $PATH 的管理员工作站
+* ONTAP管理员访问权限
+* 集群管理员访问 OpenShift 集群
+* 集群与身份提供者集成
+* 配置身份提供者以有效区分不同团队中的用户
+

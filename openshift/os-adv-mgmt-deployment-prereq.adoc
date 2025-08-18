@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-adv-mgmt-deployment-prereq.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, ONTAP, Trident, Red Hat OpenShift, Advanced Cluster Management, Advanced Cluster Management for Kubernetes 
+summary: NetApp助力 Red Hat OpenShift 上 Kubernetes 的高级集群管理 
+---
+= 为 Kubernetes 部署高级集群管理
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本节介绍使用NetApp在 Red Hat OpenShift 上对 Kubernetes 进行高级集群管理。
+
+
+
+== 前提条件
+
+. 用于中心集群的 Red Hat OpenShift 集群（高于 4.5 版本）
+. 用于托管集群的 Red Hat OpenShift 集群（高于 4.4.3 版本）
+. 集群管理员访问 Red Hat OpenShift 集群
+. Red Hat 订阅 Kubernetes 高级集群管理
+
+
+高级集群管理是 OpenShift 集群的一个附加组件，因此根据中心和管理集群中使用的功能，对硬件资源有一定的要求和限制。在确定集群大小时需要考虑这些问题。查看文档 https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.2/html-single/install/index#network-configuration["此处"]了解更多详情。
+
+或者，如果中心集群具有用于托管基础设施组件的专用节点，并且您只想在这些节点上安装高级集群管理资源，则需要相应地向这些节点添加容忍度和选择器。更多详细信息请参阅文档 https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.2/html/install/installing#installing-on-infra-node["此处"]。

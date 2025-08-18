@@ -1,0 +1,26 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-netapp-overview-advanced.html 
+keywords: Advanced Configuration, Load Balancers, Custom Registry 
+summary: 本节专门介绍实际用户在将此解决方案部署到生产中时可能需要执行的自定义，例如创建专用映像注册表或部署自定义负载均衡器实例。 
+---
+= 高级配置选项
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+通常，最容易部署的解决方案是最好的，但在某些情况下，需要进行高级定制才能满足特定应用程序或解决方案部署到的环境的要求或规范。为此，Red Hat OpenShift 与NetApp解决方案允许进行以下定制以满足这些需求。
+
+
+NOTE: 在本节中，我们记录了一些高级配置选项，例如使用第三方负载均衡器或创建用于托管自定义容器映像的私有注册表，这两者都是安装NetApp Trident Protect 的先决条件。
+
+以下页面包含有关 Red Hat OpenShift with NetApp解决方案中验证的高级配置选项的更多信息：
+
+* link:os-load-balancers.html["探索负载均衡器选项"]
+* link:os-private-registry.html["配置私有镜像仓库"]
+

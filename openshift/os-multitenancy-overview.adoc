@@ -1,0 +1,31 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-multitenancy-overview.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
+summary: 使用NetApp在 Red Hat OpenShift 上配置多租户 
+---
+= 使用NetApp在 Red Hat OpenShift 上配置多租户
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+许多在容器上运行多个应用程序或工作负载的组织倾向于为每个应用程序或工作负载部署一个 Red Hat OpenShift 集群。这使得他们能够对应用程序或工作负载实施严格隔离，优化性能并减少安全漏洞。但是，为每个应用程序部署单独的 Red Hat OpenShift 集群会带来一系列问题。它增加了必须自行监控和管理每个集群的运营开销，由于不同应用程序的专用资源而增加了成本，并阻碍了有效的可扩展性。
+
+为了克服这些问题，可以考虑在单个 Red Hat OpenShift 集群中运行所有应用程序或工作负载。但在这样的架构下，资源隔离和应用安全漏洞是主要挑战之一。一个工作负载中的任何安全漏洞都可能自然蔓延到另一个工作负载，从而扩大影响范围。此外，由于默认情况下没有资源分配策略，因此一个应用程序突然不受控制地利用资源都会影响另一个应用程序的性能。
+
+因此，组织寻求能够兼顾两方面优势的解决方案，例如，允许他们在单个集群中运行所有工作负载，同时又为每个工作负载提供专用集群的优势。
+
+一个有效的解决方案是在 Red Hat OpenShift 上配置多租户。多租户是一种允许多个租户在同一个集群上共存的架构，对资源、安全性等进行适当的隔离。在此上下文中，租户可被视为集群资源的子集，配置为由特定用户组用于专用目的。在 Red Hat OpenShift 集群上配置多租户具有以下优势：
+
+* 通过共享集群资源来减少资本支出和运营支出
+* 降低运营和管理开销
+* 保护工作负载免受安全漏洞的交叉污染
+* 保护工作负载免受资源争用导致的意外性能下降
+
+
+对于完全实现的多租户 OpenShift 集群，必须为属于不同资源桶的集群资源配置配额和限制：计算、存储、网络、安全等。虽然我们在此解决方案中涵盖了所有资源桶的某些方面，但我们专注于通过在由 NetApp ONTAP 支持的TridentNetApp分配的存储资源上配置多租户来隔离和保护同一 Red Hat OpenShift 集群上多个工作负载所服务或使用的数据的ONTAP实践。

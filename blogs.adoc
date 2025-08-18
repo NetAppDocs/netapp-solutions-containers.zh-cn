@@ -1,0 +1,61 @@
+---
+sidebar: sidebar 
+permalink: blogs.html 
+summary: 阅读博客，了解有关将ONTAP存储与NetApp虚拟化解决方案集成的实用指导和最佳实践。 
+keywords: netapp, solutions, blogs 
+---
+= 阅读NetApp专家的容器解决方案博客
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+阅读博客，了解有关将ONTAP存储与NetApp容器解决方案集成的实用指导和最佳实践。
+
+
+
+== OpenShift 部署和集成
+
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Simplifying-Trident-Installation-on-Red-Hat-OpenShift-with-the-New-Certified/ba-p/459710["使用新认证的Trident Operator 简化 Red Hat OpenShift 上的Trident安装"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Unlock-Seamless-iSCSI-Storage-Integration-A-Guide-to-FSxN-on-ROSA-Clusters-for/ba-p/459124["解锁无缝 iSCSI 存储集成：iSCSI ROSA 集群上的 FSxN 指南"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Amazon-FSx-for-NetApp-ONTAP-with-Red-Hat-OpenShift-Service-on-AWS-ROSA-using/ba-p/456167["使用托管控制平面的Amazon FSx for NetApp ONTAP与 AWS 上的 Red Hat OpenShift 服务 (ROSA)"]
+* link:https://netapp.io/2021/05/21/docker-rate-limit-issue/["在 Red Hat OpenShift 上安装NetApp Trident – 如何解决 Docker 的“toomanyrequests”问题！"]
+
+
+
+
+== 数据保护和备份
+
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Crash-Consistent-Backup-and-Restore-Operations-for-OpenShift-Virtualization-VMs/ba-p/459417["使用Trident 25.02 对 OpenShift 虚拟化虚拟机进行崩溃一致性备份和恢复操作"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/A-Backup-and-Restore-option-for-VM-data-protection-in-OpenShift-Virtualization/ba-p/452279["OpenShift 虚拟化中虚拟机数据保护的备份和恢复选项"]
+
+
+
+
+== 虚拟化和虚拟机操作
+
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Live-Migration-of-VMs-with-OpenShift-Virtualization-on-ROSA-and-Amazon-FSx-for/ba-p/456213["使用 ROSA 上的 OpenShift 虚拟化和Amazon FSx for NetApp ONTAP实时迁移虚拟机"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/ONTAP-for-OpenShift-Virtualization-VMs-non-disruptive-volume-move-operation-is/ba-p/451941["适用于 OpenShift 虚拟化虚拟机的ONTAP ：无中断卷移动操作由您掌控"]
+
+
+
+
+== 存储集成和性能
+
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Using-NVMe-TCP-to-consume-ONTAP-storage-for-your-modern-containerized-apps-on/ba-p/453706["使用 NVMe/TCP 在 VMware 上为现代容器化应用程序使用ONTAP存储"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/ONTAP-as-backend-storage-for-the-integrated-image-registry-in-OpenShift/ba-p/453142["ONTAP作为 OpenShift 容器平台中集成映像注册表的后端存储"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/NetApp-ONTAP-doubles-up-as-storage-for-logs-in-Red-Hat-OpenShift-Container/ba-p/449280["NetApp ONTAP兼作 Red Hat OpenShift 容器平台中的日志存储"]
+
+
+
+
+== Kubernetes 和 VMware 生态系统
+
+* link:https://blog.netapp.com/accelerate-your-k8s-journey["使用 VMware Tanzu 和ONTAP加速您的 Kubernetes 之旅"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Kubernetes-on-vSphere-Part-1/ba-p/445634["vSphere 上的 Kubernetes（第 1 部分）"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Kubernetes-on-vSphere-Part-2/ba-p/445848["vSphere 上的 Kubernetes（第 2 部分）"]
+

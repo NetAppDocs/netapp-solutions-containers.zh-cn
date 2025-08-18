@@ -1,0 +1,28 @@
+---
+sidebar: sidebar 
+permalink: anthos/anthos-netapp-overview.html 
+keywords: NetApp, ONTAP, Element, Storage 
+summary: NetApp拥有多个符合我们的Trident Storage Orchestrator 要求的存储平台，可以为部署在 Anthos 上的应用程序配置存储。 
+---
+= NetApp存储概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp拥有多个符合我们的Trident Storage Orchestrator 要求的存储平台，可以为作为容器部署的应用程序配置存储。
+
+image:a-w-n-netapp-overview.png["该图显示输入/输出对话框或表示书面内容"]
+
+* AFF和FAS系统运行NetApp ONTAP并为基于文件 (NFS) 和基于块 (iSCSI) 的用例提供存储。
+* Cloud Volumes ONTAP和ONTAP Select分别在云和虚拟空间中提供相同的优势。
+* Google Cloud NetApp Volumes (GCP) 和Azure NetApp Files在云中提供基于文件的存储。
+* Amazon FSx ONTAP是 AWS 上的一项完全托管服务，为基于文件的用例提供存储。
+
+
+
+NOTE: NetApp产品组合中的每个存储系统都可以简化数据管理和内部站点与云之间的移动，确保您的数据位于应用程序所在的位置。

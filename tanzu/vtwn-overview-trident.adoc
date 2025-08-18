@@ -1,0 +1,120 @@
+---
+sidebar: sidebar 
+permalink: tanzu/vtwn-overview-trident.html 
+keywords: Trident, Trident, Helm, Operator, iSCSI, NFS, Tanzu, VMware Tanzu with NetApp Trident 
+summary: Trident是一个开源且完全支持的容器和 Kubernetes 发行版（包括 VMware Tanzu）存储编排器。 
+---
+= Trident概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+:k8s_distribution_name: Red Hat OpenShift, VMware Tanzu, Anthos by Google Cloud, Rancher etc
+
+
+[role="lead"]
+Trident是一个开源且完全支持的容器和 Kubernetes 发行版（包括 VMware Tanzu）存储编排器。
+
+[role="normal"]
+Trident是一个开源的、完全支持的存储编排器，适用于容器和 Kubernetes 发行版（如 {k8s_distribution_name}）。  Trident可与整个NetApp存储产品组合配合使用，包括NetApp ONTAP和 Element 存储系统，并且还支持 NFS 和 iSCSI 连接。  Trident允许最终用户从其NetApp存储系统配置和管理存储，而无需存储管理员的干预，从而加速 DevOps 工作流程。
+
+管理员可以根据项目需求和存储系统模型配置多个存储后端，以实现高级存储功能，包括压缩、特定磁盘类型或保证一定性能水平的 QoS 级别。定义完成后，开发人员可以在他们的项目中使用这些后端来创建持久卷声明 (PVC) 并根据需要将持久存储附加到他们的容器。
+
+image:redhat-openshift-002.png["该图显示输入/输出对话框或表示书面内容"]
+
+Trident的开发周期很快，和 Kubernetes 一样，每年发布四次。
+
+Trident的最新版本是 2022 年 4 月发布的 22.04。已测试过哪个版本的Trident以及可以找到哪个 Kubernetes 发行版的支持矩阵 https://docs.netapp.com/us-en/trident/trident-get-started/requirements.html#supported-frontends-orchestrators["此处"]。
+
+从 20.04 版本开始， Trident设置由Trident操作员执行。该操作员使大规模部署变得更容易，并提供额外的支持，包括作为Trident安装的一部分部署的 pod 的自我修复。
+
+随着 21.01 版本的发布，Helm 图表可用来简化Trident Operator 的安装。
+
+
+
+== 使用 Helm 部署Trident Operator
+
+. 首先设置用户集群的 `kubeconfig`文件作为环境变量，这样您就不必引用它，因为Trident没有选项来传递此文件。
++
+[listing]
+----
+[netapp-user@rhel7]$ export KUBECONFIG=~/tanzu-install/auth/kubeconfig
+----
+. 添加NetApp Trident helm 存储库。
++
+[listing]
+----
+[netapp-user@rhel7]$ helm repo add netapp-trident https://netapp.github.io/trident-helm-chart
+"netapp-trident" has been added to your repositories
+----
+. 更新 helm 存储库。
++
+[listing]
+----
+[netapp-user@rhel7]$ helm repo update
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "netapp-trident" chart repository
+...Successfully got an update from the "bitnami" chart repository
+Update Complete. ⎈Happy Helming!⎈
+----
+. 为Trident的安装创建一个新的命名空间。
++
+[listing]
+----
+[netapp-user@rhel7]$ kubetcl create ns trident
+----
+. 使用 DockerHub 凭证创建一个密钥来下载Trident镜像。
++
+[listing]
+----
+[netapp-user@rhel7]$ kubectl create secret docker-registry docker-registry-cred --docker-server=docker.io --docker-username=netapp-solutions-tme --docker-password=xxxxxx -n trident
+----
+. 对于由 TKGS（带有 Tanzu 的 vSphere）或具有管理集群部署的 TKG 管理的用户或工作负载集群，请完成以下步骤来安装Trident：
++
+.. 确保登录的用户有在 trident 命名空间中创建服务账户的权限，并且 trident 命名空间中的服务账户有创建 pod 的权限。
+.. 运行以下 helm 命令在创建的命名空间中安装Trident操作符。
++
+[listing]
+----
+[netapp-user@rhel7]$ helm install trident netapp-trident/trident-operator -n trident --set imagePullSecrets[0]=docker-registry-cred
+----
+
+
+. 对于由 TKGI 部署管理的用户或工作负载集群，运行以下 helm 命令在创建的命名空间中安装Trident操作员。
++
+[listing]
+----
+[netapp-user@rhel7]$ helm install trident netapp-trident/trident-operator -n trident --set imagePullSecrets[0]=docker-registry-cred,kubeletDir="/var/vcap/data/kubelet"
+----
+. 验证Trident pod 是否已启动并正在运行。
++
+[listing]
+----
+NAME                                READY   STATUS    RESTARTS        AGE
+trident-csi-6vv62                   2/2     Running   0               14m
+trident-csi-cfd844bcc-sqhcg         6/6     Running   0               12m
+trident-csi-dfcmz                   2/2     Running   0               14m
+trident-csi-pb2n7                   2/2     Running   0               14m
+trident-csi-qsw6z                   2/2     Running   0               14m
+trident-operator-67c94c4768-xw978   1/1     Running   0               14m
+
+[netapp-user@rhel7]$ ./tridentctl -n trident version
++----------------+----------------+
+| SERVER VERSION | CLIENT VERSION |
++----------------+----------------+
+| 22.04.0          | 22.04.0          |
++----------------+----------------+
+----
+
+
+
+
+== 创建存储系统后端
+
+完成Trident Operator 安装后，您必须为正在使用的特定NetApp存储平台配置后端。按照下面的链接继续设置和配置Trident。
+
+* link:vtwn-trident-ontap-nfs.html["NetApp ONTAP NFS"]
+* link:vtwn-trident-ontap-iscsi.html["NetApp ONTAP iSCSI"]
+

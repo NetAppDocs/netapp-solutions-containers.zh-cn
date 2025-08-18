@@ -1,0 +1,64 @@
+---
+indexpage:
+  title: NetApp容器解决方案
+  summary: NetApp容器解决方案是经过验证的许多流行的基于 Kubernetes 的容器编排器的部署及其与NetApp存储管理系统和软件的集成。
+  lead: NetApp容器解决方案是经过验证的许多流行的基于 Kubernetes 的容器编排器的部署及其与NetApp存储管理系统和软件的集成。
+  tiles:
+  - title: 开始使用
+    links:
+    - title: 什么是新的
+      url: "/whats-new.html"
+    - title: 了解适用于容器的NetApp Trident
+      url: https://netapp.io/persistent-storage-provisioner-for-kubernetes/
+    - title: 博客
+      url: "/blogs.html"
+    - title: 视频和演示
+      url: "/videos/index.html"
+  - title: Anthos 与NetApp合作
+    links:
+    - title: 解决方案概述
+      url: "/anthos/anthos-solution-overview.html"
+    - title: VMware 上的 Anthos 集群
+      url: "/anthos/anthos-vmw.html"
+    - title: 裸机上的 Anthos
+      url: "/anthos/anthos-bm.html"
+    - title: NetApp存储集成
+      url: "/anthos/anthos-storint-overview.html"
+    - title: 用例
+      url: "/anthos/anthos-deploy-app-cloud-console.html"
+  - title: Red Hat OpenShift 与NetApp
+    links:
+    - title: 解决方案概述
+      url: "/openshift/os-solution-overview.html"
+    - title: 关于 Red Hat OpenShift
+      url: "/openshift/os-overview.html"
+    - title: 关于 AWS 上的 OpenShift
+      url: "/openshift/os-rosa-solution-overview.html"
+    - title: NetApp存储集成
+      url: "/openshift/os-storint-overview.html"
+    - title: 使用情形
+      url: "/openshift/os-use-cases.html"
+  - title: VMware Tanzu 与NetApp
+    links:
+    - title: 解决方案概述
+      url: "/tanzu/vtwn-solution-overview.html"
+    - title: 关于 VMware Tanzu
+      url: "/tanzu/vtwn-overview-vmware-tanzu.html"
+    - title: NetApp存储集成
+      url: "/tanzu/vtwn-overview-storint.html"
+  - title: 合作伙伴解决方案
+    links:
+    - title: Anthos 网站
+      url: https://cloud.google.com/anthos
+    - title: Red Hat OpenShift 网站
+      url: https://www.redhat.com/en/technologies/cloud-computing/openshift
+    - title: VMware Tanzu 网站
+      url: https://tanzu.vmware.com/
+  - title: 解决方案请求和反馈
+    links:
+    - title: 请求自动化
+      url: https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Request%20Automation]%0d%0a%0d%0aSolution%20Name:%20%0d%0aRequest%20Title:%20%0d%0aDescription:%0d%0aSuggestions:&title=Request%20Automation%20-%20%3Crequest_title%3E
+    - title: 提出新的解决方案
+      url: https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Request%20Solution]%0d%0a%0d%0aSolution%20Use%20Case:%20%0d%0aSolution%20Description:%20%0d%0aAdditional%20Comments:&title=Request%20Solution%20-%20%3Csolution%3E
+    - title: 提供解决方案反馈
+      url: https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Solution%20Feedback]%0d%0a%0d%0aSolution%20Name:%20%0d%0aSolution%20Feedback:%20%0d%0aAdditional%20Comments:&title=Solution%20Feedback%20-%20%3Csolution%3E

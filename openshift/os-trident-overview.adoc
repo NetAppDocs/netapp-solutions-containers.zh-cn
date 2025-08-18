@@ -1,0 +1,428 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-trident-overview.html 
+keywords: Trident, Trident, Helm, Operator, iSCSI, NFS 
+summary: Trident是一个开源且完全支持的容器和 Kubernetes 发行版（包括 Red Hat OpenShift）存储编排器。 
+---
+= Trident概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Trident是一个开源且完全受支持的容器和 Kubernetes 发行版（包括 Red Hat OpenShift）存储编排器。  Trident可与整个NetApp存储产品组合配合使用，包括NetApp ONTAP和 Element 存储系统，并且还支持 NFS 和 iSCSI 连接。  Trident允许最终用户从其NetApp存储系统配置和管理存储，而无需存储管理员的干预，从而加速 DevOps 工作流程。
+
+管理员可以根据项目需求和存储系统模型配置多个存储后端，以实现高级存储功能，包括压缩、特定磁盘类型或保证一定性能水平的 QoS 级别。定义完成后，开发人员可以在他们的项目中使用这些后端来创建持久卷声明 (PVC) 并根据需要将持久存储附加到他们的容器。
+
+image:redhat-openshift-002.png["该图显示输入/输出对话框或表示书面内容"]
+
+Trident的开发周期很快，和 Kubernetes 一样，每年发布四次。
+
+已测试过哪个版本的Trident以及可以找到哪个 Kubernetes 发行版的支持矩阵 https://docs.netapp.com/us-en/trident/trident-get-started/requirements.html#supported-frontends-orchestrators["此处"]。
+
+请参阅link:https://docs.netapp.com/us-en/trident/index.html["Trident产品文档"]有关安装和配置的详细信息。
+
+
+
+== 下载Trident
+
+要在已部署的用户集群上安装Trident并配置持久卷，请完成以下步骤：
+
+. 将安装档案下载到管理工作站并提取内容。当前版本的Trident可以下载 https://github.com/NetApp/trident/releases?q=25.&expanded=true["此处"]。
+. 从下载的软件包中提取Trident安装。
++
+[listing]
+----
+[netapp-user@rhel7 ~]$ tar -xzf trident-installer-22.01.0.tar.gz
+[netapp-user@rhel7 ~]$ cd trident-installer/
+[netapp-user@rhel7 trident-installer]$
+----
+
+
+
+
+== 使用 Helm 安装Trident Operator
+
+. 首先设置用户集群的 `kubeconfig`文件作为环境变量，这样您就不必引用它，因为Trident没有选项来传递此文件。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ export KUBECONFIG=~/ocp-install/auth/kubeconfig
+----
+. 运行 Helm 命令从 helm 目录中的 tarball 安装Trident操作符，同时在用户集群中创建 trident 命名空间。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ helm install trident helm/trident-operator-22.01.0.tgz --create-namespace --namespace trident
+NAME: trident
+LAST DEPLOYED: Fri May  7 12:54:25 2021
+NAMESPACE: trident
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Thank you for installing trident-operator, which will deploy and manage NetApp's Trident CSI
+storage provisioner for Kubernetes.
+
+Your release is named 'trident' and is installed into the 'trident' namespace.
+Please note that there must be only one instance of Trident (and trident-operator) in a Kubernetes cluster.
+
+To configure Trident to manage storage resources, you will need a copy of tridentctl, which is
+available in pre-packaged Trident releases.  You may find all Trident releases and source code
+online at https://github.com/NetApp/trident.
+
+To learn more about the release, try:
+
+  $ helm status trident
+  $ helm get all trident
+----
+. 您可以通过检查命名空间中运行的 pod 或使用 tridentctl 二进制文件检查已安装的版本来验证Trident是否已成功安装。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ oc get pods -n trident
+NAME                               READY   STATUS    RESTARTS   AGE
+trident-csi-5z45l                  1/2     Running   2          30s
+trident-csi-696b685cf8-htdb2       6/6     Running   0          30s
+trident-csi-b74p2                  2/2     Running   0          30s
+trident-csi-lrw4n                  2/2     Running   0          30s
+trident-operator-7c748d957-gr2gw   1/1     Running   0          36s
+
+[netapp-user@rhel7 trident-installer]$ ./tridentctl -n trident version
++----------------+----------------+
+| SERVER VERSION | CLIENT VERSION |
++----------------+----------------+
+| 22.01.0          | 22.01.0          |
++----------------+----------------+
+----
+
+
+
+NOTE: 在某些情况下，客户环境可能需要定制Trident部署。在这些情况下，还可以手动安装Trident操作符并更新包含的清单以定制部署。
+
+
+
+== 手动安装Trident Operator
+
+. 首先，设置用户集群的 `kubeconfig`文件作为环境变量，这样您就不必引用它，因为Trident没有选项来传递此文件。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ export KUBECONFIG=~/ocp-install/auth/kubeconfig
+----
+. 这 `trident-installer`目录包含定义所有必需资源的清单。使用适当的清单，创建 `TridentOrchestrator`自定义资源定义。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ oc create -f deploy/crds/trident.netapp.io_tridentorchestrators_crd_post1.16.yaml
+customresourcedefinition.apiextensions.k8s.io/tridentorchestrators.trident.netapp.io created
+----
+. 如果不存在，请使用提供的清单在集群中创建一个Trident命名空间。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ oc apply -f deploy/namespace.yaml
+namespace/trident created
+----
+. 创建Trident操作员部署所需的资源，例如 `ServiceAccount`对于操作员来说， `ClusterRole`和 `ClusterRoleBinding`到 `ServiceAccount`，一个专门的 `PodSecurityPolicy`或操作员本身。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ oc create -f deploy/bundle.yaml
+serviceaccount/trident-operator created
+clusterrole.rbac.authorization.k8s.io/trident-operator created
+clusterrolebinding.rbac.authorization.k8s.io/trident-operator created
+deployment.apps/trident-operator created
+podsecuritypolicy.policy/tridentoperatorpods created
+----
+. 部署操作员后，您可以使用以下命令检查操作员的状态：
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ oc get deployment -n trident
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+trident-operator   1/1     1            1           23s
+[netapp-user@rhel7 trident-installer]$ oc get pods -n trident
+NAME                                READY   STATUS    RESTARTS   AGE
+trident-operator-66f48895cc-lzczk   1/1     Running   0          41s
+----
+. 部署操作员后，我们现在可以使用它来安装Trident。这需要创建一个 `TridentOrchestrator`。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ oc create -f deploy/crds/tridentorchestrator_cr.yaml
+tridentorchestrator.trident.netapp.io/trident created
+[netapp-user@rhel7 trident-installer]$ oc describe torc trident
+Name:         trident
+Namespace:
+Labels:       <none>
+Annotations:  <none>
+API Version:  trident.netapp.io/v1
+Kind:         TridentOrchestrator
+Metadata:
+  Creation Timestamp:  2021-05-07T17:00:28Z
+  Generation:          1
+  Managed Fields:
+    API Version:  trident.netapp.io/v1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:spec:
+        .:
+        f:debug:
+        f:namespace:
+    Manager:      kubectl-create
+    Operation:    Update
+    Time:         2021-05-07T17:00:28Z
+    API Version:  trident.netapp.io/v1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:status:
+        .:
+        f:currentInstallationParams:
+          .:
+          f:IPv6:
+          f:autosupportHostname:
+          f:autosupportimage:
+          f:autosupportProxy:
+          f:autosupportSerialNumber:
+          f:debug:
+          f:enableNodePrep:
+          f:imagePullSecrets:
+          f:imageRegistry:
+          f:k8sTimeout:
+          f:kubeletDir:
+          f:logFormat:
+          f:silenceAutosupport:
+          f:tridentimage:
+        f:message:
+        f:namespace:
+        f:status:
+        f:version:
+    Manager:         trident-operator
+    Operation:       Update
+    Time:            2021-05-07T17:00:28Z
+  Resource Version:  931421
+  Self Link:         /apis/trident.netapp.io/v1/tridentorchestrators/trident
+  UID:               8a26a7a6-dde8-4d55-9b66-a7126754d81f
+Spec:
+  Debug:      true
+  Namespace:  trident
+Status:
+  Current Installation Params:
+    IPv6:                       false
+    Autosupport Hostname:
+    Autosupport image:          netapp/trident-autosupport:21.01
+    Autosupport Proxy:
+    Autosupport Serial Number:
+    Debug:                      true
+    Enable Node Prep:           false
+    Image Pull Secrets:
+    Image Registry:
+    k8sTimeout:           30
+    Kubelet Dir:          /var/lib/kubelet
+    Log Format:           text
+    Silence Autosupport:  false
+    Trident image:        netapp/trident:22.01.0
+  Message:                Trident installed
+  Namespace:              trident
+  Status:                 Installed
+  Version:                v22.01.0
+Events:
+  Type    Reason      Age   From                        Message
+  ----    ------      ----  ----                        -------
+  Normal  Installing  80s   trident-operator.netapp.io  Installing Trident
+  Normal  Installed   68s   trident-operator.netapp.io  Trident installed
+----
+. 您可以通过检查命名空间中运行的 pod 或使用 tridentctl 二进制文件检查已安装的版本来验证Trident是否已成功安装。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ oc get pods -n trident
+NAME                                READY   STATUS    RESTARTS   AGE
+trident-csi-bb64c6cb4-lmd6h         6/6     Running   0          82s
+trident-csi-gn59q                   2/2     Running   0          82s
+trident-csi-m4szj                   2/2     Running   0          82s
+trident-csi-sb9k9                   2/2     Running   0          82s
+trident-operator-66f48895cc-lzczk   1/1     Running   0          2m39s
+
+[netapp-user@rhel7 trident-installer]$ ./tridentctl -n trident version
++----------------+----------------+
+| SERVER VERSION | CLIENT VERSION |
++----------------+----------------+
+| 22.01.0          | 22.01.0          |
++----------------+----------------+
+----
+
+
+
+
+== 准备工作节点以进行存储
+
+
+
+=== NFS
+
+大多数 Kubernetes 发行版都附带默认安装的用于挂载 NFS 后端的软件包和实用程序，包括 Red Hat OpenShift。
+
+但是，对于 NFSv3，没有在客户端和服务器之间协商并发的机制。因此，必须手动将客户端 sunrpc 插槽表条目的最大数量与服务器上支持的值同步，以确保 NFS 连接的最佳性能，而无需服务器减小连接的窗口大小。
+
+对于ONTAP，支持的 sunrpc 插槽表条目的最大数量为 128，即ONTAP一次可以处理 128 个并发 NFS 请求。但是，默认情况下，Red Hat CoreOS/Red Hat Enterprise Linux 每个连接最多有 65,536 个 sunrpc 插槽表条目。我们需要将此值设置为 128，这可以使用 OpenShift 中的 Machine Config Operator (MCO) 来完成。
+
+要修改 OpenShift 工作节点中的最大 sunrpc 插槽表条目数，请完成以下步骤：
+
+. 登录 OCP 网络控制台并导航至 Compute > Machine Configs。单击创建机器配置。复制并粘贴 YAML 文件，然后单击“创建”。
++
+[source, cli]
+----
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 98-worker-nfs-rpc-slot-tables
+  labels:
+    machineconfiguration.openshift.io/role: worker
+spec:
+  config:
+    ignition:
+      version: 3.2.0
+    storage:
+      files:
+        - contents:
+            source: data:text/plain;charset=utf-8;base64,b3B0aW9ucyBzdW5ycGMgdGNwX21heF9zbG90X3RhYmxlX2VudHJpZXM9MTI4Cg==
+          filesystem: root
+          mode: 420
+          path: /etc/modprobe.d/sunrpc.conf
+----
+. 创建 MCO 后，需要在所有工作节点上应用配置并逐个重新启动。整个过程大约需要20到30分钟。使用以下命令验证机器配置是否已应用 `oc get mcp`并确保工人的机器配置池已更新。
++
+[listing]
+----
+[netapp-user@rhel7 openshift-deploy]$ oc get mcp
+NAME     CONFIG                                    UPDATED   UPDATING   DEGRADED
+master   rendered-master-a520ae930e1d135e0dee7168   True      False      False
+worker   rendered-worker-de321b36eeba62df41feb7bc   True      False      False
+----
+
+
+
+
+=== iSCSI
+
+要准备工作节点以允许通过 iSCSI 协议映射块存储卷，您必须安装必要的软件包来支持该功能。
+
+在 Red Hat OpenShift 中，这是通过在部署集群后将 MCO（机器配置操作员）应用于集群来处理的。
+
+要配置工作节点以运行 iSCSI 服务，请完成以下步骤：
+
+. 登录 OCP 网络控制台并导航至 Compute > Machine Configs。单击创建机器配置。复制并粘贴 YAML 文件，然后单击“创建”。
++
+不使用多路径时：
+
++
+[source, cli]
+----
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: worker
+  name: 99-worker-element-iscsi
+spec:
+  config:
+    ignition:
+      version: 3.2.0
+    systemd:
+      units:
+        - name: iscsid.service
+          enabled: true
+          state: started
+  osImageURL: ""
+----
++
+使用多路径时：
+
++
+[source, cli]
+----
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: 99-worker-ontap-iscsi
+  labels:
+    machineconfiguration.openshift.io/role: worker
+spec:
+  config:
+    ignition:
+      version: 3.2.0
+    storage:
+      files:
+      - contents:
+          source: data:text/plain;charset=utf-8;base64,ZGVmYXVsdHMgewogICAgICAgIHVzZXJfZnJpZW5kbHlfbmFtZXMgbm8KICAgICAgICBmaW5kX211bHRpcGF0aHMgbm8KfQoKYmxhY2tsaXN0X2V4Y2VwdGlvbnMgewogICAgICAgIHByb3BlcnR5ICIoU0NTSV9JREVOVF98SURfV1dOKSIKfQoKYmxhY2tsaXN0IHsKfQoK
+          verification: {}
+        filesystem: root
+        mode: 400
+        path: /etc/multipath.conf
+    systemd:
+      units:
+        - name: iscsid.service
+          enabled: true
+          state: started
+        - name: multipathd.service
+          enabled: true
+          state: started
+  osImageURL: ""
+----
+. 配置创建后，大约需要 20 到 30 分钟将配置应用到工作节点并重新加载它们。使用以下命令验证机器配置是否已应用 `oc get mcp`并确保工人的机器配置池已更新。您还可以登录工作节点来确认 iscsid 服务正在运行（如果使用多路径，则 multipathd 服务正在运行）。
++
+[listing]
+----
+[netapp-user@rhel7 openshift-deploy]$ oc get mcp
+NAME     CONFIG                                    UPDATED   UPDATING   DEGRADED
+master   rendered-master-a520ae930e1d135e0dee7168   True      False      False
+worker   rendered-worker-de321b36eeba62df41feb7bc   True      False      False
+
+[netapp-user@rhel7 openshift-deploy]$ ssh core@10.61.181.22 sudo systemctl status iscsid
+● iscsid.service - Open-iSCSI
+   Loaded: loaded (/usr/lib/systemd/system/iscsid.service; enabled; vendor preset: disabled)
+   Active: active (running) since Tue 2021-05-26 13:36:22 UTC; 3 min ago
+     Docs: man:iscsid(8)
+           man:iscsiadm(8)
+ Main PID: 1242 (iscsid)
+   Status: "Ready to process requests"
+    Tasks: 1
+   Memory: 4.9M
+      CPU: 9ms
+   CGroup: /system.slice/iscsid.service
+           └─1242 /usr/sbin/iscsid -f
+
+[netapp-user@rhel7 openshift-deploy]$ ssh core@10.61.181.22 sudo systemctl status multipathd
+ ● multipathd.service - Device-Mapper Multipath Device Controller
+   Loaded: loaded (/usr/lib/systemd/system/multipathd.service; enabled; vendor preset: enabled)
+   Active: active (running) since Tue 2021-05-26 13:36:22 UTC; 3 min ago
+  Main PID: 918 (multipathd)
+    Status: "up"
+    Tasks: 7
+    Memory: 13.7M
+    CPU: 57ms
+    CGroup: /system.slice/multipathd.service
+            └─918 /sbin/multipathd -d -s
+----
++
+
+NOTE: 还可以通过运行以下命令来确认 MachineConfig 已成功应用且服务已按预期启动 `oc debug`带有适当标志的命令。
+
+
+
+
+
+== 创建存储系统后端
+
+完成Trident Operator 安装后，您必须为正在使用的特定NetApp存储平台配置后端。按照下面的链接继续设置和配置Trident。
+
+* link:os-trident-ontap-nfs.html["NetApp ONTAP NFS"]
+* link:os-trident-ontap-iscsi.html["NetApp ONTAP iSCSI"]
+* link:os-trident-element-iscsi.html["NetApp Element iSCSI"]
+

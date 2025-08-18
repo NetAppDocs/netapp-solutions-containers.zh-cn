@@ -1,0 +1,120 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-trident-element-iscsi.html 
+summary:  
+keywords: Trident, Element, Solidfire, iSCSI 
+---
+= NetApp Element iSCSI 配置
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+要实现Trident与NetApp Element存储系统的集成，您必须创建一个后端，以便使用 iSCSI 协议与存储系统进行通信。
+
+. 下载的安装档案中提供了示例后端文件 `sample-input`文件夹层次结构。对于服务于 iSCSI 的NetApp Element系统，复制 `backend-solidfire.json`文件到您的工作目录并编辑该文件。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ cp sample-input/backends-samples/solidfire/backend-solidfire.json ./
+[netapp-user@rhel7 trident-installer]$ vi ./backend-solidfire.json
+----
++
+.. 编辑用户、密码和 MVIP 值 `EndPoint`线。
+.. 编辑 `SVIP`价值。
++
+[listing]
+----
+ {
+    "version": 1,
+    "storageDriverName": "solidfire-san",
+    "Endpoint": "https://trident:password@172.21.224.150/json-rpc/8.0",
+    "SVIP": "10.61.180.200:3260",
+    "TenantName": "trident",
+    "Types": [{"Type": "Bronze", "Qos": {"minIOPS": 1000, "maxIOPS": 2000, "burstIOPS": 4000}},
+              {"Type": "Silver", "Qos": {"minIOPS": 4000, "maxIOPS": 6000, "burstIOPS": 8000}},
+              {"Type": "Gold", "Qos": {"minIOPS": 6000, "maxIOPS": 8000, "burstIOPS": 10000}}]
+}
+----
+
+
+. 有了这个后端文件，运行以下命令来创建您的第一个后端。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ ./tridentctl -n trident create backend -f backend-solidfire.json
++-------------------------+----------------+--------------------------------------+--------+---------+
+|          NAME           | STORAGE DRIVER |                 UUID                 | STATE  | VOLUMES |
++-------------------------+----------------+--------------------------------------+--------+---------+
+| solidfire_10.61.180.200 | solidfire-san  | b90783ee-e0c9-49af-8d26-3ea87ce2efdf | online |       0 |
++-------------------------+----------------+--------------------------------------+--------+---------+
+----
+. 创建后端后，接下来必须创建存储类。与后端一样，有一个示例存储类文件，可以根据 sample-inputs 文件夹中提供的环境进行编辑。将其复制到工作目录并进行必要的编辑以反映创建的后端。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ cp sample-input/storage-class-samples/storage-class-csi.yaml.templ ./storage-class-basic.yaml
+[netapp-user@rhel7 trident-installer]$ vi storage-class-basic.yaml
+----
+. 对此文件唯一需要做的编辑是定义 `backendType`将值设置为新创建的后端的存储驱动程序的名称。还要注意名称字段值，该值必须在后续步骤中引用。
++
+[listing]
+----
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: basic-csi
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "solidfire-san"
+----
++
+
+NOTE: 有一个可选字段称为 `fsType`这是在这个文件中定义的。在 iSCSI 后端，可以将此值设置为特定的 Linux 文件系统类型（XFS、ext4 等），或者可以删除它以允许 OpenShift 决定使用哪种文件系统。
+
+. 运行 `oc`命令来创建存储类。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ oc create -f storage-class-basic.yaml
+storageclass.storage.k8s.io/basic-csi created
+----
+. 创建存储类后，您必须创建第一个持久卷声明 (PVC)。有一个示例 `pvc-basic.yaml`也可用于执行位于 sample-inputs 中的此操作的文件。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ cp sample-input/pvc-samples/pvc-basic.yaml ./
+[netapp-user@rhel7 trident-installer]$ vi pvc-basic.yaml
+----
+. 对此文件唯一需要做的编辑是确保 `storageClassName`字段与刚刚创建的字段匹配。  PVC 定义可以根据要配置的工作负载的需要进一步定制。
++
+[listing]
+----
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: basic
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: basic-csi
+----
+. 通过发出 `oc`命令。创建可能需要一些时间，具体取决于所创建的备份卷的大小，因此您可以在创建完成时观察该过程。
++
+[listing]
+----
+[netapp-user@rhel7 trident-installer]$ oc create -f pvc-basic.yaml
+persistentvolumeclaim/basic created
+
+[netapp-user@rhel7 trident-installer]$ oc get pvc
+NAME    STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+basic   Bound    pvc-3445b5cc-df24-453d-a1e6-b484e874349d   1Gi        RWO            basic-csi      5s
+----
+

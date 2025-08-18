@@ -1,0 +1,82 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-on-bm.html 
+keywords: OpenShift, bare metal, IPI 
+summary:  
+---
+= 裸机上的 OpenShift
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+OpenShift on Bare Metal 可在商用服务器上自动部署 OpenShift 容器平台。
+
+OpenShift on Bare Metal 类似于 OpenShift 的虚拟部署，它可以轻松部署、快速配置和扩展 OpenShift 集群，同时支持尚未准备好容器化的应用程序的虚拟化工作负载。通过在裸机上部署，您不需要除了 OpenShift 环境之外管理主机虚拟机管理程序环境所需的额外开销。通过直接在裸机服务器上部署，您还可以减少主机和 OpenShift 环境之间共享资源的物理开销限制。
+
+
+
+== OpenShift on Bare Metal 提供以下功能：
+
+* *IPI 或辅助安装程序部署* 通过在裸机服务器上由安装程序配置基础设施 (IPI) 部署的 OpenShift 集群，客户可以直接在商用服务器上部署高度通用、易于扩展的 OpenShift 环境，而无需管理虚拟机管理程序层。
+* *紧凑的集群设计* 为了最大限度地减少硬件要求，裸机上的 OpenShift 允许用户部署仅 3 个节点的集群，通过使 OpenShift 控制平面节点也可以充当工作节点和主机容器。
+* *OpenShift 虚拟化* OpenShift 可以使用 OpenShift 虚拟化在容器内运行虚拟机。这种容器原生虚拟化在容器内运行 KVM 虚拟机管理程序，并为 VM 存储附加持久卷。
+* *AI/ML 优化基础设施* 通过将基于 GPU 的工作节点合并到您的 OpenShift 环境并利用 OpenShift Advanced Scheduling，为机器学习应用程序部署 Kubeflow 等应用程序。
+
+
+
+
+== 网络设计
+
+NetApp解决方案上的 Red Hat OpenShift 使用两个数据交换机以 25Gbps 提供主要数据连接。它还使用两个管理交换机，以 1Gbps 的速度提供存储节点的带内管理连接以及 IPMI 功能的带外管理连接。
+
+对于 OpenShift 裸机 IPI 部署，您必须创建一个配置节点，即一台必须具有连接到单独网络的网络接口的 Red Hat Enterprise Linux 8 机器。
+
+* *配置网络* 该网络用于启动裸机节点并安装部署 OpenShift 集群所需的映像和包。
+* *裸机网络* 该网络用于集群部署后面向公众的通信。
+
+
+为了设置配置节点，客户创建桥接接口，允许流量在节点本身和为部署目的而配置的 Bootstrap VM 上正确路由。集群部署完成后，API 和 ingress VIP 地址从 bootstrap 节点迁移到新部署的集群。
+
+下图描述了 IPI 部署期间和部署完成后的环境。
+
+image:redhat-openshift-036.png["该图显示输入/输出对话框或表示书面内容"]
+
+image:redhat-openshift-037.png["该图显示输入/输出对话框或表示书面内容"]
+
+
+
+=== VLAN 要求
+
+Red Hat OpenShift 与NetApp解决方案旨在通过使用虚拟局域网 (VLAN) 在逻辑上分离用于不同用途的网络流量。
+
+[cols="40%, 40%, 20%"]
+|===
+| VLAN | 目的 | VLAN ID 
+
+
+| 带外管理网络 | 裸机节点和 IPMI 管理 | 16 
+
+
+| 裸机网络 | 集群可用时，OpenShift 服务的网络 | 181 
+
+
+| 配置网络 | 通过 IPI 进行 PXE 启动和安装裸机节点的网络 | 3485 
+|===
+
+NOTE: 尽管这些网络实际上是由 VLAN 分隔的，但每个物理端口都必须设置为访问模式并分配主 VLAN，因为在 PXE 启动序列期间无法传递 VLAN 标签。
+
+
+
+=== 网络基础设施支持资源
+
+在部署 OpenShift 容器平台之前，应具备以下基础设施：
+
+* 至少有一个 DNS 服务器提供可从带内管理网络和 VM 网络访问的完整主机名解析。
+* 至少一个可从带内管理网络和 VM 网络访问的 NTP 服务器。
+* （可选）带内管理网络和 VM 网络的出站互联网连接。
+

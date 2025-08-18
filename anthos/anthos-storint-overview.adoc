@@ -1,0 +1,81 @@
+---
+sidebar: sidebar 
+permalink: anthos/anthos-storint-overview.html 
+keywords: Trident, Trident, persistent storage 
+summary: NetApp提供了多种产品来帮助我们的客户在基于容器的环境（如 Anthos）中编排和管理持久数据。 
+---
+= NetApp存储集成概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp提供了多种产品来帮助我们的客户在基于容器的环境（如 Anthos）中编排和管理持久数据。
+
+
+
+== Anthos Ready 存储合作伙伴计划。
+
+Google Cloud 会通过其 Anthos Ready 存储合作伙伴计划定期请求更新合作伙伴存储与 Anthos 新版本的集成验证。可以找到当前已验证的存储解决方案、CSI 驱动程序、可用功能以及支持的 Anthos 版本的列表 https://cloud.google.com/anthos/docs/resources/partner-storage["此处"^]。
+
+NetApp每季度都会定期遵守要求，以验证我们符合Trident CSI 的存储编排器和带有 Anthos 版本的ONTAP存储系统。
+
+下表包含NetApp和NetApp合作伙伴工程师在 Anthos Ready 存储合作伙伴计划中为验证NetApp Trident CSI 驱动程序和功能集而测试的 Anthos 版本：
+
+|===
+
+
+| 部署类型 | 版本 | 存储系统 | Trident版本 | 协议 | 功能 
+
+
+| VMware | 1.28 | ONTAP 9.12.1 | 24.02 | NAS | 多写入器、卷扩展、快照、PVCDataSource 
+
+
+| VMware | 1.28 | ONTAP 9.12.1 | 24.02 | SAN | 原始块、卷扩展、快照、PVCDataSource 
+
+
+| VMware | 1.15 | ONTAP 9.12.1 | 23.04 | NAS | 多写入器、卷扩展、快照、PVCDataSource 
+
+
+| VMware | 1.15 | ONTAP 9.12.1 | 23.04 | SAN | 原始块、卷扩展、快照、PVCDataSource 
+
+
+| VMware | 1.14 | ONTAP 9.12.1 | 23.01 | NAS | 多写入器、卷扩展、快照、PVCDataSource 
+
+
+| VMware | 1.14 | ONTAP 9.12.1 | 23.01 | SAN | 原始块、卷扩展、快照、PVCDataSource 
+
+
+| VMware | 1.13 | ONTAP 9.12.1 | 22.10 | NAS | 多写入器、卷扩展、快照、PVCDataSource 
+
+
+| VMware | 1.13 | ONTAP 9.12.1 | 22.10 | SAN | 原始块、卷扩展、快照、PVCDataSource 
+
+
+| VMware | 1.11 | ONTAP 9.9.1 | 22.04 | NAS | 多写入器、卷扩展、快照 
+
+
+| VMware | 1.11 | ONTAP 9.9.1 | 22.04 | SAN | 原始块、卷扩展、快照 
+
+
+| VMware | 1.11 | 元素 12.3 | 22.04 | SAN | 原始块、卷扩展、快照 
+
+
+| 裸机 | 1.10 | ONTAP 9.8 | 22.01 | NAS | 多写入器、卷扩展、快照 
+
+
+| 裸机 | 1.10 | ONTAP 9.8 | 22.01 | SAN | 原始块、卷扩展、快照 
+|===
+
+
+== NetApp存储集成
+
+NetApp提供了多种产品来帮助您在基于容器的环境（如 Anthos）中编排和管理持久数据。
+
+NetApp Trident是一个开源的、完全支持的存储编排器，适用于容器和 Kubernetes 发行版（包括 Anthos）。欲了解更多信息，请访问Trident网站 https://docs.netapp.com/us-en/trident/index.html["此处"]。
+
+以下页面包含有关NetApp产品的更多信息，这些产品已在 Anthos with NetApp解决方案中经过应用程序和持久存储管理验证。

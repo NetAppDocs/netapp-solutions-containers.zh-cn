@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: anthos/anthos-trident-overview.html 
+keywords: Trident, Trident, Helm, Operator, iSCSI, NFS 
+summary: Trident是一个完全受支持的开源存储编排器，适用于容器和 Kubernetes 发行版（包括 Anthos）。 
+---
+= Trident概述
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Trident是一个完全受支持的开源存储编排器，适用于容器和 Kubernetes 发行版（包括 Anthos）。  Trident可与整个NetApp存储产品组合配合使用，包括NetApp ONTAP，并且还支持 NFS 和 iSCSI 连接。  Trident允许最终用户从其NetApp存储系统配置和管理存储，而无需存储管理员的干预，从而加速 DevOps 工作流程。
+
+管理员可以根据项目需求和存储系统模型配置多个存储后端，以实现高级存储功能，包括压缩、特定磁盘类型和保证一定性能水平的 QoS 级别。定义完成后，开发人员可以在他们的项目中使用这些后端来创建持久卷声明 (PVC) 并根据需要将持久存储附加到他们的容器。
+
+image:a-w-n-astra-trident.png["该图显示输入/输出对话框或表示书面内容"]
+
+Trident的开发周期很快，和 Kubernetes 一样，每年发布四次。
+
+最新版本的Trident的文档可以在 https://docs.netapp.com/us-en/trident/index.html["此处"]。已测试过哪个版本的Trident以及可以找到哪个 Kubernetes 发行版的支持矩阵 https://docs.netapp.com/us-en/trident/trident-get-started/requirements.html#supported-frontends-orchestrators["此处"]。
+
+从 20.04 版本开始， Trident设置由Trident操作员执行。该操作员使大规模部署变得更容易，并提供额外的支持，包括作为Trident安装的一部分部署的 pod 的自我修复。
+
+随着 22.04 版本的发布，Helm 图表已可用，以简化Trident Operator 的安装。
+
+有关Trident安装的详细信息，请参阅 https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["此处"]。
+
+
+
+== 创建存储系统后端
+
+完成Trident Operator 安装后，您必须为正在使用的特定NetApp存储平台配置后端。按照下面的链接继续设置和配置Trident。link:https://docs.netapp.com/us-en/trident/trident-use/backends.html["创建后端。"]
+
+
+
+== 创建存储类
+
+创建后端后，您必须创建一个存储类，Kubernetes 用户在需要卷时将指定该存储类。 Kubernetes 用户通过使用持久卷声明 (PVC) 来配置卷，通过名称指定存储类。按照下面的链接创建存储类。link:https://docs.netapp.com/us-en/trident/trident-use/create-stor-class.html["创建存储类"]
+
+
+
+== 动态配置卷
+
+您必须使用存储类创建 Kubernetes 持久卷声明 (PVC) 对象来动态配置卷。按照下面的链接创建一个 PVC 对象。link:https://docs.netapp.com/us-en/trident/trident-use/vol-provision.html["创建 PVC"]
+
+
+
+== 使用音量
+
+应用程序可以通过将上述步骤中配置的卷挂载到 pod 中来使用该卷。下面的链接显示了一个示例。link:https://docs.netapp.com/us-en/trident/trident-use/vol-provision.html#sample-manifests["将卷挂载到 Pod 中"]
+
+
+
+== 示例配置
+
+link:anthos-trident-ontap-iscsi.html["iSCSI 协议的示例清单，window=_blank"]
+
+link:anthos-trident-ontap-nfs.html["nfs 协议的示例清单，window=_blank"]

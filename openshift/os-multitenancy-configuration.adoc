@@ -1,0 +1,56 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-multitenancy-configuration.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, Multitenancy, Multi-tenancy 
+summary: 使用NetApp在 Red Hat OpenShift 上配置多租户 
+---
+= 配置
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+对于任何多租户解决方案，任何用户都不能访问超出所需的集群资源。因此，作为多租户配置的一部分而要配置的整个资源集被划分到集群管理员、存储管理员和每个项目的开发人员之间。
+
+下表概述了不同用户需要执行的不同任务：
+
+|===
+| 角色 | Tasks 
+
+
+.4+| *集群管理员* | 为不同的应用程序或工作负载创建项目 
+
+
+| 为 storage-admin 创建 ClusterRoles 和 RoleBindings 
+
+
+| 为开发人员创建角色和角色绑定，分配对特定项目的访问权限 
+
+
+| [可选] 配置项目以在特定节点上调度 Pod 
+
+
+.4+| *存储管理* | 在NetApp ONTAP上创建 SVM 
+
+
+| 创建Trident后端 
+
+
+| 创建存储类 
+
+
+| 创建存储资源配额 
+
+
+.3+| *开发人员* | 验证在指定项目中创建或修补 PVC 或 Pod 的权限 
+
+
+| 验证在另一个项目中创建或修补 PVC 或 Pod 的权限 
+
+
+| 验证查看或编辑项目、资源配额和存储类的权限 
+|===

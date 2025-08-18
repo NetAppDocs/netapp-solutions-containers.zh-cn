@@ -1,0 +1,89 @@
+---
+sidebar: sidebar 
+permalink: anthos/anthos-solution-overview.html 
+keywords: NVA-1165, Anthos, GKE, Netapp, Trident 
+summary: 本参考文档提供了 Anthos with NetApp解决方案的部署验证，该解决方案已部署在多个数据中心环境中，并经过NetApp和我们的工程合作伙伴的验证。 
+---
+= NVA-1165：Anthos 与NetApp的合作
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+Banu Sundhar 和 Suresh Thoppay， NetApp
+
+[role="lead"]
+本参考文档提供了NetApp及其工程合作伙伴在多数据中心环境中部署 Anthos with NetApp解决方案时进行的部署验证。它还详细介绍了通过使用Trident存储编排器来管理持久存储，实现与NetApp存储系统的存储集成。最后，我们探索并记录了许多解决方案验证和实际用例。
+
+
+
+== 使用情形
+
+Anthos with NetApp解决方案旨在通过以下用例为客户提供卓越的价值：
+
+* 使用提供的 `bmctl`裸机上的工具或 `gkectl`VMware vSphere 上的工具。
+* 结合企业容器和虚拟化工作负载的强大功能，Anthos 虚拟部署在 vSphere 或裸机上， https://cloud.google.com/anthos/clusters/docs/bare-metal/1.9/how-to/vm-workloads["库贝维尔特"^] 。
+* 真实的配置和用例突出显示了与NetApp存储和Trident（Kubernetes 的开源存储编排器）一起使用时的 Anthos 功能。
+
+
+
+
+== 商业价值
+
+企业越来越多地采用 DevOps 实践来创建新产品、缩短发布周期并快速添加新功能。由于其固有的敏捷特性，容器和微服务在支持 DevOps 实践方面发挥着至关重要的作用。然而，在企业环境中以生产规模实践 DevOps 也面临着自身的挑战，并对底层基础设施提出了一定的要求，例如：
+
+* 堆栈中所有层的高可用性
+* 简化部署程序
+* 无中断运行和升级
+* API 驱动和可编程的基础设施，以跟上微服务的敏捷性
+* 具有性能保证的多租户
+* 能够同时运行虚拟化和容器化工作负载
+* 根据工作负载需求独立扩展基础设施的能力
+
+
+Anthos with NetApp解决方案承认这些挑战，并提出了一种解决方案，通过在客户选择的数据中心环境中实施 Anthos on prem 的全自动部署来帮助解决每个问题。
+
+
+
+== 技术概述
+
+Anthos with NetApp解决方案由以下主要组件组成：
+
+
+
+=== Anthos On Prem
+
+Anthos On Prem 是一个完全受支持的企业级 Kubernetes 平台，可以部署在 VMware vSphere 虚拟机管理程序中，也可以部署在您选择的裸机基础架构上。
+
+有关 Anthos 的更多信息，请参阅 Anthos 网站 https://cloud.google.com/anthos["此处"^]。
+
+
+
+=== NetApp存储系统
+
+NetApp拥有多种非常适合企业数据中心和混合云部署的存储系统。  NetApp产品组合包括NetApp ONTAP、 Cloud Volumes ONTAP、 Google Cloud NetApp Volumes、 Azure NetApp Files和 FSx ONTAP for NetApp ONTAP存储系统，所有这些产品都可以为容器化应用程序提供持久存储。
+
+欲了解更多信息，请访问NetApp网站 https://www.netapp.com["此处"]。
+
+
+
+=== NetApp存储集成
+
+Trident是一个开源且完全支持的容器和 Kubernetes 发行版（包括 Anthos）存储编排器。
+
+欲了解更多信息，请访问Trident网站 https://docs.netapp.com/us-en/trident/index.html["此处"]。
+
+
+
+== 高级配置选项
+
+本节专门介绍实际用户在将此解决方案部署到生产中时可能需要执行的自定义，例如创建专用私有映像注册表或部署自定义负载均衡器实例。
+
+
+
+== 已验证版本的当前支持矩阵
+
+看 https://cloud.google.com/anthos/docs/resources/partner-storage#netapp["此处"]用于已验证版本的支持矩阵。

@@ -1,0 +1,47 @@
+---
+section: anthos
+title: Anthos 与NetApp合作
+pdf-filename: Anthos 与NetApp合作
+entries:
+- title: 解决方案概述
+  url: "/anthos/anthos-solution-overview.html"
+- title: 了解 Anthos
+  entries:
+  - title: Anthos 概览
+    url: "/anthos/anthos-overview.html"
+  - title: VMware 上的 Anthos 集群
+    url: "/anthos/anthos-vmw.html"
+  - title: 裸机上的 Anthos
+    url: "/anthos/anthos-bm.html"
+- title: NetApp存储系统
+  entries:
+  - title: NetApp存储系统概述
+    url: "/anthos/anthos-netapp-overview.html"
+  - title: NetApp ONTAP
+    url: "/anthos/anthos-netapp-ontap.html"
+- title: NetApp存储集成
+  entries:
+  - title: NetApp存储集成概述
+    url: "/anthos/anthos-storint-overview.html"
+  - title: NetApp Trident概述
+    url: "/anthos/anthos-trident-overview.html"
+- title: 高级配置选项
+  entries:
+  - title: 关于高级配置选项
+    url: "/anthos/anthos-advanced-overview.html"
+  - title: 探索负载均衡器选项
+    entries:
+    - title: 关于负载平衡器选项
+      url: "/anthos/anthos-load-balancers.html"
+    - title: 安装 F5 BIG-IP 负载均衡器
+      url: "/anthos/anthos-f5bigip-lb.html"
+    - title: 安装 MetalLB 负载均衡器
+      url: "/anthos/anthos-metallb.html"
+    - title: 安装 SeeSaw 负载均衡器
+      url: "/anthos/anthos-seesaw-lb.html"
+- title: 解决方案验证和用例
+  entries:
+  - title: 将应用部署到 Anthos 集群
+    url: "/anthos/anthos-deploy-app-cloud-console.html"
+- title: 追加信息
+  url: "/anthos/anthos-additional-information.html"

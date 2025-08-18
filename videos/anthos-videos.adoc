@@ -1,0 +1,30 @@
+---
+sidebar: sidebar 
+permalink: videos/anthos-videos.html 
+keywords: video, demonstration, deployment 
+summary: 演示本文档中记录的一些功能。 
+---
+= 观看有关 Anthos 与NetApp合作的视频
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+通过精选的视频和演示，探索NetApp与 Google Anthos 的主要功能和部署场景。这些资源展示了最佳实践、集成步骤和实际用例。
+
+
+
+== 裸机上的 Anthos 部署和设置
+
+.在裸机上部署 Anthos - Anthos 与NetApp合作
+video::a9e5fd88-6bdc-4d23-a4b5-b01200effc06[panopto,width=360]
+
+
+== Anthos 上的Trident部署和设置
+
+.在 Anthos 1.14 集群上部署Trident
+video::8ea4c03a-85e9-4d90-bf3c-afb6011b051c[panopto,width=360]

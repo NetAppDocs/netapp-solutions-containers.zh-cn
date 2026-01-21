@@ -527,10 +527,6 @@
   <block id="9dc31e1598f94b9476a025632cee3e19" category="section-title">配置虚拟机和主机关联性</block>
   <block id="150754dbd257c09eef8557a399e5ebc2" category="paragraph">通过启用虚拟机和主机亲和性，可以将 Anthos 集群节点分布在多个虚拟机管理程序节点上。</block>
   <block id="c23c2371397ad3490af42526283948a4" category="paragraph">亲和性或反亲和性是一种为虚拟机和/或主机集定义规则的方法，用于确定虚拟机是否在同一主机或组中的主机上一起运行，还是在不同的主机上运行。它通过创建由具有一组相同参数和条件的虚拟机和/或主机组成的亲和性组应用于虚拟机。根据亲和性组中的虚拟机是运行在组内的同一主机上还是运行在组内的多个主机上，还是分别运行在不同的主机上，亲和性组的参数可以定义正亲和性或负亲和性。</block>
-  <block id="659aed3f7f249a658860ff0d51cdef11" category="paragraph">要配置亲和性组，请参阅下面适合您的 VMWare vSphere 版本的链接。</block>
-  <block id="9934283c0bf98610b4be1803b9ad3430" category="inline-link">vSphere 6.7 文档：使用 DRS 关联性规则</block>
-  <block id="bfe724d354657c9ac5cef22bd231f66f" category="inline-link">vSphere 7.0 文档：使用 DRS 关联性规则</block>
-  <block id="10c2b11d36730909ac14bcf903f9c456" category="paragraph"><block ref="0817a5be4b4f4733045646ef5cffc66c" category="inline-link-rx"></block> 。<block ref="211975e132e07e8f3a0d0d18ff3759e5" category="inline-link-rx"></block> 。</block>
   <block id="67243afe565a819d977d538c55049340" category="admonition">Anthos 在每个单独的<block ref="c6ce65430f0e0c334f6b50da737f2e9b" prefix=" " category="inline-code"></block>文件自动创建节点亲和性规则，可以根据环境中的 ESXi 主机数量启用或禁用这些规则。</block>
   <block id="77bedaf9f53677fe0de2767932e2bea2" category="summary">阅读博客，了解有关将ONTAP存储与NetApp虚拟化解决方案集成的实用指导和最佳实践。</block>
   <block id="443d1fc79f18c579a33932abbb2d0511" category="doc">阅读NetApp专家的容器解决方案博客</block>
@@ -1104,7 +1100,6 @@
   <block id="ed3ecd4254cc054c70ddee702d7ed519" category="section-title">使用自定义安装文件进行 OpenShift 部署</block>
   <block id="5e059b05dcf86db414d6b8cdd66bcf0f" category="paragraph">IPI 通过本文档前面讨论的交互式向导使 OpenShift 集群的部署变得简单。但是，您可能需要在集群部署过程中更改一些默认值。</block>
   <block id="47a822101acb11c74a4877a3d0b77093" category="inline-link-macro">Red Hat OpenShift 在 OpenStack 上安装自定义集群</block>
-  <block id="112f4e7f30ad9cbc041b99087d3e6500" category="paragraph">在这些情况下，您可以运行向导并执行任务，而无需立即部署集群；相反，它会创建一个配置文件，稍后可以从中部署集群。如果您需要更改任何 IPI 默认值，或者想要在您的环境中部署多个相同的集群用于其他用途（例如多租户），这将非常有用。有关为 OpenShift 创建自定义安装配置的更多信息，请参阅<block ref="448139de1d1e7e28131a802d8158cd87" category="inline-link-macro-rx"></block>。</block>
   <block id="cb8e8e87ec9c630a0a27910fe29abceb" category="summary">RHV 是一个企业虚拟数据中心平台，运行在 Red Hat Enterprise Linux (RHEL) 上并使用 KVM 虚拟机管理程序。</block>
   <block id="f88eb30a75027b557910958c7306cb4e" category="doc">Red Hat 虚拟化上的 OpenShift</block>
   <block id="932e95da8a59703292a426466e703c7a" category="paragraph">Red Hat Virtualization (RHV) 是一个企业虚拟数据中心平台，运行在 Red Hat Enterprise Linux (RHEL) 上并使用 KVM 虚拟机管理程序。</block>
@@ -1163,7 +1158,6 @@
   <block id="3500f2194985ef1b586c649fbe519d8d" category="paragraph">本文档中描述的经过验证的架构通过部署两个 ESXi 虚拟机管理程序节点并通过启用 VMware vSphere HA 和 VMware vMotion 确保容错配置，提供了适合 HA 操作的最低硬件部署。此配置允许已部署的虚拟机在两个虚拟机管理程序之间迁移，并在一个主机不可用时重新启动。</block>
   <block id="e79fa01ec6b411cfda4f8baad9f95cb0" category="paragraph">由于 Red Hat OpenShift 最初部署有三个主节点，因此在某些情况下，双节点配置中至少有两个主节点可以占用同一个节点，如果该特定节点不可用，则可能导致 OpenShift 中断。因此，Red Hat 的最佳实践是必须部署至少三个 ESXi 虚拟机管理程序节点，以便 OpenShift 主机可以均匀分布，从而提供额外的容错程度。</block>
   <block id="f5428382aa8b44d7ef6ca71195afc8ca" category="paragraph">通过启用 VM 和主机亲和性，可以确保 OpenShift 主机分布在多个虚拟机管理程序节点上。</block>
-  <block id="caa4cd40407d5fbb60417567f99dc12b" category="paragraph">要配置关联组，请参阅<block ref="5eec17a83b1cdbe2155f458e6c616d5f" category="inline-link-macro-rx"></block>。</block>
   <block id="7b65abec68958867d7dd5f43b3b06e08" category="inline-link-macro">Red Hat OpenShift 在 vSphere 上安装具有自定义设置的集群</block>
   <block id="60d232b4b7425bdadb1962222b2c23ab" category="paragraph">在这些情况下，您可以运行向导并执行任务而不立即部署集群，而是向导会创建一个配置文件，稍后可以从中部署集群。如果您需要更改任何 IPI 默认值，或者想要在您的环境中部署多个相同的集群用于其他用途（例如多租户），这将非常有用。有关为 OpenShift 创建自定义安装配置的更多信息，请参阅<block ref="425558ab055ee08d7eb4486f3ceb6631" category="inline-link-macro-rx"></block>。</block>
   <block id="81e1ccd46eb4fc86f01bc70f61ea35e0" category="summary">Red Hat OpenShift 容器平台将开发和 IT 运营整合在一个平台上，以便在本地和混合云基础架构上一致地构建、部署和管理应用程序。  Red Hat OpenShift 基于开源创新和行业标准构建，包括 Kubernetes 和 Red Hat Enterprise Linux CoreOS，后者是专为基于容器的工作负载设计的领先企业 Linux 发行版。</block>
@@ -1547,199 +1541,7 @@
   <block id="a78517d99e4cf029d76c3e543b762f94" category="paragraph">该解决方案展示了如何使用与 Red Hat OpenShift Container 平台中的 OADP 操作员集成的 Velero 对容器和虚拟机执行数据保护操作。</block>
   <block id="f7da192deb097319c1dea250e677bc33" category="list-text">有关在 OpenShift Container 平台中创建和恢复容器应用程序备份的详细信息，请参阅<block ref="d255861b913ae322076bc5eef85ea279" category="inline-link-macro-rx"></block>。</block>
   <block id="8264d7dad2a4ce20d002e352b2c274b2" category="list-text">有关在 OpenShift Container 平台上部署的 OpenShift Virtualization 中创建和恢复虚拟机备份的详细信息，请参阅<block ref="6df0f4cfdc0e8a7995e4abc22155ea26" category="inline-link-macro-rx"></block>。</block>
-  <block id="5f87e8fbf603b28eb84592d8e64980c6" category="doc">附加信息：VMware Tanzu 与NetApp</block>
-  <block id="0221d1074d249c254f0679e761454a05" category="inline-link"><block ref="0221d1074d249c254f0679e761454a05" category="inline-link-rx"></block></block>
-  <block id="40454fb96e27a719bd7a751c4ec47d16" category="paragraph"><block ref="40454fb96e27a719bd7a751c4ec47d16" category="inline-link-rx"></block></block>
-  <block id="5eae6f5974c9d4195ebe0cf8b607647e" category="list-text">Ansible 文档</block>
-  <block id="015674032a5c43c779a74ee9e3dbfc94" category="inline-link"><block ref="015674032a5c43c779a74ee9e3dbfc94" category="inline-link-rx"></block></block>
-  <block id="f13ae695d1de0b91201bca0cd4e87c69" category="paragraph"><block ref="f13ae695d1de0b91201bca0cd4e87c69" category="inline-link-rx"></block></block>
-  <block id="a6f4f5f0d313fa8894e4ad13a09339c0" category="list-text">VMware Tanzu 文档</block>
-  <block id="57a35ee57ca4eb666386f668ebc74599" category="inline-link"><block ref="57a35ee57ca4eb666386f668ebc74599" category="inline-link-rx"></block></block>
-  <block id="35d5768f9d0ee829a3e2cae0cba15216" category="paragraph"><block ref="35d5768f9d0ee829a3e2cae0cba15216" category="inline-link-rx"></block></block>
-  <block id="2839dd9e9e31ca41ba6399c0a64d3333" category="list-text">VMware Tanzu Kubernetes 网格文档</block>
-  <block id="94ecd750f91f6d1908b92ec42eb37398" category="inline-link"><block ref="94ecd750f91f6d1908b92ec42eb37398" category="inline-link-rx"></block></block>
-  <block id="f0a59887fc9e8ee88512ff6312c13efa" category="paragraph"><block ref="f0a59887fc9e8ee88512ff6312c13efa" category="inline-link-rx"></block></block>
-  <block id="9cf21c31f745a435ac892addf1fd1a3f" category="list-text">VMware Tanzu Kubernetes Grid 服务文档</block>
-  <block id="98978b88e05533d45b79613d9ee6f26d" category="inline-link"><block ref="98978b88e05533d45b79613d9ee6f26d" category="inline-link-rx"></block></block>
-  <block id="56c4cea9b33fd23cf082d00ca92d5a46" category="paragraph"><block ref="56c4cea9b33fd23cf082d00ca92d5a46" category="inline-link-rx"></block></block>
-  <block id="c23715ed7437fed1084a24cebb89e63c" category="list-text">VMware Tanzu Kubernetes Grid 集成版文档</block>
-  <block id="fd2560680b89b39b1b988587bf383fb4" category="inline-link"><block ref="fd2560680b89b39b1b988587bf383fb4" category="inline-link-rx"></block></block>
-  <block id="f4b2873e621660e86074a62e5a6c5eac" category="paragraph"><block ref="f4b2873e621660e86074a62e5a6c5eac" category="inline-link-rx"></block></block>
-  <block id="27b823150d6296b03e5a542d82068878" category="summary">NetApp拥有多个符合Trident和Trident Protect 标准的存储平台，可以为容器化应用程序配置、保护和管理数据，从而有助于定义和最大化 DevOps 吞吐量。</block>
   <block id="b43c4021858544ebd3a492d082a7f349" category="doc">NetApp存储系统概述</block>
-  <block id="3c50983d75446d4767f84157e3724456" category="list-text"><block ref="3c50983d75446d4767f84157e3724456" category="inline-link-macro-rx"></block></block>
-  <block id="72a943bda30daac28d5a7097897df424" category="summary">NetApp提供了多种产品来帮助我们的客户在基于容器的环境中协调和管理持久数据。</block>
-  <block id="5851271128193658704cec246f4fd21c" category="doc">NetApp存储集成概述</block>
-  <block id="ffa91b110b1ac17acee3a393a5fb06d3" category="list-text"><block ref="ffa91b110b1ac17acee3a393a5fb06d3" category="inline-link-macro-rx"></block></block>
-  <block id="318a4bce7f9fca07a60ed82408fbcd29" category="doc">VMware Tanzu Kubernetes Grid (TKG) 概述</block>
-  <block id="11e5f8209ef45e9884518caf7b5bc68d" category="paragraph">VMware Tanzu Kubernetes Grid（也称为 TKG）允许您在混合云或公共云环境中部署 Tanzu Kubernetes 集群。 TKG 作为管理集群安装，它本身就是一个 Kubernetes 集群，用于部署和操作 Tanzu Kubernetes 集群。这些 Tanzu Kubernetes 集群是部署实际工作负载的工作负载 Kubernetes 集群。</block>
-  <block id="9a67a32e17609515d2fc11383d1a7b59" category="paragraph">Tanzu Kubernetes Grid 建立在一些有前景的上游社区项目之上，并提供由 VMware 开发、营销和支持的 Kubernetes 平台。除了 Kubernetes 发行版之外，Tanzu Kubernetes Grid 还提供了额外的附加组件，这些附加组件是必需的生产级服务，例如注册表、负载平衡、身份验证等。带有管理集群的 VMware TKG 广泛用于 vSphere 6.7 环境，尽管它受支持，但不建议在 vSphere 7 环境中部署，因为 TKGS 具有与 vSphere 7 的原生集成功能。</block>
-  <block id="4e6c29e9760f3e53993a64a5f6c63aaa" category="inline-image-macro">带有管理集群的 VMware Tanzu Kubernetes Grid</block>
-  <block id="a1d96262ddcd3f0010db4d3551b9a9a7" category="paragraph"><block ref="a1d96262ddcd3f0010db4d3551b9a9a7" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="ec30336a82729146050b0931adab64f2" category="paragraph">有关 Tanzu Kubernetes Grid 的更多信息，请参阅文档<block ref="f4dbc56b610d9f5cd603e1a13bb6dedf" category="inline-link-macro-rx"></block>。</block>
-  <block id="86fcbed2a7f5b8edced11b10bd1e4266" category="paragraph">根据 Tanzu Kubernetes Grid 是安装在 vSphere 集群本地还是云环境中，按照安装指南准备和部署 Tanzu Kubernetes Grid<block ref="492c3fae38681e036fd18bedc1bf8ae5" category="inline-link-macro-rx"></block> 。</block>
-  <block id="c1f07986544fbf96897f8099577b0e72" category="paragraph">安装 Tanzu Kubernetes Grid 的管理集群后，请按照文档中的说明根据需要部署用户集群或工作负载集群<block ref="7d3f6d9f879d392af501006eacd0d221" category="inline-link-macro-rx"></block>。 VMware TKG 管理集群需要提供 SSH 密钥才能安装和运行 Tanzu Kubernetes 集群。此密钥可用于使用以下方式登录集群节点：<block ref="5ef871b8f1f696f9bb22de1dff45a81c" prefix=" " category="inline-code"></block>用户。</block>
-  <block id="7654a00ca744e9bf01021439190e3119" category="doc">VMware Tanzu Kubernetes Grid 集成版 (TKGI) 概述</block>
-  <block id="644bd75ee9c13f7d8778e4638d9eb2b2" category="paragraph">VMware Tanzu Kubernetes Grid Integrated (TKGI) Edition（以前称为 VMware Enterprise PKS）是一个基于 Kubernetes 的独立容器编排平台，具有生命周期管理、集群健康监控、高级网络、容器注册表等功能。  TKGI 使用由 BOSH 和 Ops Manager 组成的 TKGI 控制平面来配置和管理 Kubernetes 集群。</block>
-  <block id="a84b33dfae5a2fdc1618084442bc3df0" category="paragraph">TKGI 可以在本地 vSphere 或 OpenStack 环境中安装和运行，也可以在其各自的 IaaS 产品上的任何主要公共云中安装和运行。此外，TKGI 与 NSX-T 和 Harbour 的集成为企业工作负载提供了更广泛的用例。要了解有关 TKGI 及其功能的更多信息，请访问文档<block ref="0b1e387b87be5caa8371b58b8e02b1f8" category="inline-link-macro-rx"></block>。</block>
-  <block id="a1c1bb4994628000cfe61563bf4ff4f5" category="inline-image-macro">VMware Tanzu Kubernetes Grid集成版</block>
-  <block id="68f1110a2f412f8a1c01933e098a71a9" category="paragraph"><block ref="68f1110a2f412f8a1c01933e098a71a9" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="26f1f37ed65557967fe3a789aa75c364" category="paragraph">TKGI 根据不同的用例和设计以多种配置安装在各种平台上。按照指南操作<block ref="54093918574a441541c9219fc9d087f1" category="inline-link-macro-rx"></block>安装和配置 TKGI 及其先决条件。  TKGI 使用 Bosh VM 作为 Tanzu Kubernetes 集群的节点，这些集群运行不可变的配置映像，并且 Bosh VM 上的任何手动更改在重启后都不会保留。</block>
-  <block id="58959a34911d9e88e191f3453ddc81f0" category="paragraph">重要说明：</block>
-  <block id="d7fc6fcd5f3c3c3fca9edded9bf380e1" category="list-text">NetApp Trident需要特权容器访问。因此，在 TKGI 安装期间，请确保在配置 Tanzu Kubernetes 集群节点计划的步骤中选中“启用特权容器”复选框。</block>
-  <block id="651650f759262b05cb38b56003e55784" category="inline-image-macro">TKGI 中的特权容器</block>
-  <block id="7824738884575ac194e210c4f896e3d6" category="paragraph"><block ref="7824738884575ac194e210c4f896e3d6" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="956d281862a0ec3c4bb386cd28bf959c" category="list-text">NetApp建议将所有生产环境部署在多个主部署中以实现容错，并选择工作节点的配置来满足预期工作负载的要求。因此，建议的 TKGI 集群计划将由至少三个主服务器和三个从服务器组成，并配备至少四个 vCPU 和 12GB RAM，以应对高强度的工作负载。</block>
-  <block id="aa7b3dace1453f21689852e3b066f673" category="summary">VMware Tanzu Kubernetes Grid Service（也称为 vSphere with Tanzu）允许您在 vSphere 中本地创建和操作 Tanzu Kubernetes 集群，还允许您直接在 ESXi 主机上运行一些较小的工作负载。</block>
-  <block id="b71ad38bc3fd2c1a10efc2b09270e430" category="doc">VMware Tanzu Kubernetes Grid Service (TKGS) 概述</block>
-  <block id="9f0bacdd758242392df6d215d34d9b8e" category="paragraph">VMware Tanzu Kubernetes Grid Service（也称为 vSphere with Tanzu）允许您在 vSphere 中本地创建和操作 Tanzu Kubernetes 集群，还允许您直接在 ESXi 主机上运行一些较小的工作负载。它允许您将 vSphere 转变为在虚拟机管理程序层上本地运行容器化工作负载的平台。 Tanzu Kubernetes Grid Service 启用后会在 vSphere 上部署一个主管集群，用于部署和操作工作负载所需的集群。它与 vSphere 7 原生集成，并利用许多可靠的 vSphere 功能（如 vCenter SSO、内容库、vSphere 网络、vSphere 存储、vSphere HA 和 DRS 以及 vSphere 安全性），以实现更无缝的 Kubernetes 体验。</block>
-  <block id="6b25ac3e69375bd4a52dbffeb5c9cb14" category="paragraph">vSphere with Tanzu 为混合应用程序环境提供了一个单一平台，您可以在容器或虚拟机中运行应用程序组件，从而为开发人员、DevOps 工程师和 vSphere 管理员提供更好的可视性和易操作性。  VMware TKGS 仅支持 vSphere 7 环境，并且是 Tanzu Kubernetes 运营产品组合中唯一允许您直接在 ESXi 主机上运行 pod 的产品。</block>
-  <block id="0e1d3327747a52bdd78d80247d5b6500" category="inline-image-macro">VMware Tanzu Kubernetes 服务</block>
-  <block id="299e2971cae9a1238bc7240bdf9ea09d" category="paragraph"><block ref="299e2971cae9a1238bc7240bdf9ea09d" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="6e1adc41159b779c5ef1a0c9c934a673" category="paragraph">有关 Tanzu Kubernetes Grid Service 的更多信息，请关注文档<block ref="0cdaad1423fdb034ad0ee788d57a7a82" category="inline-link-macro-rx"></block>。</block>
-  <block id="2a304a1348456ccd2234cd71a81bd338" category="inline-link">链接</block>
-  <block id="767b04965a47baa63782400d36a0c62e" category="paragraph">关于功能集、网络等，有很多架构方面的考虑。根据所选的架构，Tanzu Kubernetes Grid Service 的先决条件和部署过程会有所不同。要在您的环境中部署和配置 Tanzu Kubernetes Grid Service，请遵循指南<block ref="5e5ad4985bdb8ab17883db4008c7c4a2" category="inline-link-macro-rx"></block>。此外，要登录通过 TKGS 部署的 Tanzu Kubernetes 集群节点，请按照此处列出的步骤操作<block ref="7db41b551ba1165c4dfa4cf2d8a36e55" category="inline-link-rx"></block>。</block>
-  <block id="46d890e88b951c5a84a444aad08079ae" category="paragraph">NetApp建议将所有生产环境部署在多个主部署中，以实现容错，并选择工作节点的配置来满足预期工作负载的要求。因此，针对高度密集型工作负载，建议的 VM 类至少具有 4 个 vCPU 和 12GB RAM。</block>
-  <block id="e8a4d3a2e07c429150e133b7fedebd64" category="paragraph">在命名空间中创建 Tanzu Kubernetes 集群时，具有<block ref="72122ce96bfec66e2396d2e25225d70a" prefix=" " category="inline-code"></block>或者<block ref="de95b43bceeb4b998aed4aed5cef1ae7" prefix=" " category="inline-code"></block>权限可以使用用户帐户直接在任何命名空间中创建 pod。这是因为用户<block ref="72122ce96bfec66e2396d2e25225d70a" prefix=" " category="inline-code"></block>或者<block ref="de95b43bceeb4b998aed4aed5cef1ae7" prefix=" " category="inline-code"></block>权限被分配给集群管理员角色。但是，在任何命名空间中创建部署、守护进程集、有状态集或其他内容时，必须为相应的服务帐户分配具有所需权限的角色。这是必需的，因为部署或守护进程集利用服务帐户来部署 pod。</block>
-  <block id="dc4ab077311e2aad5b5af968844fc5fe" category="paragraph">请参阅以下 ClusterRoleBinding 示例，将集群管理员角色分配给集群中的所有服务帐户：</block>
-  <block id="86022ceb615d9e55bbb881f1750442ba" category="summary">Trident是一个开源且完全支持的容器和 Kubernetes 发行版（包括 VMware Tanzu）存储编排器。</block>
-  <block id="cbe339e53da479584b62fcdaed7006c1" category="doc">Trident概述</block>
-  <block id="ebe5598ec22d01fe25c02071b488309b" category="section-title">使用 Helm 部署Trident Operator</block>
-  <block id="b224057a8a5927f9c3b42fbe5acc5595" category="list-text">添加NetApp Trident helm 存储库。</block>
-  <block id="836237f5ff429cb9283688cdfaa56c76" category="list-text">更新 helm 存储库。</block>
-  <block id="875c7439b686e253522033c63d909efe" category="list-text">为Trident的安装创建一个新的命名空间。</block>
-  <block id="c00c62a4d5defadacd6ec68c29db73e0" category="list-text">使用 DockerHub 凭证创建一个密钥来下载Trident镜像。</block>
-  <block id="567477e67a80c269658c001414030b07" category="list-text">对于由 TKGS（带有 Tanzu 的 vSphere）或具有管理集群部署的 TKG 管理的用户或工作负载集群，请完成以下步骤来安装Trident：</block>
-  <block id="d409e9c69dd2082fd0ed8a86d87258e8" category="list-text">确保登录的用户有在 trident 命名空间中创建服务账户的权限，并且 trident 命名空间中的服务账户有创建 pod 的权限。</block>
-  <block id="397ae57f2a6cbd8444c419c896f19886" category="list-text">运行以下 helm 命令在创建的命名空间中安装Trident操作符。</block>
-  <block id="eef6352658410e2218bd7027ae8ff351" category="list-text">对于由 TKGI 部署管理的用户或工作负载集群，运行以下 helm 命令在创建的命名空间中安装Trident操作员。</block>
-  <block id="12d34565a0d56eff4f8d3f99b138e11a" category="list-text">验证Trident pod 是否已启动并正在运行。</block>
-  <block id="90c737937862ee43d6c8a603f57c584c" category="paragraph">完成Trident Operator 安装后，您必须为正在使用的特定NetApp存储平台配置后端。按照下面的链接继续设置和配置Trident。</block>
-  <block id="22a4588280cd86e71d0de823755babb8" category="list-text"><block ref="22a4588280cd86e71d0de823755babb8" category="inline-link-macro-rx"></block></block>
-  <block id="dc80aa628678aebc84174e0a8fa38b0f" category="list-text"><block ref="dc80aa628678aebc84174e0a8fa38b0f" category="inline-link-macro-rx"></block></block>
-  <block id="02e89171828ae641092f5f7cc1c95cbf" category="summary">VMware Tanzu 是一套产品组合，可帮助企业实现其应用程序及其运行的基础架构的现代化。  VMware Tanzu 的全栈功能将开发和 IT 运营团队整合到一个平台上，以便在本地和混合云环境中一致地实现应用程序和基础架构的现代化，从而持续向生产提供更好的软件。</block>
-  <block id="969f4a20d38cf3096e1659b96da1b729" category="doc">VMware Tanzu 概述</block>
-  <block id="c395793804bd9dfa82ff727781faf3c5" category="inline-image-macro">VMware Tanzu 产品组合</block>
-  <block id="867ff2b59e0cd49601ca069c3402cad9" category="paragraph"><block ref="867ff2b59e0cd49601ca069c3402cad9" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="3614585a8ed284306a5eadc9e31585b8" category="paragraph">要详细了解 Tanzu 产品组合中的不同产品及其功能，请访问文档<block ref="e9fed892b98a6bbccfc15bfe67c5aa96" category="inline-link-macro-rx"></block>。</block>
-  <block id="1f0b2272162c619b2340940500e393a7" category="paragraph">关于 Tanzu 的 Kubernetes 操作目录，VMware 为 Tanzu Kubernetes Grid 提供了多种实现，所有这些实现都在各种平台上配置和管理 Tanzu Kubernetes 集群的生命周期。  Tanzu Kubernetes 集群是一个成熟的 Kubernetes 发行版，由 VMware 构建和支持。</block>
-  <block id="caaf1eb22b79381e3d4a2b2b9a7d1698" category="paragraph">NetApp已在其实验室中测试并验证了 VMware Tanzu 产品组合中以下产品的部署和互操作性：</block>
-  <block id="5849f8d5cb1d66cb095da163e533dea7" category="inline-link-macro">VMware Tanzu Kubernetes 网格 (TKG)</block>
-  <block id="f3268c157270b8d05ce7e208f2957c97" category="list-text"><block ref="f3268c157270b8d05ce7e208f2957c97" category="inline-link-macro-rx"></block></block>
-  <block id="c840af216b38aff44cc5ba246da60e17" category="inline-link-macro">VMware Tanzu Kubernetes 网格服务 (TKGS)</block>
-  <block id="f79ac5bf38fec66c0f916428aef5020d" category="list-text"><block ref="f79ac5bf38fec66c0f916428aef5020d" category="inline-link-macro-rx"></block></block>
-  <block id="d6a1da4b26eb2ae838f5db5e80c44aee" category="inline-link-macro">VMware Tanzu Kubernetes Grid 集成 (TKGI)</block>
-  <block id="9b654dd5c66eec24f6de8c57f8e0b5b3" category="list-text"><block ref="9b654dd5c66eec24f6de8c57f8e0b5b3" category="inline-link-macro-rx"></block></block>
-  <block id="516a32af5ad38dd3b9ca9c156da39add" category="inline-link-macro">带有 Tanzu 的 VMware vSphere（vSphere Pod）</block>
-  <block id="815dba1e9412705129e94ecfc5dc1617" category="list-text"><block ref="815dba1e9412705129e94ecfc5dc1617" category="inline-link-macro-rx"></block></block>
-  <block id="f78d920d9d248820ddf7a3acdd9a34c0" category="doc">VMware vSphere with Tanzu 概述</block>
-  <block id="25e19f6e213533d24e711ce5e6738fa9" category="paragraph">VMware vSphere with Tanzu（也称为 vSphere Pod）允许您将 VMware vSphere 环境中的 ESXi 虚拟机管理程序节点用作裸机 Kubernetes 环境中的工作节点。</block>
-  <block id="bac31e763c1b2955be0a10de0a4d8012" category="inline-image-macro">VMware vSphere 与 Kubernetes</block>
-  <block id="55cadfad96a5fb8de4a2eb4e72243fcf" category="paragraph"><block ref="55cadfad96a5fb8de4a2eb4e72243fcf" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="c2e55cf1007600b25e0708bfe26a41f3" category="paragraph">带有 Tanzu 的 VMware vSphere 环境与本机 TKGS 集群一样在工作负载管理下启用。</block>
-  <block id="c2556907e1f90b93c9c43e198113de8b" category="paragraph">创建虚拟化的 Supervisor Cluster 为 Kubernetes 提供高可用的控制平面，并为每个应用程序创建单独的命名空间，确保用户的资源隔离。</block>
-  <block id="9ff6aa8ffa487db2f0aebe3967972d77" category="inline-image-macro">主管集群</block>
-  <block id="1761bcd39bf9fa8ecdfd58e91b9037e3" category="paragraph"><block ref="1761bcd39bf9fa8ecdfd58e91b9037e3" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="9e2885b693a2045e931fda4aeb8bf28f" category="paragraph">启用 VMware vSphere with Tanzu 后，每个 ESXi 主机都安装并配置了 Spherelet 应用程序。这使得每个节点能够充当 Kubernetes 部署中的工作程序并管理部署在每个节点上的 pod。</block>
-  <block id="b3ba0fe968ce39dcfc6fe8cc0f1b02da" category="inline-image-macro">命名空间</block>
-  <block id="15a1e1d49a1faf02dac4c8897f8c5550" category="paragraph"><block ref="15a1e1d49a1faf02dac4c8897f8c5550" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="c44d7c5351501c027261c0480a658d6d" category="paragraph">目前，VMware vSphere with Tanzu 和 vSphere Pods 仅支持本地 vSphere CSI 驱动程序。其工作原理是让管理员在 vSphere 客户端中创建存储策略，从当前可用作 vSphere 数据存储的存储目标中进行选择。这些策略用于为容器化应用程序创建持久卷。</block>
-  <block id="c5367fd2a82638dd6433d7e57924a2ca" category="admonition">虽然目前不支持直接连接到外部ONTAP和 Element 存储阵列的NetApp Trident CSI 驱动程序，但这些NetApp存储系统通常用于支持 vSphere 环境的主存储，并且可以以这种方式使用NetApp高级数据管理和存储效率工具。</block>
-  <block id="70aaffec040bcf9e5cf77c0ccabb8f11" category="paragraph">如果您想了解有关 VMware vSphere with Tanzu 的更多信息，请参阅文档<block ref="0cdaad1423fdb034ad0ee788d57a7a82" category="inline-link-macro-rx"></block>。</block>
-  <block id="07f15dfb0f84a062c67184adcee67a8b" category="summary">本参考文档提供了不同版本的 VMware Tanzu Kubernetes 解决方案的部署验证，这些解决方案经 NetApp 验证，可以作为 Tanzu Kubernetes Grid (TKG)、Tanzu Kubernetes Grid Service (TKGS) 或 Tanzu Kubernetes Grid Integrated (TKGI) 部署在NetApp不同的数据中心环境中。</block>
-  <block id="bec8bc9f783c7d01005b7e64d1ad1785" category="doc">NVA-1166：VMware Tanzu 与NetApp合作</block>
-  <block id="9d9ae4f8dc85767d5d0c3f276a875e82" category="paragraph">本参考文档提供了不同版本的 VMware Tanzu Kubernetes 解决方案的部署验证，这些解决方案经 NetApp 验证，可以作为 Tanzu Kubernetes Grid (TKG)、Tanzu Kubernetes Grid Service (TKGS) 或 Tanzu Kubernetes Grid Integrated (TKGI) 部署在NetApp不同的数据中心环境中。它还描述了与NetApp存储系统和Trident存储编排器的存储集成，用于管理持久存储，以及Trident Protect 用于使用该持久存储备份和克隆有状态应用程序。最后，该文档提供了解决方案集成和验证的视频演示。</block>
-  <block id="c0a14f456cfcfac669f2cf374f60561b" category="paragraph">VMware Tanzu 与NetApp解决方案的架构旨在通过以下用例为客户提供卓越的价值：</block>
-  <block id="8cc1d80dbdd5d6d142f0173d8c8f2261" category="list-text">易于部署和管理部署在 VMware vSphere 上并与NetApp存储系统集成的 VMware Tanzu Kubernetes Grid 产品。</block>
-  <block id="8796988ff3c4f065733c3b887d886609" category="list-text">企业容器和虚拟化工作负载与 VMware Tanzu Kubernetes Grid 产品的综合实力。</block>
-  <block id="596baabed2617a4fc2b73cb88716cc97" category="list-text">真实的配置和用例突出显示了 VMware Tanzu 与NetApp存储和NetApp Trident产品套件一起使用时的功能。</block>
-  <block id="1c038507164c812de63a2e51d6ec1ddb" category="list-text">使用Trident Protect 对部署在 VMware Tanzu Kubernetes Grid 集群上且数据驻留在NetApp存储系统上的容器化工作负载进行应用程序一致性保护或迁移。</block>
-  <block id="29375f7cc2c5eece7fdd9c99f40eb3f8" category="list-text">能够在混合云模型中部署，容器可以在本地数据中心和云中运行。</block>
-  <block id="ddea0381617b5a4b43a0a98a440c6658" category="paragraph">VMware Tanzu 与NetApp共同承认这些挑战，并提出了一种解决方案，通过在客户选择的混合云环境中部署 VMware Tanzu Kubernetes 产品来帮助解决每个问题。</block>
-  <block id="c57f369df48137f738543c0e5012006c" category="paragraph">VMware Tanzu 与NetApp解决方案由以下主要组件组成：</block>
-  <block id="67d7b0b61202e57bcae8cda82f02e2b3" category="section-title">VMware Tanzu Kubernetes 平台</block>
-  <block id="55ad4cb8f0feecb71e184ef92cff1f70" category="paragraph">VMware Tanzu 具有多种版本， NetApp的解决方案工程团队已在我们的实验室中对其进行了验证。每个 Tanzu 版本都与NetApp存储产品组合成功集成，并且每个版本都可以帮助满足特定的基础设施需求。以下重点介绍了本文档中描述的 Tanzu 每个版本的功能和产品。</block>
-  <block id="f377bdd54f0f567b139a5913567466f1" category="paragraph">*VMware Tanzu Kubernetes 网格 (TKG)*</block>
-  <block id="45915535ce313f81567f3b3c41571fe9" category="list-text">在 VMware vSphere 环境中部署的标准上游 Kubernetes 环境。</block>
-  <block id="32fcd5c42dc47b5cc021d74a489dee4f" category="list-text">以前称为 Essential PKS（来自 Heptio 收购，2019 年 2 月）。</block>
-  <block id="16196833d09cc8d52a1ef3790b4e15d3" category="list-text">TKG 部署了单独的管理集群实例，以支持 vSphere 6.7U3 及更高版本。</block>
-  <block id="08f2ff1c0826ffc53a185010cce7dac7" category="list-text">TKG 部署也可以通过 AWS 或 Azure 部署在云中。</block>
-  <block id="15aa7eec2d32a1ba74b5cea8af5241ec" category="list-text">允许使用 Windows 或 Linux 工作节点（Ubuntu/Photon）。</block>
-  <block id="89a8813ef0f3f2c1a9b0f20dab87e2a2" category="list-text">NSX-T、HA Proxy、AVI 网络或负载均衡器可用于控制平面。</block>
-  <block id="2ad16c86af27df82ae725dfd15176212" category="list-text">TKG 支持应用程序/数据平面的 MetalLB。</block>
-  <block id="bc4ebc6a20b126e1810986e5737ff887" category="list-text">可以使用 vSphere CSI 以及第三方 CSI，如NetApp Trident。</block>
-  <block id="7a3368d887604b1812f8f796b668f0e7" category="paragraph">*VMware Tanzu Kubernetes 网格服务 (TKGS)*</block>
-  <block id="27077307fac1683851c72a97ba11c62e" category="list-text">TKGS 仅在 vSphere 7.0U1 及更高版本上与主管集群和工作负载集群一起部署。</block>
-  <block id="3ee27cde76894c76ad60736ecbca78da" category="list-text">TKGS 支持应用程序/数据平面的 MetalLB。</block>
-  <block id="443c9bd7eeb4bc3d39f67cc555b4aab2" category="list-text">通过 Tanzu 提供对 vSphere Pods 的支持，允许 Pod 直接在环境中启用的 ESXi 主机上运行。</block>
-  <block id="8da30835717bc9e00a9ea2b89d75d943" category="paragraph">VMWare Tanzu Kubernetes Grid 集成 (TKGI)</block>
-  <block id="f4ef19f9ee886fa602632ef3f35019ad" category="list-text">以前称为 Enterprise PKS（来自 Heptio 收购，2019 年 2 月）。</block>
-  <block id="28789df26df63aa440b3aded601e67a6" category="list-text">可以使用 NSX-T、HA Proxy 或 Avi。您还可以提供自己的负载均衡器。</block>
-  <block id="2b681f710a75cd56332534e50fe625ff" category="list-text">从 vSphere 6.7U3 开始受支持，以及 AWS、Azure 和 GCP。</block>
-  <block id="f09eefe449cf027cce033ceb064c2fae" category="list-text">通过向导进行设置，以便于部署。</block>
-  <block id="78c9a89b579a1005676bf4b1a4b3aad7" category="list-text">在由 BOSH 管理的受控不可变虚拟机中运行 Tanzu。</block>
-  <block id="9836f3d455b09e5a5216629884a86272" category="list-text">可以使用 vSphere CSI 以及第三方 CSI，如NetApp Trident （适用某些条件）。</block>
-  <block id="22bd1c4adfe1c3f7d3dc00763a7a8d40" category="paragraph">带有 Tanzu 的 vSphere（vSphere Pod）</block>
-  <block id="4f50bac068dbe84c04d257f75bb42142" category="list-text">vSphere 原生 pod 在基于光子的薄层中运行，并具有规定的虚拟硬件，以实现完全隔离。</block>
-  <block id="c8cefb07aba3cc260670993281c9bef5" category="list-text">需要 NSX-T，但允许额外的功能支持，例如 Harbor 映像注册表。</block>
-  <block id="b603aa094817eb0510887a841cc71df8" category="list-text">在 vSphere 7.0U1 及更高版本中使用 TKGS 等虚拟 Supervisor 集群进行部署和管理。直接在 ESXi 节点上运行 pod。</block>
-  <block id="cf3b96589f75768a855cebe2679e5b8b" category="list-text">完全集成 vSphere，通过 vSphere 管理实现最高的可见性和控制。</block>
-  <block id="3b050b735b1eb713cc1b3816851e3060" category="list-text">基于 CRX 的隔离舱可实现最高级别的安全性。</block>
-  <block id="e7004adb0d2f74954305a1023249e642" category="list-text">仅支持 vSphere CSI 进行持久存储。不支持第三方存储协调器。</block>
-  <block id="ebf1056dd3448ca85af4607c7c9984b3" category="paragraph">Trident是一个开源的、完全支持的存储编排器，适用于容器和 Kubernetes 发行版，包括 VMware Tanzu。</block>
-  <block id="67c6ecbcd91c613e8659b3f0c4b01510" category="cell">9.9.1</block>
-  <block id="63355c54bd7e8ff73915da41610ec6f7" category="cell">22.04.0</block>
-  <block id="a56837df79ae6671b6b511c330431135" category="cell">VMware Tanzu Kubernetes 网格</block>
-  <block id="a3e69dd4d9f892aab0dcbf0a5dd246e2" category="cell">1.4+</block>
-  <block id="22053fd2d26d3a313aea03b09e9a776c" category="cell">VMware Tanzu Kubernetes 网格服务</block>
-  <block id="c99c6e88d4de8db879b1b5ec64d1f7ed" category="cell">0.0.15 [vSphere 命名空间]</block>
-  <block id="8eb1302ead60c09b6d757b2b7ab84040" category="cell">1.22.6 [主管集群 Kubernetes]</block>
-  <block id="caf617dd6edf29fd289caff7469ea66b" category="cell">VMware Tanzu Kubernetes Grid集成</block>
-  <block id="1d5bc9367c9565bbe31cc00aa1f870a4" category="cell">1.13.3</block>
-  <block id="23d300c91b3d48f94c1e7f5953ad3e5e" category="cell">7.0U3</block>
-  <block id="5d9dd4ee62c5446f01e895cd118d98dd" category="cell">VMware NSX-T 数据中心</block>
-  <block id="7bc09c21b8fa1161768459982f0ec89e" category="cell">网络和安全</block>
-  <block id="b1179856b0372cb8777975cb658548ac" category="cell">3.1.3</block>
-  <block id="cc540661734771d2e0272e8b4ef5c228" category="cell">VMware NSX 高级负载均衡器</block>
-  <block id="50382c1137e78c7c038faabadb85d9fd" category="cell">负载均衡器</block>
-  <block id="d08680d7e9b745c4d4b81a2d6df7a012" category="cell">20.1.3</block>
-  <block id="96b5419ab713b49685af4d923930ce22" category="summary">要通过 iSCSI 将NetApp ONTAP存储系统与 VMware Tanzu Kubernetes 集群集成以实现持久卷，第一步是通过登录每个节点并配置 iSCSI 实用程序或软件包来挂载 iSCSI 卷，从而准备节点。</block>
-  <block id="da883967924519350a1c423bd85906dd" category="paragraph">要通过 iSCSI 将NetApp ONTAP存储系统与 VMware Tanzu Kubernetes 集群集成以实现持久卷，第一步是通过登录每个节点并配置 iSCSI 实用程序或软件包来挂载 iSCSI 卷，从而准备节点。为此，请按照本<block ref="fb2092145032d18c9376d95ca453f9a7" category="inline-link-macro-rx"></block>。</block>
-  <block id="50c35de69200a8b9e4be302372e74851" category="admonition">NetApp不建议对 VMware Tanzu Kubernetes 集群的 NAT 部署使用此过程。</block>
-  <block id="bfc5022105ee1678e96b6f9991116647" category="admonition">TKGI 使用 Bosh VM 作为运行不可变配置映像的 Tanzu Kubernetes 集群的节点，并且 Bosh VM 上 iSCSI 包的任何手动更改在重新启动后都不会保留。因此， NetApp建议使用 NFS 卷作为由 TKGI 部署和运营的 Tanzu Kubernetes 集群的持久存储。</block>
-  <block id="16e4431f428a4ec8abdfbee6ec2c2889" category="paragraph">在集群节点准备好 iSCSI 卷后，您必须创建一个能够与存储系统通信的后端。我们在此解决方案中配置了一个基本的后端，但是，如果您正在寻找更多自定义选项，请访问文档<block ref="f151238ff3a8d488c82b6303d676eaa3" category="inline-link-macro-rx"></block>。</block>
-  <block id="aaa6c6e969e6e978f9a8bce54e31b5f7" category="section-title">在ONTAP中创建 SVM</block>
-  <block id="31cd969d7cf1970993d449ccccaeddfe" category="paragraph">要在ONTAP中创建 SVM，请完成以下步骤：</block>
-  <block id="b1c04b7e96694453a1307ecc81208ae5" category="list-text">登录ONTAP系统管理器，导航到“存储”&gt;“存储虚拟机”，然后单击“添加”。</block>
-  <block id="70d94c82da2765251783d499556773b7" category="list-text">输入 SVM 的名称，启用 iSCSI 协议，然后提供数据 LIF 的详细信息。</block>
-  <block id="9305b9f7555d613129963713b0c214e6" category="inline-image-macro">iSCSI SVM 数据 LIF</block>
-  <block id="3a0dcb6f7ae7e98cd4c0dc0377d379db" category="paragraph"><block ref="3a0dcb6f7ae7e98cd4c0dc0377d379db" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="f9edece6d4cf48c209a5fe7da61f0ecb" category="list-text">输入 SVM 管理帐户的详细信息，然后单击“保存”。</block>
-  <block id="2b44a7a64e9a3efc0b4e423d6339aaa7" category="inline-image-macro">iSCSI SVM 管理</block>
-  <block id="3a282c7f23ef48021ba2d883b8be673b" category="paragraph"><block ref="3a282c7f23ef48021ba2d883b8be673b" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="f61c0f70e825557a7be7fe0ac432bdf7" category="list-text">要将聚合分配给 SVM，请导航到“存储”&gt;“存储虚拟机”，单击新创建的 SVM 旁边的省略号，然后单击“编辑”。选中“限制卷创建到首选本地层”复选框，并将所需的聚合附加到该复选框。</block>
-  <block id="85c5adc69f6da0ebb2ebf365c4211508" category="inline-image-macro">SVM聚合分配</block>
-  <block id="0eb036df6e8abe29710a3e752388b0be" category="paragraph"><block ref="0eb036df6e8abe29710a3e752388b0be" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="03c8ff4111bb9cfc032f786c9bd7c6e8" category="section-title">创建后端和存储类</block>
-  <block id="e15177ebae9bfb9adab94a9ccf5f2e96" category="list-text">对于提供 NFS 服务的NetApp ONTAP系统，请在跳转主机上创建后端配置文件，其中包含 backendName、managementLIF、dataLIF、svm、用户名、密码和其他详细信息。</block>
-  <block id="c75cfbdcbbe9d48dc121fc816d4a2ccf" category="list-text">通过运行以下命令创建Trident后端。</block>
-  <block id="74ede5d2e56e369e9eda54f4095292f5" category="list-text">创建后端后，接下来必须创建存储类。以下示例存储类定义突出显示了必需字段和基本字段。参数<block ref="55b56fb238360663afa6230ad82e74a0" prefix=" " category="inline-code"></block>应该反映新创建的Trident后端的存储驱动程序。还要注意名称字段值，该值必须在后续步骤中引用。</block>
-  <block id="cf2c5963ca8332d4f43e6c3a955da4da" category="admonition">有一个可选字段称为<block ref="7cfbb6f07899c8071ff38e69dca190e2" prefix=" " category="inline-code"></block>这是在这个文件中定义的。在 iSCSI 后端，可以将此值设置为特定的 Linux 文件系统类型（XFS、ext4 等），或者可以删除此值以允许 Tanzu Kubernetes 集群决定使用哪种文件系统。</block>
-  <block id="0286d73690ed0ef54af06bd9175945cd" category="list-text">通过运行 kubectl 命令创建存储类。</block>
-  <block id="8d8b689e86dbd34b31294b3f829db499" category="list-text">创建存储类后，您必须创建第一个持久卷声明 (PVC)。下面给出了一个 PVC 定义示例。确保<block ref="ee822781a3bd0ae0f8f6331dc4865d9c" prefix=" " category="inline-code"></block>字段与刚刚创建的存储类的名称匹配。  PVC 定义可以根据需要配置的工作负载进一步定制。</block>
-  <block id="c764ff1d25a2f9241afec7161127f74d" category="list-text">通过发出 kubectl 命令创建 PVC。创建可能需要一些时间，具体取决于所创建的备份卷的大小，因此您可以在创建完成时观察该过程。</block>
-  <block id="fa6f7af807ffa3ac6e2efb5c31463a4f" category="paragraph">要通过 NFS 实现Trident与NetApp ONTAP存储系统的集成，您必须创建一个能够与存储系统通信的后端。我们在此解决方案中配置了一个基本的后端，但如果您正在寻找更多自定义选项，请访问文档<block ref="f72d871ae286e7b7cf7d9ea12426661a" category="inline-link-macro-rx"></block>。</block>
-  <block id="f53bd08113ff367a9bcd470b70a036d8" category="list-text">输入 SVM 的名称，启用 NFS 协议，选中允许 NFS 客户端访问复选框，并在导出策略规则中添加工作节点所在的子网，以允许将卷作为 PV 挂载到工作负载集群中。</block>
-  <block id="0cdb2a8f015b7a7d81ab5c3d73de88a5" category="inline-image-macro">使用 NFS 创建 SVM</block>
-  <block id="0e439987dbbd5cdf7a259d858b733fb5" category="paragraph"><block ref="0e439987dbbd5cdf7a259d858b733fb5" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="e570ad3092406b5118fcd78a9374e048" category="admonition">如果您使用 NSX-T 的 NAT 部署用户集群或工作负载集群，则需要将出口子网（对于 TKGS0 而言）或浮动 IP 子网（对于 TKGI 而言）添加到导出策略规则中。</block>
-  <block id="8f254daa71e82320e11e55258b095b00" category="list-text">提供数据 LIF 的详细信息和 SVM 管理帐户的详细信息，然后单击“保存”。</block>
-  <block id="02ffb816541fbf18a204c877564fb92e" category="inline-image-macro">SVM 数据 LIF 和 SVM 管理</block>
-  <block id="06cc454005d6e09b6aa8c6816b293e73" category="paragraph"><block ref="06cc454005d6e09b6aa8c6816b293e73" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="491df82049a4ac2d8b8b2fe6b773d65d" category="list-text">将聚合分配给 SVM。导航到“存储”&gt;“存储虚拟机”，单击新创建的 SVM 旁边的省略号，然后单击“编辑”。选中“限制卷创建到首选本地层”复选框并将所需的聚合附加到该复选框。</block>
-  <block id="d0c0f45aef081aad9098fd68b293824e" category="paragraph"><block ref="d0c0f45aef081aad9098fd68b293824e" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="95fdf7e31ffa1073f8c42359589c334e" category="list-text">如果要安装Trident的用户或工作负载集群采用 NAT 部署，则由于 SNAT，存储挂载请求可能会从非标准端口到达。默认情况下， ONTAP仅允许来自根端口的卷挂载请求。因此，登录ONTAP CLI 并修改设置以允许来自非标准端口的挂载请求。</block>
-  <block id="ad2008cda12d454189828df19b2f9742" category="list-text">创建后端后，接下来必须创建存储类。以下示例存储类定义突出显示了必需字段和基本字段。参数<block ref="55b56fb238360663afa6230ad82e74a0" prefix=" " category="inline-code"></block>应该反映新创建的Trident后端的存储驱动程序。</block>
   <block id="34ea8ef199c59f90c815aa0dd2bc6fd6" category="summary">演示本文档中记录的一些功能。</block>
   <block id="27619261561b45c6dad352a91cdae06e" category="doc">观看有关 Anthos 与NetApp合作的视频</block>
   <block id="4c57bd0d34bd5f3e139a2dd80505a84e" category="paragraph">通过精选的视频和演示，探索NetApp与 Google Anthos 的主要功能和部署场景。这些资源展示了最佳实践、集成步骤和实际用例。</block>
@@ -1771,14 +1573,6 @@
   <block id="ec765b62758379ce6dcc1dc7ff0258bc" category="paragraph">**GitHub 中的 Ansible 示例代码**<block ref="df3073ceed8f3ce793912644c2d5a488" category="inline-link-macro-rx"></block></block>
   <block id="e6b62a38cb04c5bd5e6dc934c39d11bf" category="section-title">云和混合集成</block>
   <block id="c9e349766e4968ee277d240ff7b169e6" category="video-title">使用 OpenShift 虚拟化部署虚拟机 - Red Hat OpenShift 与NetApp</block>
-  <block id="71417a3dd01aa388d35bf54aa4c401fa" category="summary">此页面包含视频链接，演示了本文档中描述的一些功能。</block>
-  <block id="19c086b7a4d878ee4cb367a052e05beb" category="doc">观看有关 VMware Tanzu 与NetApp合作的视频</block>
-  <block id="573dbf062a71298ebe08dc9251428738" category="paragraph">通过一系列视频探索 VMware Tanzu 与NetApp的集成，这些视频演示了持久存储配置、应用程序克隆和使用Trident 的数据保护等关键功能。</block>
-  <block id="51d0dd539358548f8d26d0b978f65539" category="admonition">这些演示是使用 TKG 1.3.1 版本和Trident Protect 21.12 版本录制的技术预览版。请参阅支持矩阵以了解官方支持的版本。</block>
-  <block id="d064bf8df43cbf9dd106ab99d45f3cd8" category="section-title">持久存储配置</block>
-  <block id="3f9db654808cbd9588d5eb00104fe0e4" category="video-title">使用Trident在 VMware Tanzu 中配置持久存储 - VMware Tanzu 与NetApp</block>
-  <block id="ed93b88d3cbf5bf6bf5bd75716682e15" category="section-title">应用程序克隆和数据保护</block>
-  <block id="a2fcb579cb08f140ede4cd4024b29e9f" category="video-title">使用Trident Protect 在 VMWare Tanzu 中克隆应用程序 - VMware Tanzu 与NetApp</block>
   <block id="1ff76fb7d3302370628b1ccc6226b6a5" category="summary">NetApp容器解决方案附件的最新变更日志。</block>
   <block id="fb548f8c1b2df619579952261b15aaa1" category="doc">NetApp容器解决方案的新功能</block>
   <block id="7900a4657b5879f994050b5813a75ce6" category="paragraph">了解容器解决方案的新功能。</block>
@@ -1811,24 +1605,19 @@
   <block id="c232cfc0ae9806d3ad6d34a51df58229" category="sidebar">Red Hat OpenShift 与NetApp</block>
   <block id="1758083ef63bb4ae8b59ef124a858366" category="sidebar">关于 Red Hat OpenShift</block>
   <block id="9bcb78f243173b51be948352a4456070" category="sidebar">关于 AWS 上的 OpenShift</block>
-  <block id="1722f248c3b6574ad844b53f30ac236c" category="sidebar">VMware Tanzu 与NetApp</block>
-  <block id="6d1f29cc35a6c00cd340f77f69cdd538" category="sidebar">关于 VMware Tanzu</block>
   <block id="0906b68b3611de6c610f9203cb79845d" category="sidebar">合作伙伴解决方案</block>
   <block id="608fd0ec5cdb56ad3d3e6d9595ec6f19" category="sidebar">Anthos 网站</block>
   <block id="4f08bd7fd1651ff7d7a087a393044ace" category="sidebar">Red Hat OpenShift 网站</block>
-  <block id="1dbfd92530de9ca821817f92dca04cbb" category="sidebar">VMware Tanzu 网站</block>
   <block id="e95b75f557af9310f3d9c6299286a533" category="sidebar">解决方案请求和反馈</block>
   <block id="22d04ecae9fae88d0b8d4548a46a545b" category="sidebar">请求自动化</block>
   <block id="776ab15fef436c9315c14738509d299e" category="sidebar">提出新的解决方案</block>
   <block id="cfdaac8ef24ac5b2612570c34da00954" category="sidebar">提供解决方案反馈</block>
-  <block id="1148d6bcb0d421cca0d8fae58b1afd7b" category="sidebar">探索 NetApp 的综合视频库，展示跨 Anthos、OpenShift 和 VMware Tanzu 平台的容器解决方案。每个集合都侧重于特定的用例和集成场景。</block>
   <block id="bc436006a66168dc26ba4aaa56259fc4" category="sidebar">观看有关使用NetApp 的容器的视频和演示</block>
   <block id="9b43113f4ddf8646d9d3550adc52d9cc" category="sidebar">一系列视频和演示讨论了 NetApp 众多容器解决方案的功能</block>
   <block id="57e5461f846280ec63710c1932950345" category="sidebar">Anthos 部署和设置</block>
   <block id="7598fa17e487d462cc4c58c4f4edc666" category="sidebar">Trident部署和设置</block>
   <block id="ae05797d002b77737a10ce3d62b7521d" category="sidebar">容器解决方案</block>
   <block id="554cfab3938e21d9270bd6b75931f96f" category="sidebar">视频</block>
-  <block id="6015fcf0a9cd608ed0e3aa71296f41d4" category="sidebar">VMware Tanzu</block>
   <block id="65002e037ae0f2ae1b3677530fc669d8" category="sidebar">了解 Anthos</block>
   <block id="ca76b01854045afd9b2809e7bcc687f8" category="sidebar">Anthos 概览</block>
   <block id="aff9a6321d1ed0024673788596604472" category="sidebar">NetApp存储集成概述</block>
@@ -1870,8 +1659,10 @@
   <block id="092bf78f9c97ba171b8232ddff585392" category="sidebar">追加信息</block>
   <block id="bdede1d84f059aba6c8c7f443f0dcf8a" category="sidebar">使用 FSxN 在 AWS 上提供 Red Hat OpenShift 服务</block>
   <block id="5e21330fc0890f55a17acc561df2e1f0" category="sidebar">AWS 上的 OpenShift 服务工作流程</block>
-  <block id="aca07c605f2ab09ae67306aeaf2d51a7" category="sidebar">VMware Tanzu 产品组合</block>
-  <block id="f60552c130312d00e2350a8a5f21c79f" category="sidebar">Tanzu Kubernetes 网格服务</block>
-  <block id="917f58d29c572d69948f57b81064c187" category="sidebar">Tanzu Kubernetes Grid集成版</block>
-  <block id="d3f65d629f805f1540f1e23b1a764393" category="sidebar">VMware vSphere 与 Tanzu</block>
+  <block id="ff98a347124fc4408f955fa479a08047" category="paragraph">要配置关联组，请参阅下面适用于您的 VMware vSphere 版本的相应链接。</block>
+  <block id="70dec797486e96f0b66f5b6f6232e97e" category="inline-link">vSphere 9.0 文档：使用 DRS 关联性规则</block>
+  <block id="28f3c4952f8984dbba3cb64144d23c55" category="paragraph"><block ref="013ce530ab8ab67ba2512060eb3ef551" category="inline-link-rx"></block>https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-resource-management/using-drs-clusters-to-manage-resources/using-vm-host-affinity-rules.html[vSphere 7.0 文档：使用 DRS 亲和性规则]。</block>
+  <block id="75aced0054edcf64f0ce28e9417b9ecc" category="paragraph">在这种情况下，您可以运行向导并执行任务，而无需立即部署集群；它会创建一个配置文件，稍后可以从中部署集群。如果您需要更改任何 IPI 默认值，或者如果您想在环境中部署多个相同的集群以用于多租户等其他用途，这将非常有用。有关创建 OpenShift 自定义安装配置的更多信息，请参阅 <block ref="d119246d08531f99b62e09f0007159a5" category="inline-link-macro-rx"></block>。</block>
+  <block id="7eec9c349f16a2215195b8598e8dea11" category="paragraph">要配置亲缘组，请参阅 <block ref="cf8e958cf9893349b91e0cb26eb4a70a" category="inline-link-macro-rx"></block>。</block>
+  <block id="b9aaad555d183234dc95454f14ebcc62" category="sidebar">探索 NetApp 全面的视频库，了解 Anthos 和 OpenShift 平台上的容器解决方案。每个系列都侧重于特定的使用案例和集成场景。</block>
 </blocks>

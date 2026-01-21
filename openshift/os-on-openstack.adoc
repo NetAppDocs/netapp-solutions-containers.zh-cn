@@ -152,4 +152,4 @@ NOTE: OSP 服务器组存在特定的硬亲和性/反亲和性限制；如果没
 
 IPI 通过本文档前面讨论的交互式向导使 OpenShift 集群的部署变得简单。但是，您可能需要在集群部署过程中更改一些默认值。
 
-在这些情况下，您可以运行向导并执行任务，而无需立即部署集群；相反，它会创建一个配置文件，稍后可以从中部署集群。如果您需要更改任何 IPI 默认值，或者想要在您的环境中部署多个相同的集群用于其他用途（例如多租户），这将非常有用。有关为 OpenShift 创建自定义安装配置的更多信息，请参阅link:https://docs.openshift.com/container-platform/4.7/installing/installing_openstack/installing-openstack-installer-custom.html["Red Hat OpenShift 在 OpenStack 上安装自定义集群"^]。
+在这种情况下，您可以运行向导并执行任务，而无需立即部署集群；它会创建一个配置文件，稍后可以从中部署集群。如果您需要更改任何 IPI 默认值，或者如果您想在环境中部署多个相同的集群以用于多租户等其他用途，这将非常有用。有关创建 OpenShift 自定义安装配置的更多信息，请参阅 link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.20/html/installing_on_openstack/installing-openstack-installer-custom["Red Hat OpenShift 在 OpenStack 上安装自定义集群"^]。

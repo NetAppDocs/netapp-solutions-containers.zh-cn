@@ -154,9 +154,9 @@ image:a-w-n-anthos-128-vsphere8-validation.png["该图显示输入/输出对话�
 
 亲和性或反亲和性是一种为虚拟机和/或主机集定义规则的方法，用于确定虚拟机是否在同一主机或组中的主机上一起运行，还是在不同的主机上运行。它通过创建由具有一组相同参数和条件的虚拟机和/或主机组成的亲和性组应用于虚拟机。根据亲和性组中的虚拟机是运行在组内的同一主机上还是运行在组内的多个主机上，还是分别运行在不同的主机上，亲和性组的参数可以定义正亲和性或负亲和性。
 
-要配置亲和性组，请参阅下面适合您的 VMWare vSphere 版本的链接。
+要配置关联组，请参阅下面适用于您的 VMware vSphere 版本的相应链接。
 
-https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.resmgmt.doc/GUID-FF28F29C-8B67-4EFF-A2EF-63B3537E6934.html["vSphere 6.7 文档：使用 DRS 关联性规则"^] 。https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.resmgmt.doc/GUID-FF28F29C-8B67-4EFF-A2EF-63B3537E6934.html["vSphere 7.0 文档：使用 DRS 关联性规则"^] 。
+https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-resource-management/using-drs-clusters-to-manage-resources/using-vm-host-affinity-rules.html["vSphere 9.0 文档：使用 DRS 关联性规则"^]https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-resource-management/using-drs-clusters-to-manage-resources/using-vm-host-affinity-rules.html[vSphere 7.0 文档：使用 DRS 亲和性规则]。
 
 
 NOTE: Anthos 在每个单独的 `cluster.yaml`文件自动创建节点亲和性规则，可以根据环境中的 ESXi 主机数量启用或禁用这些规则。

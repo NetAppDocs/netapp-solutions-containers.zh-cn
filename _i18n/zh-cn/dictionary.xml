@@ -1661,8 +1661,9 @@
   <block id="5e21330fc0890f55a17acc561df2e1f0" category="sidebar">AWS 上的 OpenShift 服务工作流程</block>
   <block id="ff98a347124fc4408f955fa479a08047" category="paragraph">要配置关联组，请参阅下面适用于您的 VMware vSphere 版本的相应链接。</block>
   <block id="70dec797486e96f0b66f5b6f6232e97e" category="inline-link">vSphere 9.0 文档：使用 DRS 关联性规则</block>
-  <block id="28f3c4952f8984dbba3cb64144d23c55" category="paragraph"><block ref="013ce530ab8ab67ba2512060eb3ef551" category="inline-link-rx"></block>https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-resource-management/using-drs-clusters-to-manage-resources/using-vm-host-affinity-rules.html[vSphere 7.0 文档：使用 DRS 亲和性规则]。</block>
   <block id="75aced0054edcf64f0ce28e9417b9ecc" category="paragraph">在这种情况下，您可以运行向导并执行任务，而无需立即部署集群；它会创建一个配置文件，稍后可以从中部署集群。如果您需要更改任何 IPI 默认值，或者如果您想在环境中部署多个相同的集群以用于多租户等其他用途，这将非常有用。有关创建 OpenShift 自定义安装配置的更多信息，请参阅 <block ref="d119246d08531f99b62e09f0007159a5" category="inline-link-macro-rx"></block>。</block>
   <block id="7eec9c349f16a2215195b8598e8dea11" category="paragraph">要配置亲缘组，请参阅 <block ref="cf8e958cf9893349b91e0cb26eb4a70a" category="inline-link-macro-rx"></block>。</block>
   <block id="b9aaad555d183234dc95454f14ebcc62" category="sidebar">探索 NetApp 全面的视频库，了解 Anthos 和 OpenShift 平台上的容器解决方案。每个系列都侧重于特定的使用案例和集成场景。</block>
+  <block id="bfe724d354657c9ac5cef22bd231f66f" category="inline-link">vSphere 7.0 文档：使用 DRS 亲和力规则</block>
+  <block id="d80a6b3e953318b803d17ce91d32d237" category="paragraph"><block ref="013ce530ab8ab67ba2512060eb3ef551" category="inline-link-rx"></block>.<block ref="42f6b9383c33f02a9b6a80dc074607f9" category="inline-link-rx"></block>.</block>
 </blocks>

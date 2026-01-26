@@ -152,7 +152,9 @@ image:a-w-n-anthos-128-vsphere8-validation.png["该图显示输入/输出对话�
 
 要配置关联组，请参阅下面适用于您的 VMware vSphere 版本的相应链接。
 
-https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-resource-management/using-drs-clusters-to-manage-resources/using-vm-host-affinity-rules.html["vSphere 9.0 文档：使用 DRS 关联性规则"^].https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-resource-management/using-drs-clusters-to-manage-resources/using-vm-host-affinity-rules.html["vSphere 7.0 文档：使用 DRS 亲和力规则"^].
+* link:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/9-0/vsphere-resource-management/using-drs-clusters-to-manage-resources/using-vm-host-affinity-rules.html["vSphere 9.0 文档：使用 DRS 关联性规则"^]
+* link:https://techdocs.broadcom.com/us/en/vmware-cis/vsphere/vsphere/7-0/vsphere-resource-management/using-drs-clusters-to-manage-resources/using-vm-host-affinity-rules.html["vSphere 7.0 文档：使用 DRS 亲和力规则"^]
+
 
 
 NOTE: Anthos 在每个单独的 `cluster.yaml`文件自动创建节点亲和性规则，可以根据环境中的 ESXi 主机数量启用或禁用这些规则。

@@ -4,7 +4,7 @@ permalink: openshift/os-trident-protect.html
 keywords: data protection, DP, Trident Protect 
 summary:  
 ---
-= 使用Trident Protect 为容器应用和虚拟机提供数据保护
+= 使用 Trident Protect 为容器应用程序和虚拟机提供数据保护
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 

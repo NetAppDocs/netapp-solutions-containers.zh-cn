@@ -28,6 +28,7 @@ NOTE: F5 BIG-IP 系统可以部署在专用硬件上、云端或作为本地虚�
 
 
 
+[[validated-releases]]
 == 已验证版本
 
 该解决方案利用在 VMware vSphere 中部署的虚拟设备。根据您的网络环境，F5 Big-IP 虚拟设备的网络可以配置为双臂或三臂配置。本文档中的部署基于双臂配置。关于如何配置虚拟设备以与 Anthos 配合使用的详细信息，请参阅 https://cloud.google.com/solutions/partners/installing-f5-big-ip-adc-for-gke-on-prem["此处"]。
@@ -47,6 +48,7 @@ NetApp的解决方案工程团队已在我们的实验室中验证了下表中�
 |===
 
 
+[[installation]]
 == 安装
 
 要安装 F5 BIG-IP，请完成以下步骤：
@@ -133,6 +135,7 @@ image:big-ip-config-012.png["Big-IP 配置，第 12 部分"]
 
 
 
+[[integration-with-anthos]]
 == 与 Anthos 集成
 
 每个配置文件中都有一个部分，分别针对管理员集群和您选择部署的每个用户集群，以配置负载均衡器，以便由 Anthos On Prem 管理。

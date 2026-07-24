@@ -32,30 +32,35 @@ Trident的开发周期很快，和 Kubernetes 一样，每年发布四次。
 
 
 
+[[create-a-storage-system-backend]]
 == 创建存储系统后端
 
 完成Trident Operator 安装后，您必须为正在使用的特定NetApp存储平台配置后端。按照下面的链接继续设置和配置Trident。link:https://docs.netapp.com/us-en/trident/trident-use/backends.html["创建后端。"]
 
 
 
+[[create-a-storage-class]]
 == 创建存储类
 
 创建后端后，您必须创建一个存储类，Kubernetes 用户在需要卷时将指定该存储类。 Kubernetes 用户通过使用持久卷声明 (PVC) 来配置卷，通过名称指定存储类。按照下面的链接创建存储类。link:https://docs.netapp.com/us-en/trident/trident-use/create-stor-class.html["创建存储类"]
 
 
 
+[[dynamically-provision-a-volume]]
 == 动态配置卷
 
 您必须使用存储类创建 Kubernetes 持久卷声明 (PVC) 对象来动态配置卷。按照下面的链接创建一个 PVC 对象。link:https://docs.netapp.com/us-en/trident/trident-use/vol-provision.html["创建 PVC"]
 
 
 
+[[use-the-volume]]
 == 使用音量
 
 应用程序可以通过将上述步骤中配置的卷挂载到 pod 中来使用该卷。下面的链接显示了一个示例。link:https://docs.netapp.com/us-en/trident/trident-use/vol-provision.html#sample-manifests["将卷挂载到 Pod 中"]
 
 
 
+[[sample-provisioning]]
 == 示例配置
 
 link:anthos-trident-ontap-iscsi.html["iSCSI 协议的示例清单，window=_blank"]

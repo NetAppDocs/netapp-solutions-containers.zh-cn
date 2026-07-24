@@ -18,6 +18,7 @@ keywords: netapp, solutions, blogs
 
 
 
+[[openshift-deployment-and-integration]]
 == OpenShift 部署和集成
 
 * link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Simplifying-Trident-Installation-on-Red-Hat-OpenShift-with-the-New-Certified/ba-p/459710["使用新认证的Trident Operator 简化 Red Hat OpenShift 上的Trident安装"]
@@ -28,6 +29,7 @@ keywords: netapp, solutions, blogs
 
 
 
+[[data-protection-and-backup]]
 == 数据保护和备份
 
 * link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Crash-Consistent-Backup-and-Restore-Operations-for-OpenShift-Virtualization-VMs/ba-p/459417["使用Trident 25.02 对 OpenShift 虚拟化虚拟机进行崩溃一致性备份和恢复操作"]
@@ -36,6 +38,7 @@ keywords: netapp, solutions, blogs
 
 
 
+[[virtualization-and-vm-operations]]
 == 虚拟化和虚拟机操作
 
 * link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Live-Migration-of-VMs-with-OpenShift-Virtualization-on-ROSA-and-Amazon-FSx-for/ba-p/456213["使用 ROSA 上的 OpenShift 虚拟化和Amazon FSx for NetApp ONTAP实时迁移虚拟机"]
@@ -44,6 +47,7 @@ keywords: netapp, solutions, blogs
 
 
 
+[[storage-integration-and-performance]]
 == 存储集成和性能
 
 * link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Using-NVMe-TCP-to-consume-ONTAP-storage-for-your-modern-containerized-apps-on/ba-p/453706["使用 NVMe/TCP 在 VMware 上为现代容器化应用程序使用ONTAP存储"]
@@ -53,6 +57,7 @@ keywords: netapp, solutions, blogs
 
 
 
+[[kubernetes-and-vmware-ecosystem]]
 == Kubernetes 和 VMware 生态系统
 
 * link:https://blog.netapp.com/accelerate-your-k8s-journey["使用 VMware Tanzu 和ONTAP加速您的 Kubernetes 之旅"]

@@ -29,6 +29,7 @@ image:a-w-n-anthos-controlplanev2-vm-architecture.png["该图显示输入/输出
 
 
 
+[[benefits]]
 == 受益
 
 Anthos clusters on VMware 具有以下优势：
@@ -41,6 +42,7 @@ Anthos clusters on VMware 具有以下优势：
 
 
 
+[[vmware-vsphere]]
 == VMware vSphere
 
 VMware vSphere 是一个虚拟化平台，用于集中管理在 ESXi 虚拟机管理程序上运行的大量虚拟化服务器和网络。
@@ -57,16 +59,19 @@ VMware vSphere 提供以下功能：
 
 
 
+[[hardware-requirements]]
 == 硬件要求
 
 
 
+[[compute]]
 === 计算
 
 Google Cloud 会定期通过其 Anthos Ready 平台合作伙伴计划请求合作伙伴服务器平台使用新版本的 Anthos 进行更新验证。可以找到当前已验证的服务器平台和支持的 Anthos 版本的列表 https://cloud.google.com/anthos/docs/resources/partner-platforms["此处"^]。
 
 
 
+[[operating-system]]
 === 操作系统
 
 VMware 上的 Anthos 集群可以根据客户的选择部署到 vSphere 7 和 8 环境中，以帮助匹配其当前的数据中心基础架构。
@@ -81,6 +86,7 @@ VMware 上的 Anthos 集群可以根据客户的选择部署到 vSphere 7 和 8 
 |===
 
 
+[[additional-hardware]]
 === 附加硬件
 
 为了完成 Anthos 与NetApp的部署，使其成为经过全面验证的解决方案， NetApp和我们的合作伙伴工程师已经对用于网络和存储的其他数据中心组件进行了测试。
@@ -101,6 +107,7 @@ VMware 上的 Anthos 集群可以根据客户的选择部署到 vSphere 7 和 8 
 |===
 
 
+[[additional-software]]
 === 附加软件
 
 下表包括在验证环境中部署的软件版本列表。
@@ -120,6 +127,7 @@ image:a-w-n-anthos-128-vsphere8-validation.png["该图显示输入/输出对话�
 
 
 
+[[network-infrastructure-support-resources]]
 === 网络基础设施支持资源
 
 在部署 Anthos 之前，应具备以下基础设施：
@@ -132,18 +140,21 @@ image:a-w-n-anthos-128-vsphere8-validation.png["该图显示输入/输出对话�
 
 
 
+[[best-practices-for-production-deployments]]
 == 生产部署的最佳实践
 
 本节列出了组织在将此解决方案部署到生产中之前应考虑的几种最佳实践。
 
 
 
+[[deploy-anthos-to-an-esxi-cluster-of-at-least-three-nodes]]
 === 将 Anthos 部署到至少包含三个节点的 ESXi 集群
 
 虽然可以在少于三个节点的 vSphere 集群中安装 Anthos 以用于演示或评估目的，但不建议将其用于生产工作负载。虽然两个节点允许基本的 HA 和容错功能，但必须修改 Anthos 集群配置以禁用默认主机亲和性，并且 Google Cloud 不支持这种部署方法。
 
 
 
+[[configure-virtual-machine-and-host-affinity]]
 === 配置虚拟机和主机关联性
 
 通过启用虚拟机和主机亲和性，可以将 Anthos 集群节点分布在多个虚拟机管理程序节点上。

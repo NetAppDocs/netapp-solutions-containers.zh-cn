@@ -82,10 +82,12 @@ image:redhat-openshift-035.png["该图显示输入/输出对话框或表示书�
 
 
 
+[[netapp-platforms]]
 == NetApp平台
 
 
 
+[[netapp-afffas]]
 === NetApp AFF/ FAS
 
 NetApp提供强大的全闪存 (AFF) 和横向扩展混合 (FAS) 存储平台，这些平台具有低延迟性能、集成数据保护和多协议支持等特点。
@@ -96,6 +98,7 @@ NetApp提供强大的全闪存 (AFF) 和横向扩展混合 (FAS) 存储平台，
 
 
 
+[[ontap-select]]
 === ONTAP Select
 
 ONTAP Select是NetApp ONTAP的软件定义部署，可以部署到您环境中的虚拟机管理程序上。它可以安装在 VMware vSphere 或 KVM 上，并提供基于硬件的ONTAP系统的全部功能和体验。
@@ -104,6 +107,7 @@ ONTAP Select是NetApp ONTAP的软件定义部署，可以部署到您环境中�
 
 
 
+[[cloud-volumes-ontap]]
 === Cloud Volumes ONTAP
 
 NetApp Cloud Volumes ONTAP是NetApp ONTAP的云部署版本，可以部署在许多公共云中，包括 Amazon AWS、Microsoft Azure 和 Google Cloud。

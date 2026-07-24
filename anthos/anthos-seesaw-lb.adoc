@@ -20,6 +20,7 @@ Seesaw 是安装在 VMware Anthos Clusters 环境中（版本 1.6 至 1.10）的
 
 
 
+[[installing-the-seesaw-load-balancer]]
 == 安装 SeeSaw 负载均衡器
 
 SeeSaw 负载均衡器与 VMware 上的 Anthos Clusters 完全集成，并作为管理员和用户集群设置的一部分执行自动部署。有文本块 `cluster.yaml`必须修改配置文件以提供负载均衡器信息，然后在集群部署之前还有一个额外的步骤，使用内置的 `gkectl`工具。
@@ -29,6 +30,7 @@ NOTE: SeeSaw 负载均衡器可以以 HA 或非 HA 模式部署。为了进行�
 
 
 
+[[integration-with-anthos]]
 == 与 Anthos 集成
 
 每个配置文件中都有一个部分，分别用于管理员集群和您选择部署的每个用户集群，以配置负载均衡器，以便由 Anthos On-Prem 管理。

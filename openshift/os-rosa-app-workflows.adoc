@@ -18,6 +18,7 @@ summary: 借助NetApp ONTAP在 AWS 上提供 Red Hat OpenShift 服务
 
 
 
+[[create-volume-snapshot]]
 == 创建卷快照
 
 **1.创建应用程序卷的快照** 在本节中，我们将展示如何创建与应用程序关联的卷的 trident 快照。这将是应用程序数据的时间点副本。如果应用程序数据丢失，我们可以从该时间点的副本恢复数据。注意：此快照与ONTAP中的原始卷存储在同一个聚合中（本地或云端）。因此，如果ONTAP存储聚合丢失，我们就无法从其快照中恢复应用程序数据。
@@ -64,6 +65,7 @@ image:redhat-openshift-container-rosa-023.png["删除数据库"]
 
 
 
+[[restore-from-volume-snapshot]]
 == 从卷快照还原
 
 **1.从快照恢复** 在本节中，我们将展示如何从应用程序卷的 trident 快照恢复应用程序。
@@ -122,6 +124,7 @@ image:redhat-openshift-container-rosa-030.png["数据库已恢复"]
 
 
 
+[[demo-video]]
 == 演示视频
 
 .使用托管控制平面在 AWS 上将Amazon FSx for NetApp ONTAP与 Red Hat OpenShift 服务结合使用

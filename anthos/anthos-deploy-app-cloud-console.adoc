@@ -18,6 +18,7 @@ summary: 如何使用 Google Cloud Console 将应用程序部署到本地 Anthos
 
 
 
+[[prerequisites]]
 == 前提条件
 
 * 已在本地部署并在 Google Cloud Console 中注册的 Anthos 集群
@@ -28,6 +29,7 @@ summary: 如何使用 Google Cloud Console 将应用程序部署到本地 Anthos
 
 
 
+[[deploying-an-application]]
 == 部署应用程序
 
 对于此用例，我们使用 Google Cloud Console 将一个简单的 WordPress 应用程序部署到我们的一个 Anthos 集群。该部署使用NetApp ONTAP在预定义存储类中提供的持久存储。然后，我们演示了两种不同的方法来修改应用程序的默认服务，以便 MetalLB 负载均衡器为其提供 IP 地址并将其公开给全世界。
@@ -78,12 +80,14 @@ image:a-w-n-use-case-deploy-app-003.png["应用程序运行"]
 
 
 
+[[exposing-the-application]]
 == 公开应用程序
 
 应用程序部署后，您有两种方法可以为其分配一个全球可达的 IP。
 
 
 
+[[using-the-google-cloud-console]]
 === 使用 Google Cloud Console
 
 您可以使用 Google Cloud Console 公开应用程序，并在浏览器中编辑服务的 YAML 输出以设置可公开访问的 IP。为此，请执行以下步骤：
@@ -111,6 +115,7 @@ image:a-w-n-use-case-deploy-app-015.png["服务详情最终版"]
 
 
 
+[[patching-the-service-with-kubectl]]
 === 使用 Kubectl 修补服务
 
 您可以使用 CLI 和 `kubectl patch`命令来修改您的部署并设置可公开访问的 IP。为此，请完成以下步骤：
@@ -135,6 +140,7 @@ image:a-w-n-use-case-deploy-app-001.png["将服务修补为 LoadBalancer 类型"
 
 
 
+[[visit-the-application-at-the-exposed-external-ip]]
 == 在暴露的外部IP上访问应用程序
 
 现在您已经通过可公开访问的 IP 地址公开了应用程序，您可以使用浏览器访问您的 WordPress 实例。

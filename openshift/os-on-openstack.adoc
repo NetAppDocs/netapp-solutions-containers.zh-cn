@@ -24,6 +24,7 @@ OpenStack项目是一个快速发展的社区项目，每六个月提供一次�
 
 
 
+[[openstack-services]]
 == OpenStack服务
 
 OpenStack 平台服务以容器形式部署，从而将服务彼此隔离并实现轻松升级。 OpenStack 平台使用一组通过 Kolla 构建和管理的容器。服务的部署是通过从 Red Hat Custom Portal 提取容器镜像来执行的。这些服务容器使用 Podman 命令进行管理，并使用 Red Hat OpenStack Director 进行部署、配置和维护。
@@ -63,6 +64,7 @@ image:redhat-openshift-034.png["该图显示输入/输出对话框或表示书�
 |===
 
 
+[[network-design]]
 == 网络设计
 
 Red Hat OpenShift 与NetApp解决方案使用两个数据交换机以 25Gbps 提供主要数据连接。它还使用两个额外的管理交换机，以 1Gbps 的速度提供存储节点的带内管理连接以及 IPMI 功能的带外管理连接。
@@ -71,6 +73,7 @@ Red Hat OpenStack Director 需要 IPMI 功能来使用 Ironic 裸机配置服务
 
 
 
+[[vlan-requirements]]
 === VLAN 要求
 
 Red Hat OpenShift 与NetApp旨在通过使用虚拟局域网 (VLAN) 在逻辑上分离用于不同用途的网络流量。此配置可以扩展以满足客户需求或为特定网络服务提供进一步的隔离。下表列出了在NetApp验证解决方案时实施该解决方案所需的 VLAN。
@@ -108,6 +111,7 @@ Red Hat OpenShift 与NetApp旨在通过使用虚拟局域网 (VLAN) 在逻辑上
 |===
 
 
+[[network-infrastructure-support-resources]]
 === 网络基础设施支持资源
 
 在部署 OpenShift 容器平台之前，应具备以下基础设施：
@@ -119,12 +123,14 @@ Red Hat OpenShift 与NetApp旨在通过使用虚拟局域网 (VLAN) 在逻辑上
 
 
 
+[[best-practices-for-production-deployments]]
 == 生产部署的最佳实践
 
 本节列出了组织在将此解决方案部署到生产中之前应考虑的几种最佳实践。
 
 
 
+[[deploy-openshift-to-an-osp-private-cloud-with-at-least-three-compute-nodes]]
 === 将 OpenShift 部署到具有至少三个计算节点的 OSP 私有云
 
 本文档中描述的经过验证的架构通过部署三个 OSP 控制节点和两个 OSP 计算节点，提供了适合 HA 操作的最小硬件部署。该架构确保了容错配置，其中两个计算节点都可以启动虚拟实例，并且部署的虚拟机可以在两个虚拟机管理程序之间迁移。
@@ -133,6 +139,7 @@ Red Hat OpenShift 与NetApp旨在通过使用虚拟局域网 (VLAN) 在逻辑上
 
 
 
+[[configure-virtual-machinehost-affinity]]
 === 配置虚拟机/主机亲和性
 
 通过启用 VM/主机亲和性，可以将 OpenShift 主机分布在多个虚拟机管理程序节点上。
@@ -148,6 +155,7 @@ NOTE: OSP 服务器组存在特定的硬亲和性/反亲和性限制；如果没
 
 
 
+[[use-a-custom-install-file-for-openshift-deployment]]
 === 使用自定义安装文件进行 OpenShift 部署
 
 IPI 通过本文档前面讨论的交互式向导使 OpenShift 集群的部署变得简单。但是，您可能需要在集群部署过程中更改一些默认值。

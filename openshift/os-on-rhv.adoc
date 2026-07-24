@@ -31,12 +31,14 @@ image:redhat-openshift-003.png["该图显示输入/输出对话框或表示书�
 
 
 
+[[network-design]]
 == 网络设计
 
 NetApp解决方案上的 Red Hat OpenShift 使用两个数据交换机以 25Gbps 提供主要数据连接。它还使用两个额外的管理交换机，以 1Gbps 的速度提供存储节点的带内管理连接以及 IPMI 功能的带外管理。 OCP使用RHV上的虚拟机逻辑网络进行集群管理。本节介绍解决方案中使用的每个虚拟网段的安排和用途，并概述部署解决方案的先决条件。
 
 
 
+[[vlan-requirements]]
 === VLAN 要求
 
 RHV 上的 Red Hat OpenShift 旨在通过使用虚拟局域网 (VLAN) 在逻辑上分离用于不同目的的网络流量。此配置可以扩展以满足客户需求或为特定网络服务提供进一步的隔离。下表列出了在NetApp验证解决方案时实施该解决方案所需的 VLAN。
@@ -62,6 +64,7 @@ RHV 上的 Red Hat OpenShift 旨在通过使用虚拟局域网 (VLAN) 在逻辑�
 |===
 
 
+[[network-infrastructure-support-resources]]
 === 网络基础设施支持资源
 
 在部署 OpenShift 容器平台之前，应具备以下基础设施：
@@ -73,12 +76,14 @@ RHV 上的 Red Hat OpenShift 旨在通过使用虚拟局域网 (VLAN) 在逻辑�
 
 
 
+[[best-practices-for-production-deployments]]
 == 生产部署的最佳实践
 
 本节列出了组织在将此解决方案部署到生产中之前应考虑的几种最佳实践。
 
 
 
+[[deploy-openshift-to-an-rhv-cluster-of-at-least-three-nodes]]
 === 将 OpenShift 部署到至少三个节点的 RHV 集群
 
 本文档中描述的经过验证的架构通过部署两个 RHV-H 虚拟机管理程序节点并确保容错配置（其中两个主机都可以管理托管引擎并且部署的虚拟机可以在两个虚拟机管理程序之间迁移）提供了适合 HA 操作的最小硬件部署。
@@ -87,6 +92,7 @@ RHV 上的 Red Hat OpenShift 旨在通过使用虚拟局域网 (VLAN) 在逻辑�
 
 
 
+[[configure-virtual-machinehost-affinity]]
 === 配置虚拟机/主机亲和性
 
 您可以通过启用 VM/主机亲和性将 OpenShift 主机分布在多个虚拟机管理程序节点上。
@@ -99,6 +105,7 @@ RHV 上的 Red Hat OpenShift 旨在通过使用虚拟局域网 (VLAN) 在逻辑�
 
 
 
+[[use-a-custom-install-file-for-openshift-deployment]]
 === 使用自定义安装文件进行 OpenShift 部署
 
 IPI 通过本文档前面讨论的交互式向导使 OpenShift 集群的部署变得简单。但是，作为集群部署的一部分，可能需要更改一些默认值。

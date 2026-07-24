@@ -20,6 +20,7 @@ MetalLB 是安装在 OpenShift 集群上的自托管网络负载均衡器，允�
 
 
 
+[[metallb-configuration-options]]
 == MetalLB 配置选项
 
 根据 MetalLB 如何宣布分配给 OpenShift 集群之外的 LoadBalancer 服务的 IP 地址，它以两种模式运行：
@@ -33,6 +34,7 @@ NOTE: 为了本文档的目的，我们在第 2 层模式下配置 MetalLB。
 
 
 
+[[installing-the-metallb-load-balancer]]
 == 安装 MetalLB 负载均衡器
 
 . 下载 MetalLB 资源。

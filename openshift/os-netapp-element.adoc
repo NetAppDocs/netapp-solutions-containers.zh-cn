@@ -22,6 +22,7 @@ image:redhat-openshift-064.png["该图显示输入/输出对话框或表示书�
 
 
 
+[[iscsi-login-redirection-and-self-healing-capabilities]]
 == iSCSI 登录重定向和自我修复功能
 
 NetApp Element软件利用 iSCSI 存储协议，这是在传统 TCP/IP 网络上封装 SCSI 命令的标准方法。当 SCSI 标准发生变化或以太网性能提高时，iSCSI 存储协议将受益，而无需进行任何更改。
@@ -34,6 +35,7 @@ iSCSI 登录重定向是NetApp Element软件集群的关键部分。当收到主
 
 
 
+[[netapp-element-software-cluster-qos]]
 == NetApp Element软件集群 QoS
 
 NetApp Element软件集群允许根据每个卷动态配置 QoS。您可以使用每个卷的 QoS 设置根据您定义的 SLA 来控制存储性能。以下三个可配置参数定义 QoS：
@@ -45,6 +47,7 @@ NetApp Element软件集群允许根据每个卷动态配置 QoS。您可以使�
 
 
 
+[[multitenancy]]
 == 多租户
 
 安全多租户通过以下功能实现：
@@ -62,6 +65,7 @@ NetApp Element软件集群允许根据每个卷动态配置 QoS。您可以使�
 
 
 
+[[enterprise-storage-efficiencies]]
 == 企业存储效率
 
 NetApp Element软件集群提高了整体存储效率和性能。以下功能以内联方式执行，始终处于开启状态，并且不需要用户手动配置：

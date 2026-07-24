@@ -23,6 +23,7 @@ NOTE: Trident Protect 需要一个注册表来托管Astra容器所需的图像�
 
 
 
+[[creating-a-private-image-registry]]
 == 创建私有镜像仓库
 
 . 从当前默认存储类中删除默认注释，并将 Trident 支持的存储类注释为 OpenShift 集群的默认存储类。

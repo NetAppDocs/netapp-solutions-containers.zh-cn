@@ -18,12 +18,14 @@ keywords: Anthos, Kubernetes, MetalLB, LoadBalancer,
 
 
 
+[[installing-the-metallb-load-balancer]]
 == 安装 MetalLB 负载均衡器
 
 MetalLB 负载均衡器与 VMware 上的 Anthos Clusters 完全集成，并从 1.11 版本开始作为管理员和用户集群设置的一部分执行自动部署。相应的文本块 `cluster.yaml`您必须修改这些配置文件才能提供负载均衡器信息。它在您的 Anthos 集群上自托管，而不需要像其他受支持的负载均衡器解决方案那样部署外部资源。它还允许您创建一个 IP 池，该 IP 池会在不在云提供商上运行的集群中创建负载均衡器类型的 Kubernetes 服务时自动分配地址。
 
 
 
+[[integration-with-anthos]]
 == 与 Anthos 集成
 
 为 Anthos 管理员启用 MetalLB 负载均衡器时，您必须修改 `loadBalancer:`存在于 `admin-cluster.yaml`文件。您必须修改的唯一值是设置 `controlPlaneVIP:`地址，然后设置 `kind:`作为 MetalLB。请参阅以下代码片段作为示例：

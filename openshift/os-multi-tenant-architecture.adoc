@@ -24,6 +24,7 @@ image:redhat-openshift-040.png["Red Hat OpenShift 集群上的多租户功能，
 
 
 
+[[technology-requirements]]
 == 技术要求
 
 . NetApp ONTAP存储集群
@@ -33,6 +34,7 @@ image:redhat-openshift-040.png["Red Hat OpenShift 集群上的多租户功能，
 
 
 
+[[red-hat-openshift-cluster-resources]]
 == Red Hat OpenShift – 集群资源
 
 从 Red Hat OpenShift 集群的角度来看，首先要启动的顶级资源是项目。 OpenShift 项目可以看作是一个集群资源，它将整个 OpenShift 集群划分为多个虚拟集群。因此，项目级别的隔离为配置多租户提供了基础。
@@ -41,18 +43,21 @@ image:redhat-openshift-040.png["Red Hat OpenShift 集群上的多租户功能，
 
 
 
+[[netapp-ontap]]
 == NetApp ONTAP
 
 隔离作为 Red Hat OpenShift 集群的持久存储提供程序的共享存储非常重要，以确保在每个项目的存储上创建的卷对于主机来说就像是在单独的存储上创建的一样。为此，请在NetApp ONTAP上创建与项目或工作负载数量相同的 SVM（存储虚拟机），并将每个 SVM 专用于一个工作负载。
 
 
 
+[[trident]]
 == Trident
 
 在NetApp ONTAP上为不同的项目创建不同的 SVM 后，必须将每个 SVM 映射到不同的Trident后端。 Trident上的后端配置驱动持久存储到 OpenShift 集群资源的分配，并且需要映射到 SVM 的详细信息。这至少应该是后端的协议驱动程序。或者，它允许您定义如何在存储上配置卷，并为卷的大小或聚合的使用等设置限制。关于Trident后端定义的详细信息可以参见 https://docs.netapp.com/us-en/trident/trident-use/backends.html["此处"^]。
 
 
 
+[[red-hat-openshift-storage-resources]]
 == Red Hat OpenShift – 存储资源
 
 配置Trident后端后，下一步是配置 StorageClasses。配置与后端数量相同的存储类，为每个存储类提供仅在一个后端上启动卷的访问权限。我们可以在定义存储类时使用 storagePools 参数将 StorageClass 映射到特定的Trident后端。定义存储类的详细信息可以在这里找到 https://docs.netapp.com/us-en/trident/trident-use/manage-stor-class.html["此处"^]。因此，从 StorageClass 到Trident后端存在一对一映射，该映射指向一个 SVM。这可确保通过分配给该项目的 StorageClass 提出的所有存储声明均由专用于该项目的 SVM 提供服务。

@@ -18,6 +18,7 @@ Anthos with NetApp是一种经过验证的最佳实践混合云架构，用于�
 
 
 
+[[anthos]]
 == 安托斯
 
 Anthos 是一种混合云 Kubernetes 数据中心解决方案，使组织能够构建和管理现代混合云基础架构，同时采用专注于应用程序开发的敏捷工作流程。 Anthos on VMware 是一种基于开源技术的解决方案，在基于 VMware vSphere 的基础架构中本地运行，可以与 Google Cloud 中的 Anthos GKE 连接和互操作。采用容器、服务网格和其他转换技术使组织能够在本地和基于云的环境中体验一致的应用程序开发周期和可用于生产的工作负载。下图描述了 Anthos 解决方案以及本地数据中心中的部署如何与云中的基础架构互连。
@@ -37,10 +38,12 @@ image:a-w-n-anthos-architecture.png["该图显示输入/输出对话框或表示
 
 
 
+[[deployment-methods-for-anthos]]
 == Anthos 的部署方法
 
 
 
+[[anthos-clusters-on-vmware]]
 === VMware 上的 Anthos 集群
 
 对于大多数最终用户 Kubernetes 工作负载而言，部署到 VMware vSphere 环境的 Anthos 集群易于部署、维护和快速扩展。
@@ -49,6 +52,7 @@ image:a-w-n-anthos-architecture.png["该图显示输入/输出对话框或表示
 
 
 
+[[anthos-on-bare-metal]]
 === 裸机上的 Anthos
 
 部署在裸机服务器上的 Anthos 集群与硬件无关，并允许您选择针对个性化用例优化的计算平台。

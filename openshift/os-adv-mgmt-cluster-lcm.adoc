@@ -20,11 +20,11 @@ summary: NetApp助力 Red Hat OpenShift 上 Kubernetes 的高级集群管理
 +
 .. 创建提供商连接：导航到提供商连接并单击添加连接，提供与所选提供商类型相对应的所有详细信息，然后单击添加。
 +
-image:redhat-openshift-075.png["添加提供商连接"]
+image::redhat-openshift-075.png[添加提供商连接]
 
 .. 要创建新集群，请导航至“集群”，然后单击“添加集群”>“创建集群”。提供集群和相应提供程序的详细信息，然后单击“创建”。
 +
-image:redhat-openshift-076.png["添加集群"]
+image::redhat-openshift-076.png[添加集群]
 
 .. 集群创建完成后，出现在集群列表中，状态为Ready。
 
@@ -35,7 +35,7 @@ image:redhat-openshift-076.png["添加集群"]
 .. 输入集群名称，点击保存导入并生成代码。显示添加现有集群的命令。
 .. 单击“复制命令”，在要添加到中心集群的集群上运行该命令。这将启动集群上必要代理的安装，并且此过程完成后，集群将以“就绪”状态出现在集群列表中。
 +
-image:redhat-openshift-077.png["导入现有集群"]
+image::redhat-openshift-077.png[导入现有集群]
 
 
 

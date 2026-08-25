@@ -25,7 +25,7 @@ summary: 借助NetApp ONTAP在 AWS 上提供 Red Hat OpenShift 服务
 
 **一个。创建 VolumeSnapshotClass 将以下清单保存在名为volume-snapshot-class.yaml的文件中
 
-[source]
+[source, yaml]
 ----
 apiVersion: snapshot.storage.k8s.io/v1
 kind: VolumeSnapshotClass
@@ -36,11 +36,11 @@ deletionPolicy: Delete
 ----
 使用上述清单创建快照。
 
-image:redhat-openshift-container-rosa-020.png["快照类"]
+image::redhat-openshift-container-rosa-020.png[快照类]
 
 **b.接下来，创建一个快照**通过创建 VolumeSnapshot 来创建现有 PVC 的快照，以获取 Postgresql 数据的时间点副本。这会创建一个几乎不占用文件系统后端空间的 FSx 快照。将以下清单保存在名为volume-snapshot.yaml的文件中：
 
-[source]
+[source, yaml]
 ----
 apiVersion: snapshot.storage.k8s.io/v1
 kind: VolumeSnapshot
@@ -55,13 +55,13 @@ spec:
 
 删除数据库模拟数据丢失（数据丢失可能由于多种原因发生，这里我们只是通过删除数据库来模拟）
 
-image:redhat-openshift-container-rosa-021.png["卷快照"]
+image::redhat-openshift-container-rosa-021.png[卷快照]
 
 **d.删除数据库以模拟数据丢失（数据丢失可能由于多种原因而发生，这里我们只是通过删除数据库来模拟）**
 
-image:redhat-openshift-container-rosa-022.png["数据库连接"]
+image::redhat-openshift-container-rosa-022.png[数据库连接]
 
-image:redhat-openshift-container-rosa-023.png["删除数据库"]
+image::redhat-openshift-container-rosa-023.png[删除数据库]
 
 
 
@@ -74,7 +74,7 @@ image:redhat-openshift-container-rosa-023.png["删除数据库"]
 
 要将卷恢复到以前的状态，您必须根据所拍摄快照中的数据创建一个新的 PVC。为此，请将以下清单保存在名为 pvc-clone.yaml 的文件中
 
-[source]
+[source, yaml]
 ----
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -94,33 +94,33 @@ spec:
 ----
 使用上述清单，通过使用快照作为源创建 PVC 来创建卷的克隆。应用清单并确保创建克隆。
 
-image:redhat-openshift-container-rosa-024.png["从快照克隆 postgresql"]
+image::redhat-openshift-container-rosa-024.png[从快照克隆 postgresql]
 
 **b.删除原始的 postgresql 安装**
 
-image:redhat-openshift-container-rosa-025.png["postgresql应用程序删除"]
+image::redhat-openshift-container-rosa-025.png[postgresql应用程序删除]
 
 **c.使用新的克隆 PVC 创建新的 postgresql 应用程序**
 
-[source]
+[source, bash]
 ----
 $ helm install postgresql bitnami/postgresql --set primary.persistence.enabled=true --set primary.persistence.existingClaim=postgresql-volume-clone -n postgresql
 ----
-image:redhat-openshift-container-rosa-026.png["postgresql全新安装"]
+image::redhat-openshift-container-rosa-026.png[postgresql全新安装]
 
 **d.验证应用程序 pod 处于运行状态**
 
-image:redhat-openshift-container-rosa-027.png["postgresql全新安装"]
+image::redhat-openshift-container-rosa-027.png[postgresql全新安装]
 
 **e.验证 Pod 是否使用克隆作为其 PVC**
 
-image:redhat-openshift-container-rosa-028.png["postgresql新安装描述"]
+image::redhat-openshift-container-rosa-028.png[postgresql新安装描述]
 
-image:redhat-openshift-container-rosa-029.png["新的 pvc 是克隆"]
+image::redhat-openshift-container-rosa-029.png[新的 pvc 是克隆]
 
 f) 要验证数据库是否已按预期恢复，请返回容器控制台并显示现有数据库
 
-image:redhat-openshift-container-rosa-030.png["数据库已恢复"]
+image::redhat-openshift-container-rosa-030.png[数据库已恢复]
 
 
 

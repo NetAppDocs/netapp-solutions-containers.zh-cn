@@ -1,0 +1,19 @@
+---
+section: vsphere-kubernetes-service
+title: vSphere Kubernetes Service 与 NetApp 存储
+pdf-filename: vSphere Kubernetes Service 与 NetApp 存储
+entries:
+- title: 概述
+  pdf-filename: vSphere Kubernetes Service 与 NetApp 存储概述
+  url: "/vsphere-kubernetes-service/vks-overview.html"
+- title: 存储和 vSphere Kubernetes Service 入门
+  pdf-filename: 存储和 vSphere Kubernetes Service 入门
+  entries:
+  - title: 部署 vSphere Kubernetes 服务
+    url: "/vsphere-kubernetes-service/deploy-vks.html"
+  - title: NetApp 存储为 vSphere Kubernetes Service 工作负载带来的优势
+    url: "/vsphere-kubernetes-service/netapp-storage-vks.html"
+  - title: NetApp 存储配置（适用于 VKS 工作负载）
+    url: "/vsphere-kubernetes-service/install-trident.html"
+  - title: 使用 NetApp 存储部署 VKS 工作负载
+    url: "/vsphere-kubernetes-service/deploy-vks-workloads.html"

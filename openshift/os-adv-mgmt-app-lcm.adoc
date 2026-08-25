@@ -18,11 +18,11 @@ summary: NetApp助力 Red Hat OpenShift 上 Kubernetes 的高级集群管理
 
 . 从侧边栏导航到“管理应用程序”，然后单击“创建应用程序”。提供您想要创建的应用程序的详细信息，然后单击“保存”。
 +
-image:redhat-openshift-078.png["创建应用程序"]
+image::redhat-openshift-078.png[创建应用程序]
 
 . 应用程序组件安装完成后，该应用程序就会出现在列表中。
 +
-image:redhat-openshift-079.png["应用程序列表"]
+image::redhat-openshift-079.png[应用程序列表]
 
 . 现在可以从控制台监控和管理该应用程序。
 

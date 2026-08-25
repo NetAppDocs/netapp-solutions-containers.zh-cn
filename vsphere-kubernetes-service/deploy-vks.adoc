@@ -1,0 +1,216 @@
+---
+sidebar: sidebar 
+permalink: vsphere-kubernetes-service/deploy-vks.html 
+keywords: vks, cluster, install, worker nodes, iscsi, nvme, custom image 
+summary: 使用相应的工作节点配置，在 VCF 环境中安装 vSphere Kubernetes Service 集群。 
+---
+= 安装 vSphere Kubernetes Service 集群
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在 VCF 9.1 环境中安装 vSphere Kubernetes Service (VKS) 集群，并为工作负载配置具有适当存储实用程序的工作节点。
+
+.关于此任务
+NFS 实用程序会自动安装在您创建的集群的工作节点中。如果要创建安装了 iSCSI 或 NVMe 实用程序的工作节点，则必须创建自定义 OVA 映像，并将该映像用于工作节点。可以使用 Docker 创建自定义映像，然后可以使用 `vcf`命令行工具从此映像创建 OVA 文件。此 OVA 文件可以上传到 vSphere 中的内容库。创建 VKS 集群时，可以为节点池选择内容库中的此映像。
+
+.步骤
+. 创建 VKS 集群：
++
+您可以使用默认工作节点映像或自定义映像创建 VKS 集群。默认工作节点映像包含预安装的 NFS 实用程序，而自定义映像可以包含 iSCSI 和 NVMe 实用程序。以下选项可用：
+
++
+** *仅 NAS（默认）：* 使用默认工作节点映像创建 VKS 集群，其中包括预安装的 NFS 实用程序。
+** *启用 SAN（自定义映像）：* 创建包含 iSCSI 和 NVMe 实用程序的自定义 Docker 映像，使用 `vcf`命令行工具生成 OVA 文件，将 OVA 上传到 vSphere 内容库，然后创建 VKS 集群，为节点池选择该自定义映像。
++
+.显示使用默认工作节点映像创建仅限 NAS 的 vSphere Kubernetes Service 集群的说明
+[%collapsible]
+====
+使用默认工作节点映像创建 VKS 集群。按照提示指定集群名称、节点池配置和其他设置。
+
+从 vSphere 客户端转到要创建 vSphere Kubernetes 集群的命名空间。在该命名空间的*资源*选项卡上，单击 Kubernetes 部分中的*创建集群*，或单击*转到服务*，然后单击*创建集群*。
+
+使用集群详细信息填写表格：
+
+*** 在第 1 部分的*配置类型*中，选择*自定义*。
+*** 在第 2 部分的 *General Settings* 中，提供集群的名称，并将所有其他设置保留为默认值。
+*** 接受第 3 节的所有默认值。
+*** 在第 4 部分，*节点池*中，单击节点池旁边的省略号（……），然后单击*编辑*。将副本增加到 3 个，并为操作系统映像选择最新的 Ubuntu 版本。单击*下一步*，然后单击*查看并确认*。
+
+
+查看集群详细信息后，单击 *完成*。vSphere Kubernetes 集群将在几分钟后创建。
+
+image::vks-create-001.png[vCenter 中的命名空间]
+
+image::vks-create-002.png[创建集群配置类型]
+
+image::vks-create-003.png[创建集群常规设置]
+
+image::vks-create-004.png[创建集群控制平面]
+
+image::vks-create-005.png[创建集群节点池]
+
+image::vks-create-006.png[创建集群完成]
+
+image::vks-create-007.png[集群创建完成]
+
+====
++
+.显示为启用 SAN 的工作节点创建自定义 OVA 映像的说明
+[%collapsible]
+====
+创建一个安装了所需实用程序的 Docker 镜像。以下示例演示了如何基于 Ubuntu 24.04 创建安装了 iSCSI 和多路径实用程序的 Docker 镜像。
+
+[source, docker]
+----
+#san-dockerfile.txt
+FROM ubuntu:24.04
+# Prevent interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+# Install required system packages for iSCSI and Multipathing
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    nvme-cli \
+    kmod \
+    linux-tools-common \
+    open-iscsi \
+    lsscsi \
+    sg3-utils \
+    multipath-tools \
+    scsitools  \
+    chrony \
+    networkd-dispatcher &&\
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+# Set iSCSI session scanning to manual as required by Trident
+RUN sed -i 's/^\(node.session.scan\).*/\1 = manual/' /etc/iscsi/iscsid.conf
+# Configure device-mapper-multipath with Trident recommendations
+RUN printf "defaults {\n    user_friendly_names yes\n    find_multipaths no\n}\n" > /etc/multipath.conf
+RUN mkdir -p /etc/networkd-dispatcher/off.d /etc/networkd-dispatcher/routable.d/
+CMD ["bash"]
+----
+使用以下命令构建 Docker 镜像：
+
+[source, docker]
+----
+docker build -f san-dockerfile.txt -t ubuntu-2404:san .
+----
+如果 Docker 注册表不可用，请运行此命令以启动本地注册表并将镜像推送到本地注册表：
+
+[source, docker]
+----
+docker run -d -p 5000:5000 --restart=always --name registry registry:2
+----
+标记并推送图片。
+
+[source, docker]
+----
+docker tag ubuntu-2404:san localhost:5000/ubuntu-2404:san
+docker push localhost:5000/ubuntu-2404:san
+----
+创建映像配置文件（另存为 `ubuntu2404vkr135-san.yml`）并引用映像：
+
+[source, yaml]
+----
+#ubuntu2404vkr135-san.yml
+apiVersion: imageconfiguration.vmware.com/v1alpha1
+kind: Image
+metadata:
+    name: ubuntu-2404-amd64-v1.35.5---vmware.1-vkr.1
+spec:
+    osSpec:
+        name: ubuntu
+        version: "24.04"
+        image: "localhost:5000/ubuntu-2404:san"
+    kubernetesSpec:
+        image: projects.packages.broadcom.com/vsphere/iaas/kubernetes-release/1.35.5/kubernetes-distribution-image:v1.35.5_vmware.1-vkr.1
+    diskSize: 20Gi
+    repositorySpec:
+        debs:
+            - name: noble
+              url: http://archive.ubuntu.com/ubuntu
+              suites:
+                  - noble
+              components:
+                  - main
+                  - restricted
+                  - universe
+                  - multiverse
+            - name: noble-security
+              url: http://security.ubuntu.com/ubuntu
+              suites:
+                  - noble-security
+              components:
+                  - main
+                  - restricted
+                  - universe
+                  - multiverse
+    packages:
+      present:                  # Packages to install
+        - name: open-iscsi
+        - name: lsscsi
+        - name: sg3-utils
+        - name: multipath-tools
+        - name: scsitools
+        - name: nvme-cli
+    services:
+      - name: multipath-tools.service
+        status: enabled
+      - name: open-iscsi.service
+        status: enabled
+----
+
+NOTE: 元数据名称应为预先批准列表中的名称。如果不是，则在尝试创建 OVA 文件时会出现如下所示的错误。预先批准的列表可在 `kr bake`命令的 VCF CLI 帮助中找到。
+
+image::vks-006.png[元数据名称未在预先批准列表中时出错]
+
+使用 VCF CLI 创建 OVA 文件：
+
+[source, cli]
+----
+vcf kr bake -f <path/to/ubuntu2404vkr135-san.yml> --log-level DEBUG --log-format plain
+----
+使用 SCP 将 OVA 文件传输到计算机，您可以从该计算机将其上传到 vSphere 内容库。
+
+====
+
+
+. 安装集群后，在 vCenter 中找到它并下载 kubeconfig 文件。
++
+.. 单击主菜单中的 *Supervisor Management*，然后选择创建集群的命名空间。
+.. 选择 *Compute* 选项卡，然后选择 *Kubernetes Clusters*。将显示命名空间中的所有集群。
+.. 转到 *Resources* 选项卡，选择所需的 Kubernetes 集群，然后下载其 kubeconfig 文件。
++
+image::vks-001.png[vCenter 中的 Supervisor Management 菜单]
+
++
+image::vks-002.png[vCenter 中的 Kubernetes 集群列表]
+
++
+image::vks-003.png[资源选项卡]
+
++
+image::vks-004.png[集群的 kubeconfig 下载]
+
+
+
+. 从 bastion 主机，使用 kubeconfig 文件连接到集群，以便从 CLI 对其进行管理。
++
+image::vks-005.png[使用 kubeconfig 通过 CLI 连接到 VKS 集群]
+
+
+
+
+
+[[video-demonstration]]
+== 视频演示
+
+以下视频演示如何创建 vSphere Kubernetes 集群。
+
+.在 Supervisor 集群上创建 vSphere Kubernetes 集群
+video::4ef64b3c-7a68-41d5-bacf-b4a8012b49f8[panopto,width=360]

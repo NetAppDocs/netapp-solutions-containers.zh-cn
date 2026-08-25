@@ -1,0 +1,323 @@
+---
+sidebar: sidebar 
+permalink: vsphere-kubernetes-service/deploy-vks-workloads.html 
+keywords: postgresql, deployment, pvc, ontap-nas, iscsi, container application 
+summary: 使用具有 NAS 或 SAN 协议的 NetApp ONTAP 持久存储在 VKS 集群中部署容器化应用程序。 
+---
+= 部署具有 NetApp 永久存储的容器应用程序
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 NetApp ONTAP 持久化存储在您的 vSphere Kubernetes Service 集群中部署容器化应用程序。以下示例演示了如何使用 NAS (ontap-nas) 或 SAN iSCSI (ontap-san) 存储部署 PostgreSQL 数据库。
+
+以下 YAML 配置直接在清单中设置 POSTGRES_USER / POSTGRES_PASSWORD。在生产环境中，建议使用 Kubernetes Secrets 来管理数据库凭据等敏感信息。
+
+[role="tabbed-block"]
+====
+.使用 NAS 存储部署 PostgreSQL（ontap-nas 驱动程序）
+--
+您可以部署由 ontap-nas 驱动程序配置的 NFS 永久卷支持的 PostgreSQL 容器应用程序。以下示例演示如何为 PostgreSQL 创建 PersistentVolumeClaim（PVC）和 Deployment。
+
+[source, yaml]
+----
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+spec:
+  storageClassName: sc-nas # Specify the StorageClass for dynamic provisioning
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      securityContext:
+        fsGroup: 999  # Ensures proper permissions for the mounted volume (PostgreSQL default user is 999)
+      containers:
+        - name: postgres
+          image: postgres:15
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 999  # PostgreSQL default user ID
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+          env:
+            - name: POSTGRES_DB
+              value: "postgres"
+            - name: POSTGRES_USER
+              value: "<username>"
+            - name: POSTGRES_PASSWORD
+              value: "<password>"
+            - name: PGDATA
+              value: "/var/lib/postgresql/data/pgdata"
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-storage
+              subPath: postgres-data  # Ensures data is stored in a subdirectory to avoid permission issues
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: postgres
+----
+--
+.使用 SAN 存储部署 PostgreSQL（ontap-san iSCSI 驱动程序）
+--
+使用以下 YAML 部署由 ontap-san 驱动程序配置的 iSCSI 永久卷支持的 PostgreSQL 容器应用程序。The `Recreate` 部署策略确保 Pod 在新 Pod 启动之前完全终止，这是 ReadWriteOnce iSCSI 卷所需的，并防止 Pod 重新启动时出现数据损坏。此配置支持跨 Pod 删除和重新创建的数据持久性，并与 Trident 卷快照以及备份和还原操作兼容。
+
+[source, yaml]
+----
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-block-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: sc-iscsi # Must map to an ontap-san driver
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-block-app
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      # 1. POD LEVEL SECURITY CONTEXT
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999       # Official Postgres image default user ID
+        runAsGroup: 999      # Official Postgres image default group ID
+        fsGroup: 999
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: postgres
+          image: postgres:15
+          # 2. CONTAINER LEVEL SECURITY CONTEXT
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          env:
+            - name: POSTGRES_DB
+              value: "postgres"
+            - name: POSTGRES_USER
+              value: "<username>"
+            - name: POSTGRES_PASSWORD
+              value: "<password>"
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          ports:
+            - containerPort: 5432
+              name: postgres
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-block-storage
+              subPath: postgres-data
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+      volumes:
+        - name: postgres-block-storage
+          persistentVolumeClaim:
+            claimName: postgres-block-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: postgres
+----
+--
+====
+
+
+[[validate-the-database-deployment]]
+== 验证数据库部署
+
+部署应用程序后，请验证 pod 是否处于运行状态以及数据库是否可操作。使用以下命令检查 Pod、PVC 和服务的状态。确保 Pod 正在运行，并且 PVC 已绑定到相应的卷。
+
+[source, bash]
+----
+kubectl get all -n <namespace>
+kubectl get pvc -n <namespace>
+----
+image::vks-workload-001.png[使用永久存储部署的工作负载]
+
+根据使用的协议，后端存储是卷、qtree 或 LUN。您可以通过描述 PersistentVolume（PV）来检索内部卷名称，然后在 ONTAP CLI 命令中使用它来获取存储详细信息，从而验证在 ONTAP 系统中配置的存储。使用以下命令来描述 PV 并检索内部卷名称：
+
+[source, bash]
+----
+kubectl describe pv/<pv-name>
+----
+.显示示例
+image::vks-workload-002.png[NAS 卷的内部卷名称]
+
+image::vks-workload-003.png[SAN LUN 的内部卷名称]
+
+从输出中复制内部卷名，并运行以下命令以从 ONTAP CLI 获取存储详细信息。
+
+对于 NAS 卷：
+
+[source, cli]
+----
+volume show -vserver <vserver> -volume <internal-volume-name>
+----
+image::vks-workload-004.png[NAS 卷的 ONTAP 命令行界面输出]
+
+对于 SAN LUN，运行以下命令从 ONTAP CLI 获取 LUN 详细信息：
+
+[source, cli]
+----
+lun show -vserver <vserver> -volume <internal-volume-name>
+----
+image::vks-workload-005.png[SAN LUN 的 ONTAP CLI 输出]
+
+如果在 NAS 或 NAS Economy 存储类中使用了 `nconnect`挂载选项，则可以验证从工作节点到存储服务器的活动 TCP 连接数。
+
+首先，列出 Trident 后端配置以查找后端名称，然后对其进行描述以检索 vserver 名称和数据 LIF：
+
+[source, bash]
+----
+kubectl get tbc -n trident
+kubectl describe tbc <backend-name> -n trident
+----
+然后登录到 ONTAP 集群并运行以下命令，替换上面输出的数据 LIF：
+
+[source, cli]
+----
+network connections active show -local-address <data-lif> -local-port 2049
+----
+.显示示例
+image::vks-workload-006.png[活动连接的 ONTAP 命令行界面输出]
+
+Pod 处于运行状态后，连接到数据库并验证数据操作。
+
+.步骤
+. 将 PostgreSQL 服务端口转发到本地计算机：
++
+[source, bash]
+----
+kubectl port-forward svc/postgres-service 5432:5432 -n <namespace>
+----
+. 从不同的终端，使用 psql 连接到数据库：
++
+[source, bash]
+----
+psql "postgresql://<username>:<password>@127.0.0.1:5432/postgres"
+----
+. 创建数据库和表，然后使用数据填充表：
++
+[source, sql]
+----
+CREATE DATABASE employee;
+----
++
+切换到新数据库（psql 元命令）：
+
++
+[source, bash]
+----
+\c employee
+----
++
+创建表，插入一行，并查询结果：
+
++
+[source, sql]
+----
+CREATE TABLE employees (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    department VARCHAR(50),
+    hire_date DATE DEFAULT CURRENT_DATE,
+    salary NUMERIC(10, 2)
+);
+
+INSERT INTO employees (first_name, last_name, email, department, salary)
+VALUES ('John', 'Doe', 'john.doe@example.com', 'Engineering', 85000.00);
+
+SELECT * FROM employees;
+----
+
+
+
+
+[[video-demonstration]]
+== 视频演示
+
+以下视频演示在 vSphere Kubernetes 集群上安装 Trident，以及使用 Trident 部署具有持久存储的 PostgreSQL 数据库。
+
+.使用 Trident 持久存储部署 ONTAP 工作负载
+video::eb8bd0c0-a1fe-4288-a575-b4ac00e004a9[panopto,width=360]

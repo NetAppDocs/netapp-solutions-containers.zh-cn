@@ -16,9 +16,9 @@ summary: NetApp Element软件提供模块化、可扩展的性能，每个存储
 [role="lead"]
 NetApp Element软件提供模块化、可扩展的性能，每个存储节点都为环境提供有保证的容量和吞吐量。  NetApp Element系统可以在单个集群中从 4 个节点扩展到 100 个节点，并提供许多高级存储管理功能。
 
-image:redhat-openshift-064.png["该图显示输入/输出对话框或表示书面内容"]
+image::redhat-openshift-064.png[该图显示输入/输出对话框或表示书面内容]
 
-有关NetApp Element存储系统的更多信息，请访问 https://www.netapp.com/data-storage/solidfire/["NetApp Solidfire 网站"^]。
+有关 NetApp Element 存储系统的详细信息，请访问 link:https://www.netapp.com/data-storage/solidfire/["NetApp Solidfire 网站"^]。
 
 
 

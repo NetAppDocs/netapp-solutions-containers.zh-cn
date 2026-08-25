@@ -29,7 +29,7 @@ OpenStack项目是一个快速发展的社区项目，每六个月提供一次�
 
 OpenStack 平台服务以容器形式部署，从而将服务彼此隔离并实现轻松升级。 OpenStack 平台使用一组通过 Kolla 构建和管理的容器。服务的部署是通过从 Red Hat Custom Portal 提取容器镜像来执行的。这些服务容器使用 Podman 命令进行管理，并使用 Red Hat OpenStack Director 进行部署、配置和维护。
 
-image:redhat-openshift-034.png["该图显示输入/输出对话框或表示书面内容"]
+image::redhat-openshift-034.png[该图显示输入/输出对话框或表示书面内容]
 
 [cols="15%, 15%, 70%"]
 |===

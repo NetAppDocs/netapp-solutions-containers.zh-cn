@@ -58,7 +58,7 @@ NetApp提供强大的全闪存 (AFF) 和横向扩展混合 (FAS) 存储平台，
 
 这两种系统均采用NetApp ONTAP数据管理软件，这是业界最先进的数据管理软件，具有高可用性、云集成、简化的存储管理，可提供数据结构所需的企业级速度、效率和安全性。
 
-有关 NETAPP AFF和FAS平台的更多信息，请单击 https://docs.netapp.com/platstor/index.jsp["此处"]。
+有关 NetApp AFF 和 FAS 平台的详细信息，请参见 link:https://docs.netapp.com/platstor/index.jsp["NetApp 硬件平台文档"^]。
 
 
 
@@ -67,7 +67,7 @@ NetApp提供强大的全闪存 (AFF) 和横向扩展混合 (FAS) 存储平台，
 
 ONTAP Select是NetApp ONTAP的软件定义部署，可以部署到您环境中的虚拟机管理程序上。它可以安装在 VMware vSphere 或 KVM 上，并提供基于硬件的ONTAP系统的全部功能和体验。
 
-有关ONTAP Select的更多信息，请单击 https://docs.netapp.com/us-en/ontap-select/["此处"]。
+有关 ONTAP Select 的详细信息，请参见 link:https://docs.netapp.com/us-en/ontap-select/["ONTAP Select 文档"^]。
 
 
 
@@ -76,4 +76,4 @@ ONTAP Select是NetApp ONTAP的软件定义部署，可以部署到您环境中�
 
 NetApp Cloud Volumes ONTAP是NetApp ONTAP的云部署版本，可部署在许多公共云中，包括：Amazon AWS、Microsoft Azure 和 Google Cloud。
 
-有关Cloud Volumes ONTAP 的更多信息，请单击 https://docs.netapp.com/us-en/occm/#discover-whats-new["此处"]。
+有关 Cloud Volumes ONTAP 的详细信息，请参见 link:https://docs.netapp.com/us-en/occm/#discover-whats-new["Cloud Volumes ONTAP 文档"^]。

@@ -22,3 +22,9 @@ indexpage:
       url: openshift-videos.html#automation-and-integration
     - title: 云和混合集成
       url: openshift-videos.html#cloud-and-hybrid-integrations
+  - title: vSphere Kubernetes Service 与 NetApp 存储
+    links:
+    - title: 结合 NetApp 存储部署 vSphere Kubernetes Service
+      url: vks-videos.html#deploying-a-vsphere-kubernetes-service-cluster-with-netapp-storage
+    - title: 使用 NetApp 存储部署 vSphere Kubernetes Service 工作负载
+      url: vks-videos.html#deploying-workloads-with-ontap-persistent-storage-using-trident

@@ -46,9 +46,9 @@ NetApp解决方案上的 Red Hat OpenShift 使用两个数据交换机以 25Gbps
 
 下图描述了 IPI 部署期间和部署完成后的环境。
 
-image:redhat-openshift-036.png["该图显示输入/输出对话框或表示书面内容"]
+image::redhat-openshift-036.png[该图显示输入/输出对话框或表示书面内容]
 
-image:redhat-openshift-037.png["该图显示输入/输出对话框或表示书面内容"]
+image::redhat-openshift-037.png[该图显示输入/输出对话框或表示书面内容]
 
 
 

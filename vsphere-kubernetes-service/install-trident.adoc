@@ -1,0 +1,543 @@
+---
+sidebar: sidebar 
+permalink: vsphere-kubernetes-service/install-trident.html 
+keywords: trident, install, helm, operator, vks, storage provisioner 
+summary: 在 vSphere Kubernetes Service 集群中安装 NetApp Trident 以启用动态存储置备。 
+---
+= 在 VKS 集群中安装 NetApp Trident
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+在您的 vSphere Kubernetes Service 集群中安装 NetApp Trident 作为动态存储置备程序，以将 NetApp ONTAP 存储与您的 Kubernetes 工作负载相集成。
+
+.开始之前
+* 确保您的 ONTAP 集群已配置并连接到 VMware Kubernetes 环境。
+* 如果您的工作负载将使用这些协议进行存储，请确保您的 VKS 集群已安装 iSCSI 或 NVMe 工具。
+* 请确保您已在可以使用 kubeconfig 文件连接到 VKS 集群的计算机上安装 `kubectl`。
++
+image::vks-004.png[从 Resources 选项卡下载 kubeconfig]
+
+
+
+.步骤
+. 按照 Trident 文档中的说明，使用 Helm chart 安装 Trident Operator：
++
+link:https://docs.netapp.com/us-en/trident/trident-install/kubernetes-deploy-helm.html["https://docs.netapp.com/us-en/trident/trident-install/kubernetes-deploy-helm.html"^]
+
++
+.显示示例
+[%collapsible]
+====
+[source, cli]
+----
+helm install trident netapp-trident/trident-operator --version 100.2606.0 --create-namespace --namespace trident --kubeconfig=/path/to/your-kubeconfig-file
+----
+要启用调试日志记录，请添加 `--set tridentDebug=true`：
+
+[source, cli]
+----
+helm install trident netapp-trident/trident-operator --version 100.2606.0 --create-namespace --namespace trident --set tridentDebug=true --kubeconfig=/path/to/your-kubeconfig-file
+----
+====
++
+
+NOTE: 您也可以使用 Trident Operator 手动安装 Trident。查看 Trident 文档中的步骤：link:https://docs.netapp.com/us-en/trident/trident-install/kubernetes-deploy-operator.html["手动部署 Trident Operator"^]
+
+. 确认所有 Trident Pod 都在集群中运行。
++
+.显示示例
+[%collapsible]
+====
+[source, cli]
+----
+kubectl get pods -n trident
+----
+
+NOTE: 此时可能无法创建 Trident Pod。如果您描述 ReplicaSet 对象，您可能会看到有关违反 PodSecurity 的错误，如下所示。此错误的原因是，在安装过程中创建的 `trident`命名空间强制执行 Kubernetes 受限 Pod 安全标准 (PSS)。Trident Operator 需要提升的系统权限来管理主机存储，无法在受限配置文件的严格约束下运行。要解决此问题，请为 `trident`命名空间授予特权配置文件，以便 ReplicaSet 控制器能够成功启动 Pod。
+
+[source, text]
+----
+Warning  FailedCreate  25s (x5 over 64s)  replicaset-controller  (combined from similar events): Error creating: pods "trident-operator-5cbf7f857-z7ztd" is forbidden: violates PodSecurity "restricted:latest": allowPrivilegeEscalation != false (container "trident-operator" must set securityContext.allowPrivilegeEscalation=false), unrestricted capabilities (container "trident-operator" must set securityContext.capabilities.drop=["ALL"]), runAsNonRoot != true (pod or container "trident-operator" must set securityContext.runAsNonRoot=true), seccompProfile (pod or container "trident-operator" must set securityContext.seccompProfile.type to "RuntimeDefault" or "Localhost")
+----
+将内置的 Kubernetes Pod Security Admission 标签应用于 `trident`命名空间，以将其从受限配置文件约束中豁免：
+
+[source, cli]
+----
+kubectl label namespace trident pod-security.kubernetes.io/enforce=privileged --overwrite
+kubectl label namespace trident pod-security.kubernetes.io/audit=privileged --overwrite
+kubectl label namespace trident pod-security.kubernetes.io/warn=privileged --overwrite
+----
+[source, cli]
+----
+kubectl get pods -n trident
+----
+image::vks-trident-install-001.png[安装Trident]
+
+====
+
+
+
+
+[[prepare-storage-backend-and-storageclass-configuration-files-for-your-environment]]
+== 为您的环境准备存储后端和 StorageClass 配置文件
+
+. 通过定义必要的连接详细信息和存储参数，为 ONTAP 配置 Trident 后端。
+. 在 Kubernetes 中定义映射到 NetApp 存储后端的存储类。这些类指定性能特征和复制策略等参数。
++
+根据工作负载的要求，为以下协议定义 Trident 后端和存储类：
+
++
+** NAS（ontap-nas 驱动程序）
+** NAS Economy（ontap-nas-economy driver）
+** 用于 iSCSI、FC 或 NVMe 协议的 SAN（ontap-san 驱动程序）
+** 适用于 iSCSI 的 SAN Economy（ontap-san-economy 驱动程序）
++
+[role="tabbed-block"]
+====
+.NAS
+--
+为 ONTAP NAS 创建 TridentBackendConfig 和 StorageClass，以启用基于 NFS 的持久存储配置。后端配置包括存储在 Kubernetes Secret 中的凭据，并引用您的 ONTAP SVM 和管理 LIF。
+
+使用用户名和密码身份验证（另存为 `tbc-nas.yaml`）的后端密钥和后端配置文件示例：
+
+[source, yaml]
+----
+# tbc-nas.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tbc-nas-secret
+  namespace: trident
+type: Opaque
+data:
+  username: "<base64-encoded cluster admin username>"
+  password: "<base64-encoded cluster admin password>"
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: tbc-nas
+  namespace: trident
+spec:
+  version: 1
+  storageDriverName: ontap-nas
+  managementLIF: <ONTAP management LIF>
+  backendName: tbc-nas
+  svm: <your SVM name>
+  storagePrefix: <your prefix for all volume names created using this backend configuration>
+  defaults:
+    nameTemplate: "{{ .config.StoragePrefix }}_{{ .volume.Namespace }}_{{ .volume.RequestName }}"
+  credentials:
+    name: tbc-nas-secret
+----
+使用客户端证书身份验证的后端密钥和后端配置文件示例（另存为 `tbc-nas.yaml`）：
+
+[source, yaml]
+----
+# tbc-nas.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ontap-nas-secret
+  namespace: trident
+type: Opaque
+stringData:
+  clientPrivateKey: <client private key value>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: tbc-nas
+  namespace: trident
+spec:
+  version: 1
+  storageDriverName: ontap-nas
+  managementLIF: <ONTAP management LIF>
+  backendName: tbc-nas
+  svm: <your SVM name>
+  storagePrefix: <your prefix for all volume names created using this backend configuration>
+  credentials:
+    name: ontap-nas-secret
+  clientCertificate: <client certificate>
+----
+StorageClass 定义（另存为 `sc-nas.yaml`）：
+
+[NOTE]
+====
+`mountOptions` 是一个可选参数，用于指定 NFS 卷的其他挂载选项。该  `nconnect` 选项允许单个 NFS 挂载使用多个并行 TCP 连接，从而提高高吞吐量工作负载的性能。默认值为 1，但可以增加到 ONTAP 系统允许的最大值。
+
+ONTAP 支持在支持 nconnect 的客户端上的单个 NFS 挂载最多 16 个连接。Trident 将挂载选项直接传递给 Kubernetes 工作节点，因此请选择工作节点 NFS 客户端和 ONTAP 均支持的值；以下示例使用四个连接。
+
+====
+[source, yaml]
+----
+# sc-nas.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: sc-nas
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-nas"
+  media: "ssd"
+  provisioningType: "thin"
+  snapshots: "true"
+allowVolumeExpansion: true
+mountOptions:
+- nconnect=4
+----
+--
+.NAS Economy
+--
+创建 TridentBackendConfig 和 StorageClass，以便为 ONTAP NAS Economy 驱动程序启用使用 qtree 的基于 NFS 的持久存储配置。后端配置包括存储在 Kubernetes Secret 中的凭据，并引用您的 ONTAP SVM 和管理 LIF。
+
+使用用户名和密码身份验证（另存为 `tbc-nas-economy.yaml`）的后端密钥和后端配置文件示例：
+
+[source, yaml]
+----
+# tbc-nas-economy.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: tbc-nas-economy-secret
+  namespace: trident
+type: Opaque
+data:
+  username: "<base64-encoded cluster admin username>"
+  password: "<base64-encoded cluster admin password>"
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: tbc-nas-economy
+  namespace: trident
+spec:
+  version: 1
+  storageDriverName: ontap-nas-economy
+  managementLIF: <ONTAP management LIF>
+  backendName: tbc-nas-eco
+  svm: <your SVM name>
+  storagePrefix: <your prefix for all volume names created using this backend configuration>
+  defaults:
+    nameTemplate: "{{ .config.StoragePrefix }}_{{ .volume.Namespace }}_{{ .volume.RequestName }}"
+  credentials:
+    name: tbc-nas-economy-secret
+----
+StorageClass 定义（另存为 `sc-nas-economy.yaml`）：
+
+[source, yaml]
+----
+# sc-nas-economy.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: sc-nas-economy
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-nas-economy"
+  media: "ssd"
+  provisioningType: "thin"
+allowVolumeExpansion: true
+mountOptions:
+- nconnect=4
+----
+--
+.iSCSI SAN
+--
+为使用 iSCSI 的 ONTAP SAN 创建 TridentBackendConfig 和 StorageClass，以启用基于 iSCSI 的块存储配置。后端配置使用 ontap-san 驱动程序，并包含存储在 Kubernetes Secret 中的凭据。如果省略， `sanType` 参数默认为 iSCSI 协议。
+
+后端 secret 和后端配置文件使用用户名和密码身份验证（另存为 `tbc-iscsi.yaml`）：
+
+[source, yaml]
+----
+# tbc-iscsi.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-tbc-ontap-iscsi-secret
+  namespace: trident
+type: Opaque
+data:
+  username: "<base64-encoded cluster admin username>"
+  password: "<base64-encoded cluster admin password>"
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: ontap-iscsi
+  namespace: trident
+spec:
+  version: 1
+  storageDriverName: ontap-san
+  managementLIF: <ONTAP management LIF>
+  backendName: ontap-iscsi
+  svm: <your SVM name>
+  credentials:
+    name: backend-tbc-ontap-iscsi-secret
+----
+使用客户端证书身份验证的后端 secret 和后端配置文件（另存为 `tbc-iscsi.yaml`）：
+
+[source, yaml]
+----
+# tbc-iscsi.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-tbc-ontap-iscsi-secret
+  namespace: trident
+type: Opaque
+stringData:
+  clientPrivateKey: <client private key>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: ontap-iscsi
+  namespace: trident
+spec:
+  version: 1
+  storageDriverName: ontap-san
+  managementLIF: <ONTAP management LIF>
+  backendName: ontap-iscsi
+  svm: <your SVM name>
+  credentials:
+    name: backend-tbc-ontap-iscsi-secret
+  clientCertificate: <client certificate>
+----
+StorageClass 定义（另存为 `sc-iscsi.yaml`）：
+
+[source, yaml]
+----
+# sc-iscsi.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: sc-iscsi
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-san"
+  media: "ssd"
+  provisioningType: "thin"
+  fsType: ext4
+  snapshots: "true"
+allowVolumeExpansion: true
+----
+--
+.NVMe SAN
+--
+为使用 NVMe 的 ONTAP SAN 创建 TridentBackendConfig 和 StorageClass，以启用基于 NVMe 的块存储配置。后端配置使用 ontap-san 驱动程序，并包含存储在 Kubernetes Secret 中的凭据。 `sanType` 参数必须设置为  `nvme`。
+
+后端 secret 和后端配置文件使用用户名和密码身份验证（另存为 `tbc-nvme.yaml`）：
+
+[source, yaml]
+----
+# tbc-nvme.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-tbc-ontap-nvme-secret
+  namespace: trident
+type: Opaque
+data:
+  username: "<base64-encoded cluster admin username>"
+  password: "<base64-encoded cluster admin password>"
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: ontap-nvme
+  namespace: trident
+spec:
+  version: 1
+  storageDriverName: ontap-san
+  sanType: nvme
+  managementLIF: <ONTAP management LIF>
+  backendName: ontap-nvme
+  svm: <your SVM name>
+  credentials:
+    name: backend-tbc-ontap-nvme-secret
+----
+使用客户端证书身份验证的后端 secret 和后端配置文件（另存为 `tbc-nvme.yaml`）：
+
+[source, yaml]
+----
+# tbc-nvme.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-tbc-ontap-nvme-secret
+  namespace: trident
+type: Opaque
+stringData:
+  clientPrivateKey: <client private key>
+---
+apiVersion: trident.netapp.io/v1
+kind: TridentBackendConfig
+metadata:
+  name: ontap-nvme
+  namespace: trident
+spec:
+  version: 1
+  storageDriverName: ontap-san
+  sanType: nvme
+  managementLIF: <ONTAP management LIF>
+  backendName: ontap-nvme
+  svm: <your SVM name>
+  credentials:
+    name: backend-tbc-ontap-nvme-secret
+  clientCertificate: <client certificate>
+----
+StorageClass 定义（另存为 `sc-nvme.yaml`）：
+
+[source, yaml]
+----
+# sc-nvme.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: sc-nvme
+provisioner: csi.trident.netapp.io
+parameters:
+  backendType: "ontap-san"
+  media: "ssd"
+  provisioningType: "thin"
+  fsType: ext4
+  snapshots: "true"
+allowVolumeExpansion: true
+----
+--
+====
+
+
+
+
+查看 Trident 文档，了解 YAML 文件的其他示例以及有关 SAN 驱动程序和 NAS 驱动程序支持的访问模式和卷模式的信息。
+
+* link:https://docs.netapp.com/us-en/trident/trident-use/ontap-nas.html["使用 NAS 驱动程序的示例"^]
+* link:https://docs.netapp.com/us-en/trident/trident-use/ontap-san.html["使用 SAN 驱动程序的示例"^]
+
+
+
+
+[[create-a-volumesnapshotclass-configuration-file]]
+== 创建 VolumeSnapshotClass 配置文件
+
+创建 VolumeSnapshotClass 定义。此配置为永久卷启用基于快照的操作。
+
+VolumeSnapshotClass 定义（另存为 `snapshot-class.yaml`）：
+
+[source, yaml]
+----
+# snapshot-class.yaml
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: trident-snapshotclass
+driver: csi.trident.netapp.io
+deletionPolicy: Retain
+----
+
+
+[[apply-the-configuration-files-to-your-cluster]]
+== 将配置文件应用于集群
+
+使用 `kubectl`将前面步骤中创建的配置文件应用到 vSphere Kubernetes Service 集群。这会在集群中创建必要的机密、后端配置、存储类和快照类。
+
+.步骤
+. 为您配置的每个协议应用 TridentBackendConfig 和 StorageClass 文件。
++
+[source, bash]
+----
+kubectl apply -f tbc-nas.yaml -n trident
+kubectl apply -f sc-nas.yaml
+
+kubectl apply -f tbc-nas-economy.yaml -n trident
+kubectl apply -f sc-nas-economy.yaml
+
+kubectl apply -f tbc-iscsi.yaml -n trident
+kubectl apply -f sc-iscsi.yaml
+
+kubectl apply -f tbc-nvme.yaml -n trident
+kubectl apply -f sc-nvme.yaml
+
+kubectl apply -f snapshot-class.yaml
+----
+. 验证资源是否已成功创建。
++
+检查 TridentBackendConfig 对象：
+
++
+[source, bash]
+----
+kubectl get tbc -n trident
+----
++
+检查 StorageClass 对象：
+
++
+[source, bash]
+----
+kubectl get storageclass
+----
++
+检查 VolumeSnapshotClass：
+
++
+[source, bash]
+----
+kubectl get volumesnapshotclass
+----
+
+
+
+
+[[set-the-default-trident-storage-and-snapshot-classes]]
+== 设置默认 Trident 存储和快照类
+
+将 Trident StorageClass 和 VolumeSnapshotClass 设置为 vSphere Kubernetes Service 集群中的默认值。
+
+.步骤
+. 设置默认 Trident StorageClass。
++
+将 Trident 支持的 StorageClass 设置为集群默认值，以便在未指定存储类时 PersistentVolumeClaims 自动使用它。
+
++
+确保仅将一个 StorageClass 设置为默认值。如果另一个 StorageClass 已设置为默认值，则将其注释设置为 `false`。
+
++
+从 CLI：
+
++
+[source, bash]
+----
+kubectl patch storageclass <storage class name> -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+----
+. 设置默认 Trident VolumeSnapshotClass。
++
+将 Trident 支持的 VolumeSnapshotClass 设置为集群默认值，为持久卷启用基于快照的操作。这可确保在未指定快照类时，VolumeSnapshots 自动使用 Trident CSI 驱动程序。
+
++
+确保仅将一个 VolumeSnapshotClass 设置为默认值。如果另一个 VolumeSnapshotClass 已设置为默认值，则将其注释设置为 `false`。
+
++
+从 CLI：
+
++
+[source, bash]
+----
+kubectl patch volumesnapshotclass <snapshot class name> --type=merge -p '{"metadata":{"annotations":{"snapshot.storage.kubernetes.io/is-default-class":"true"}}}'
+----
+
+
+
+
+[[use-kubernetes-persistent-volume-claims-to-request-storage-for-workloads]]
+== 使用 Kubernetes 持久卷声明请求工作负载的存储
+
+Trident 会自动从后端 NetApp 存储配置必要的卷。有关在 VKS 集群中使用 PVC 部署工作负载的示例，请参阅 link:deploy-vks-workloads.html["使用永久存储部署工作负载"]。

@@ -1,0 +1,134 @@
+---
+sidebar: sidebar 
+permalink: vsphere-kubernetes-service/netapp-storage-vks.html 
+keywords: netapp, ONTAP, trident, persistent storage, kubernetes, vks 
+summary: 了解将 NetApp ONTAP 存储与 vSphere Kubernetes Service 工作负载结合使用的主要优势。 
+---
+= 了解适用于 vSphere Kubernetes Service 的 NetApp 存储
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 NetApp 作为 vSphere Kubernetes 服务 (VKS) 的存储是一种强大的组合，它利用 NetApp 强大的存储解决方案来增强 Kubernetes 工作负载的性能、可扩展性和可靠性。NetApp Trident 是 Kubernetes 的开源动态存储配置程序，用于将存储与 vSphere Kubernetes 服务上的工作负载集成。
+
+
+
+[[key-benefits-of-using-netapp-storage-with-vks]]
+== 将 NetApp 存储与 VKS 配合使用的主要优势
+
+. *动态存储配置：* NetApp Trident 允许动态配置存储卷，使 Kubernetes Pod 能够根据其需求即时请求存储。
+. *永久存储：* NetApp 解决方案提供永久存储功能，确保 Pod 重启和故障期间的数据持久性和可用性。
+. *高性能：* NetApp 的存储解决方案，如 ONTAP，提供低延迟的高性能存储，非常适合在 Kubernetes 上运行的 I/O 密集型应用程序。
+. *可扩展性：* NetApp 存储系统可以扩展以满足不断增长的 Kubernetes 工作负载的需求，支持大规模部署。
+. *数据管理：* NetApp 提供高级数据管理功能，包括快照、克隆和数据复制，这有助于备份、灾难恢复和开发工作流程。
+. *多云和混合云支持：* NetApp 的存储解决方案可以部署到本地、公共云和混合云环境中，提供存储管理的灵活性和一致性。
+
+
+
+
+[[netapp-ontap-integration-overview]]
+== NetApp ONTAP 集成概述
+
+NetApp ONTAP 提供具有重复数据删除、数据压缩和加密等功能的企业级存储。您可以使用 NetApp Trident 将 NetApp 存储与 Kubernetes 集成。NetApp Trident 支持各种 NetApp 存储平台，包括本地 ONTAP、AWS 中的 FSx for NetApp ONTAP、Azure 中的 Azure NetApp Files 以及 Google Cloud 中的 Google Cloud NetApp Volumes。
+
+您可以使用 Trident Protect 处理 Kubernetes 工作负载的数据保护和灾难恢复。Trident Protect 允许您在不同的存储后端创建快照、克隆和复制数据，以确保您的数据在出现故障时是安全且可恢复的。
+
+
+
+[[key-features-of-trident]]
+=== Trident 的主要功能
+
+**CSI 合规性** 确保与最新的 Kubernetes 存储功能和标准兼容。**声明性配置** 允许用户在 YAML 文件中定义存储要求，然后由 Trident 自动管理。**驱动程序** Trident 支持 ONTAP 所支持的 NFS、CIFS/SMB、iSCSI、FC 和 NVMe/TCP 协议的驱动程序。**混合云和多云支持** Trident 支持本地 ONTAP 存储及超大规模云服务商中托管存储服务的驱动程序，即 AWS 中的 FSx for NetApp ONTAP、Azure 中的 Azure NetApp Files 以及 Google Cloud 中的 Google Cloud NetApp Volumes。**高级数据管理** 利用 ONTAP 的快照和克隆功能，实现高效的数据保护以及测试和开发环境的快速配置。
+
+有关 Trident 的完整详细信息，请参阅 link:https://docs.netapp.com/us-en/trident/["Trident 文档"^]。
+
+
+
+[[trident-protect]]
+== Trident Protect
+
+Trident Protect 与 Trident 分开安装。在部署之前，请验证您的 Kubernetes 平台、存储后端、快照组件和对象存储是否满足 link:https://docs.netapp.com/us-en/trident/trident-protect/trident-protect-requirements.html["Trident Protect 要求"^]。
+
+
+
+[[key-features-of-trident-protect]]
+=== Trident Protect 的主要功能
+
+**自动备份** Trident Protect 支持 Kubernetes 应用程序的自动化、策略驱动备份，确保在无需手动干预的情况下定期备份。
+
+**快照管理** 它利用 ONTAP 的快照功能来创建容器应用程序和虚拟机的频繁时间点副本，提供可靠的恢复机制。
+
+**备份存储库加密** Trident Protect 支持 Restic 和 Kopia 备份存储库的基于密码的加密。在存储和网络层中分别配置持久卷和传输中加密。
+
+**合规性和审计** 提供工具和功能，帮助组织满足合规性要求并对其数据保护实践进行定期审计。
+
+**灾难恢复** 与 ONTAP 的复制功能集成，提供强大的灾难恢复解决方案，即使在发生灾难性事件时也能确保业务连续性。
+
+有关 Trident Protect 的完整详细信息，请参阅 link:https://docs.netapp.com/us-en/trident/trident-protect/learn-about-trident-protect.html["Trident Protect 文档"^]。
+
+
+
+[[netapp-ontap-hardware-models-and-protocols-supported]]
+== 支持的 NetApp ONTAP 硬件型号和协议
+
+NetApp ONTAP 软件运行在各种硬件型号上，每种型号都旨在满足不同的性能和容量要求。Trident 扩展了其强大的功能，以支持各种 NetApp ONTAP 系统，包括全闪存 FAS (AFF)、全 SAN 阵列 (ASA) 和 ASA R2 系统。这种支持可确保组织能够在容器化环境中充分利用其高性能存储解决方案的潜力。
+
+**全闪存 FAS (AFF) 系统** AFF 系统提供卓越的性能和低延迟，使其成为高需求应用的理想选择。
+
+**All SAN Array (ASA) Systems** ASA 系统专为专用 SAN 环境而设计，可提供强大的性能和可靠性。
+
+**ASA R2 Systems** ASA R2 系统为 SAN 环境提供了增强的特性和功能。
+
+**AFX** NetApp AFX 是一种专为企业 AI 工作负载设计的专用、分解式全闪存存储架构。它提供高性能 NAS，允许独立扩展计算和容量。NetApp AFX 存储系统在存储层的实现方面与其他基于 ONTAP 的系统（ASA、AFF 和 FAS）有所不同。AFX 使用分布式文件系统，可实现高性能和可扩展性，而其他基于 ONTAP 的系统则使用传统的存储架构。
+
+. AFF 支持的协议：NFS、CIFS/SMB、iSCSI、FC、NVMe/TCP
+. ASA 支持的协议：iSCSI、FC、NVMe/TCP
+. ASA R2 支持的协议：iSCSI、FC、NVMe/TCP
+. AFX 支持的协议：从 Trident 25.10 开始，仅支持 NFS 协议；不支持 SMB 协议。
+
+
+
+
+[[trident-drivers-for-ontap-storage]]
+== 适用于 ONTAP 存储的 Trident 驱动程序
+
+Trident 包括以下 CSI 驱动程序，每个驱动程序都能够在后端存储中配置卷。
+
+
+
+[[for-nas-protocols-on-supported-hardware-models]]
+=== 对于支持的硬件型号上的 NAS 协议
+
+. ontap-nas：一个 PVC 映射到一个 PV，这是一个专用 FlexVol volume。
+. ontap-nas-economy：配置的每个 PV 都是一个 qtree，每个 FlexVol volume 具有可配置的 qtree 数量（默认值为 200，可在 50 到 300 之间配置）。
++
+一个 PVC 映射到一个 PV，即共享 FlexVol 卷上的 qtree。
+
+
+
+
+NOTE: 您可以将虚拟机的所有磁盘作为 qtree 放在单个卷中。但是，请注意，Snapshots、Clones 和 Replication 功能不受 Trident 支持。当这些功能由存储管理员管理时，它们不具有 PV 粒度。
+
+. ontap-nas-flexgroup：配置的每个 PV 都是一个完整的 ONTAP FlexGroup，并使用分配给 SVM 的所有聚合。
+
+
+
+
+[[for-san-protocols-on-supported-hardware-models]]
+=== 对于支持的硬件型号上的 SAN 协议
+
+. ontap-san：一个 PVC 映射到一个 PV，即专用 FlexVol volume 上的 LUN。
+. ontap-san-economy：一个 PVC 映射到一个 PV，这是共享 FlexVol volume 上的 LUN。共享 FlexVol volume 中可以有多个 LUN（默认值为 100，每个 FlexVol volume 可配置 50 到 200 个 LUN/PV）。
+
+
+
+NOTE: 您可以将虚拟机的所有磁盘作为 LUN 放置在单个卷中。但是，此驱动程序支持快照和克隆，但不支持复制。当复制由存储管理员管理时，它不是 PV 粒度的。
+
+image::vks-trident-storage-001.png[适用于 ONTAP 存储的 Trident 驱动程序]
+
+有关通过 Trident 驱动程序公开的功能以及必须由存储管理员应用的功能的完整列表，请参阅 Trident 文档中的link:https://docs.netapp.com/us-en/trident/trident-reco/integrate-trident.html#ontap-backend-drivers["ONTAP 后端驱动程序"^]部分。

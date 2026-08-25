@@ -26,7 +26,7 @@ VMware vSphere 提供以下功能：
 * *分布式资源调度程序 (DRS)* 可以配置 VMware vSphere 集群以平衡其托管的虚拟机的资源需求。存在资源争用的虚拟机可以热迁移到集群中的其他节点，以确保有足够的资源可用。
 
 
-image:redhat-openshift-033.png["该图显示输入/输出对话框或表示书面内容"]
+image::redhat-openshift-033.png[该图显示输入/输出对话框或表示书面内容]
 
 
 

@@ -18,10 +18,10 @@ summary: NetApp提供了许多产品来帮助我们的客户在基于容器的�
 
 Trident 是一个由 NetApp 维护的开源存储配置器和编排器，连同其附加组件 NetApp Trident Protect，为在 Red Hat OpenShift 等基于容器的环境中编排和管理持久性数据提供强大的解决方案。
 
-image:redhat-openshift-108.png["该图显示输入/输出对话框或表示书面内容"]
+image::redhat-openshift-108.png[该图显示输入/输出对话框或表示书面内容]
 
 以下页面包含有关NetApp产品的更多信息，这些产品已在 Red Hat OpenShift with NetApp解决方案中经过应用程序和持久存储管理验证：
 
-* link:https://docs.netapp.com/us-en/trident/["Trident文档"]
-* link:https://docs.netapp.com/us-en/trident/trident-protect/learn-about-trident-protect.html["Trident Protect 文档"]
+* link:https://docs.netapp.com/us-en/trident/["Trident文档"^]
+* link:https://docs.netapp.com/us-en/trident/trident-protect/learn-about-trident-protect.html["Trident Protect 文档"^]
 

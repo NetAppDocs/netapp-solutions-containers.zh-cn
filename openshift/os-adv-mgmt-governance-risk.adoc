@@ -19,10 +19,10 @@ summary: NetApp助力 Red Hat OpenShift 上 Kubernetes 的高级集群管理
 . 从侧边栏导航至“治理和风险”。
 . 要创建合规性策略，请单击创建策略，输入策略标准的详细信息，然后选择应遵守此策略的集群。如果您想自动纠正违反此策略的行为，请选中“如果支持则强制执行”复选框，然后单击“创建”。
 +
-image:redhat-openshift-080.png["创建合规性策略"]
+image::redhat-openshift-080.png[创建合规性策略]
 
 . 配置所有必需的策略后，可以从高级集群管理中监控和修复任何策略或集群违规行为。
 +
-image:redhat-openshift-081.png["政策监控"]
+image::redhat-openshift-081.png[政策监控]
 
 

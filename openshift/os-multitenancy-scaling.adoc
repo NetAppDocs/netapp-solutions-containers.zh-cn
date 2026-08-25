@@ -20,24 +20,27 @@ summary: 使用NetApp在 Red Hat OpenShift 上配置多租户
 . 导航至 `Storage -> Storage VMs`并点击 `Add`。创建一个专用于 project-3 的新 SVM。还要创建一个 vsadmin 帐户来管理 SVM 及其资源。
 
 
-image:redhat-openshift-042.png["创建 SVM 进行缩放"]
+image::redhat-openshift-042.png[创建 SVM 进行缩放]
 
 . 以集群管理员身份登录 Red Hat OpenShift 集群。
 . 创建新项目。
-+
-[source, console]
+
+
+[listing]
 ----
 oc create ns project-3
 ----
 . 确保在 IdP 上创建了 project-3 的用户组并与 OpenShift 集群同步。
-+
-[source, console]
+
+
+[listing]
 ----
 oc get groups
 ----
 . 为 project-3 创建开发人员角色。
-+
-[source, console]
+
+
+[listing]
 ----
 cat << EOF | oc create -f -
 apiVersion: rbac.authorization.k8s.io/v1
@@ -93,13 +96,12 @@ rules:
 EOF
 ----
 
-
-
 NOTE: 本节提供的角色定义仅仅是一个示例。必须根据最终用户的要求来定义开发人员的角色。
 
 . 为 project-3 中的开发人员创建 RoleBinding，将 development-project-3 角色绑定到 project-3 中相应的组（ocp-project-3）。
-+
-[source, console]
+
+
+[listing]
 ----
 cat << EOF | oc create -f -
 kind: RoleBinding
@@ -119,8 +121,9 @@ EOF
 ----
 . 以存储管理员身份登录 Red Hat OpenShift 集群
 . 创建Trident后端并将其映射到专用于 project-3 的 SVM。  NetApp建议使用 SVM 的 vsadmin 帐户将后端连接到 SVM，而不是使用ONTAP集群管理员。
-+
-[source, console]
+
+
+[listing]
 ----
 cat << EOF | tridentctl -n trident create backend -f
 {
@@ -136,16 +139,15 @@ cat << EOF | tridentctl -n trident create backend -f
 EOF
 ----
 
-
-
 NOTE: 我们在此示例中使用 ontap-nas 驱动程序。根据用例使用适当的驱动程序创建后端。
 
 
 NOTE: 我们假设Trident已安装在 trident 项目中。
 
 . 为 project-3 创建存储类并将其配置为使用专用于 project-3 的后端存储池。
-+
-[source, console]
+
+
+[listing]
 ----
 cat << EOF | oc create -f -
 apiVersion: storage.k8s.io/v1
@@ -159,8 +161,9 @@ parameters:
 EOF
 ----
 . 创建 ResourceQuota 来限制 project-3 中的资源从专用于其他项目的存储类中请求存储。
-+
-[source, console]
+
+
+[listing]
 ----
 cat << EOF | oc create -f -
 kind: ResourceQuota
@@ -175,10 +178,10 @@ spec:
 EOF
 ----
 . 修补其他项目中的 ResourceQuotas，以限制这些项目中的资源访问专用于 project-3 的存储类的存储。
-+
-[source, console]
+
+
+[listing]
 ----
 oc patch resourcequotas project-1-sc-rq -n project-1 --patch '{"spec":{"hard":{ "project-3-sc.storageclass.storage.k8s.io/persistentvolumeclaims": 0}}}'
 oc patch resourcequotas project-2-sc-rq -n project-2 --patch '{"spec":{"hard":{ "project-3-sc.storageclass.storage.k8s.io/persistentvolumeclaims": 0}}}'
 ----
-

@@ -26,6 +26,6 @@ Red Hat Advanced Cluster Management for Kubernetes 使您能够执行以下任�
 
 Red Hat Advanced Cluster Management for Kubernetes 作为 Red Hat OpenShift 集群的附加组件安装，并使用该集群作为其所有操作的中央控制器。该集群称为中心集群，它为用户公开了一个管理平面以连接到高级集群管理。通过高级集群管理控制台导入或创建的所有其他 OpenShift 集群均由中心集群管理，并称为托管集群。它在托管集群上安装了一个名为 Klusterlet 的代理，将它们连接到中心集群，并满足与集群生命周期管理、应用程序生命周期管理、可观察性和安全合规性相关的不同活动的请求。
 
-image:redhat-openshift-065.png["ACM 架构"]
+image::redhat-openshift-065.png[ACM 架构]
 
-有关详细信息，请参阅文档 https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.2/["此处"]。
+有关详细信息，请参见 link:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.2/["Red Hat Advanced Cluster Management 文档"^]。

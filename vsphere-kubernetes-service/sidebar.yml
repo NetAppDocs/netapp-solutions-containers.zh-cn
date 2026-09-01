@@ -17,3 +17,10 @@ entries:
     url: "/vsphere-kubernetes-service/install-trident.html"
   - title: 使用 NetApp 存储部署 VKS 工作负载
     url: "/vsphere-kubernetes-service/deploy-vks-workloads.html"
+- title: 数据保护
+  pdf-filename: 数据保护
+  entries:
+  - title: 使用 NetApp Console 备份和还原
+    url: "/vsphere-kubernetes-service/backup-restore-console.html"
+  - title: 使用 Trident Protect 进行备份和还原
+    url: "/vsphere-kubernetes-service/backup-restore-trident-protect.html"

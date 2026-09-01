@@ -1,0 +1,196 @@
+---
+sidebar: sidebar 
+permalink: vsphere-kubernetes-service/backup-restore-console.html 
+keywords: vks, vSphere Kubernetes Service, VCF, Trident, NetApp ONTAP, NetApp Console, Backup and Recovery, data protection, container application protection, ONTAP S3 
+summary: 通过 NetApp Console 使用 NetApp Backup and Recovery Service 备份和还原 VKS 集群中的容器应用程序。 
+---
+= 使用 NetApp Console 备份和恢复 vSphere Kubernetes Service 集群中的容器应用程序
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+使用 NetApp Console 备份和恢复 vSphere Kubernetes Service (VKS) 集群中的容器应用程序。本程序涵盖了通过 NetApp Console 的备份和恢复服务创建和管理备份与恢复操作，并使用 ONTAP S3 对象存储作为备份目标。
+
+NetApp Console 提供跨本地和云环境的存储和数据服务的集中管理。它提供统一控制、操作简便和安全管理。可从以下用户界面访问多种数据服务和管理功能：link:https://console.netapp.com["console.netapp.com"^]。有关 NetApp Console 的完整详细信息，请参阅 link:https://docs.netapp.com/us-en/console-family/["NetApp Console 文档"]。
+
+本节重点介绍 Kubernetes 工作负载的 NetApp Backup and Recovery 数据服务，特别是 vSphere Kubernetes Service 集群上的容器应用程序。NetApp Backup and Recovery Service 使您能够使用单个界面发现、管理、创建保护策略并将其与 Kubernetes 应用程序相关联。有关完整指南，请参阅 link:https://docs.netapp.com/us-en/data-services-backup-recovery/br-use-kubernetes-protect-overview.html["NetApp Backup and Recovery 文档"]。
+
+
+
+[[backup-and-recovery-workflow]]
+== 备份和恢复工作流程
+
+. *确保您拥有 Console 代理*
++
+确保在运行 VKS 集群的环境中部署了 Console 代理。有关安装 Console 代理的详细信息，请参见 link:https://docs.netapp.com/us-en/console-setup-admin/task-install-agent-on-prem-ova.html#install-a-console-agent-in-your-vcenter-environment["NetApp Console Setup 文档"]。
+
++
+.显示示例
+[%collapsible]
+====
+在 NetApp Console 中，单击 Deploy Agent（如屏幕截图所示），然后在运行 VKS 集群的环境中部署代理。
+
+在此示例中，选择 *本地 > 使用 OVA*，复制 OVA URL，然后在 vCenter 中使用该 URL 部署控制台代理。
+
+使用 URL 中代理的 IP 地址进行注册。有关详细说明，请参阅 link:https://docs.netapp.com/us-en/console-setup-admin/task-install-agent-on-prem-ova.html["文档"]。代理注册后，您可以在 NetApp Console 中看到它，如下面的屏幕截图所示。
+
+image::vks-console-br-001.png[控制台代理安装]
+
+image::vks-console-br-002.png[使用代理安装程序 URL]
+
+====
+. *将 ONTAP 集群添加到 NetApp Console 并启用 Backup and Recovery*
++
+必须先将主 ONTAP 集群添加到 NetApp Console 并在其上启用 Backup and Recovery 服务，然后才能保护工作负载。有关说明，请参见 link:https://docs.netapp.com/us-en/data-services-backup-recovery/br-start-setup.html["设置 NetApp Backup and Recovery"]。
+
+. *在 NetApp Console 中，发现 vSphere Kubernetes 集群*
++
+.显示示例
+[%collapsible]
+====
+此步骤要求 vSphere Kubernetes 集群处于运行状态，且 Console 代理已部署在同一环境中。请按照以下步骤在 NetApp Console 中发现 vSphere Kubernetes 集群。
+
+.. 在 NetApp Console 中，选择 *Inventory > Kubernetes*，并提供 vSphere Kubernetes 集群的详细信息。
+.. 选择在 vSphere Kubernetes 集群所在的相同环境中部署的代理。
+.. 复制提供的命令以安装 Trident Protect，并从连接到 vSphere Kubernetes 集群的计算机运行这些命令。
+.. Trident Protect 安装成功后，单击 *Discover*。NetApp Console 通过代理发现 vSphere Kubernetes 集群及其所有资源，并将其填充到 UI 中。
+
+
+image::vks-console-br-007.png[发现 vSphere Kubernetes 集群]
+
+image::vks-console-br-008.png[安装 Trident Protect，然后单击 Discover]
+
+image::vks-console-br-009.png[Trident Protect 安装完成]
+
+image::vks-console-br-010.png[在 NetApp Console 中已发现 vSphere Kubernetes 集群]
+
+====
+. *将 ONTAP S3 设置为备份目标*
++
+在此示例中，我们使用 ONTAP S3 对象存储作为备份目标。您还可以使用 AWS S3、Azure Blob、Google Cloud Storage 或 StorageGRID 作为备份目标。
+
++
+有关其他详细信息，请查看 link:https://docs.netapp.com/us-en/data-services-backup-recovery/br-start-setup.html#prepare-the-backup-destination["NetApp Console 文档"]。
+
++
+要将 ONTAP S3 添加为 NetApp Console 中的备份目标，您需要从 ONTAP 集群中获取以下信息。
+
++
+[listing]
+----
+S3 Endpoint:
+Access Key:
+Secret Key:
+Bucket Name:
+----
++
+要获取这些值，请使用 System Manager 在 ONTAP 集群中执行以下操作。
+
++
+.. 在 ONTAP 集群中创建支持 S3 的 SVM 以存储备份数据。请记下此 SVM 的 S3 端点 URL。
+.. 在 SVM 的 S3 设置中，创建一个用户并分配所需的访问权限。记下此用户的访问密钥和秘密密钥。
++
+
+NOTE: Trident Protect 要求 S3 用户至少具有 `PutObject`、 `GetObject`、 `ListBucket`和 `DeleteObject`权限。如果没有这些权限，AppVault 备份和还原操作将失败并出现拒绝访问错误。有关详细信息，请参见link:https://docs.netapp.com/us-en/trident/trident-protect/trident-protect-appvault-custom-resources.html#s3-compatible-storage-iam-permissions["Trident Protect AppVault 文档"]。
+
++
+.显示示例
+[%collapsible]
+====
+... *创建 S3 用户并下载访问密钥和私密密钥*
++
+image::vks-console-br-003.png[创建 S3 用户并下载访问密钥和私有密钥]
+
++
+.... 在启用了 S3 的 SVM 中创建 bucket。请记录该 bucket 名称，以便在 NetApp Console 中将 ONTAP S3 对象存储添加为备份目标时使用。
+
+
+
+
+image::vks-console-br-004.png[存储帐户]
+
+使用 S3 端点、访问密钥、私密密钥和存储桶名称，在 NetApp Console 中将 ONTAP S3 对象存储添加为备份目标。
+
+image::vks-console-br-005.png[在 NetApp Console 中发现 ONTAP S3 对象存储作为备份目标]
+
+image::vks-console-br-006.png[ONTAP S3 对象存储详细信息，用于在 NetApp Console 中发现]
+
+====
+
+
+. *在 NetApp Console 中，为容器工作负载创建应用程序，并使用备份对其进行保护*
++
+
+NOTE: 您需要 Backup and Recovery 超级管理员或 Backup and Recovery 备份管理员角色才能创建和保护 Kubernetes 应用程序。要还原 Kubernetes 应用程序，您需要 Backup and Recovery 超级管理员或 Backup and Recovery 还原管理员角色。
+
++
+.显示示例
+[%collapsible]
+====
+在此步骤中，在 NetApp Console 中为 vSphere Kubernetes 集群中需要保护的容器应用程序创建一个应用程序。您可以使用命名空间创建应用程序，以保护 vSphere Kubernetes 集群中命名空间内的所有容器应用程序。
+
+您还需要保护策略才能与应用程序关联。您可以创建新的保护策略或使用现有的保护策略。
+
+image::vks-console-br-011.png[为容器应用程序创建应用程序]
+
+提供应用程序详细信息并定义应用程序的标准。在此示例中，为 vSphere Kubernetes 集群中命名空间中的所有容器应用程序创建应用程序。单击 *搜索* 以查看作为应用程序一部分的命名空间范围资源的列表。单击 *下一步* 继续。
+
+image::vks-console-br-012.png[提供应用程序详细信息并定义应用程序的标准]
+
+接下来，需要为应用程序提供保护设置。您可以创建新的保护策略或使用现有的保护策略。在此示例中，将为应用程序创建新的保护策略并与之关联。展开 *Policy* ，然后单击 *Create new policy*。
+
+image::vks-console-br-013.png[创建新保护策略]
+
+提供策略的名称并选择备份体系结构。在此示例中，选择了磁盘到对象存储。定义本地快照计划，该计划控制在主存储上创建快照的频率。然后分别配置对象存储备份设置：选择备份目标（在此示例中为 ONTAP S3），设置控制快照数据何时复制到对象存储的传输计划，并指定保留副本数。传输计划与快照计划无关，因此资源将根据传输计划复制到对象存储，而不是在创建每个快照时立即复制。如果需要，您还可以修改最大重试次数和重试间隔。单击 *创建* 以继续。系统将发现该应用程序，并将保护策略与其关联。
+
+image::vks-console-br-014.png[提供保护策略名称]
+
+image::vks-console-br-015.png[选择备份体系结构]
+
+image::vks-console-br-016.png[本地快照计划]
+
+image::vks-console-br-017.png[用于备份的对象存储设置]
+
+image::vks-console-br-018.png[已创建应用程序并完成保护]
+
+====
+. *从备份还原应用程序*
++
+
+NOTE: 您需要具备 Backup and Recovery 超级管理员或 Backup and Recovery 还原管理员角色才能还原 Kubernetes 应用程序。
+
++
+.显示示例
+[%collapsible]
+====
+** 您可以选择任何可用的还原点（本地快照、对象存储备份或从辅助目标备份）来还原应用程序。
+** 您可以将应用程序还原到其原始命名空间或其他命名空间。
+** 您可以选择要包含在还原中的资源。
+** 您可以选择要用于还原的应用程序资源的存储类。
+
+
+image::vks-console-br-019.png[从备份还原应用程序]
+
+image::vks-console-br-020.png[选择还原点]
+
+image::vks-console-br-021.png[选择还原选项]
+
+image::vks-console-br-022.png[选择所有或部分资源以还原]
+
+image::vks-console-br-023.png[为还原的资源选择存储类]
+
+您可以在 NetApp Console 的"监控"部分查看还原作业的进度。还原作业完成后，您可以在 vSphere Kubernetes 集群中看到还原的资源。
+
+image::vks-console-br-024.png[监控还原作业进度]
+
+image::vks-console-br-025.png[已完成还原作业]
+
+image::vks-console-br-026.png[已还原的应用程序]
+
+====
+

@@ -31,23 +31,35 @@ image::vks-004.png[从 Resources 选项卡下载 kubeconfig]
 link:https://docs.netapp.com/us-en/trident/trident-install/kubernetes-deploy-helm.html["https://docs.netapp.com/us-en/trident/trident-install/kubernetes-deploy-helm.html"^]
 
 +
+在运行 Helm 安装之前，创建并标记 `trident`命名空间。 `enforce=privileged`标签是必需的，因为 Trident 运行特权工作负载。没有它，Kubernetes Pod 安全准入控制器将阻止 Trident Pod 启动。
+
++
+[source, cli]
+----
+kubectl create namespace trident
+kubectl label namespace trident pod-security.kubernetes.io/enforce=privileged
+----
++
 .显示示例
 [%collapsible]
 ====
 [source, cli]
 ----
-helm install trident netapp-trident/trident-operator --version 100.2606.0 --create-namespace --namespace trident --kubeconfig=/path/to/your-kubeconfig-file
+helm install trident netapp-trident/trident-operator --version 100.2606.0 --namespace trident
 ----
 要启用调试日志记录，请添加 `--set tridentDebug=true`：
 
 [source, cli]
 ----
-helm install trident netapp-trident/trident-operator --version 100.2606.0 --create-namespace --namespace trident --set tridentDebug=true --kubeconfig=/path/to/your-kubeconfig-file
+helm install trident netapp-trident/trident-operator --version 100.2606.0 --namespace trident --set tridentDebug=true
 ----
 ====
 +
 
 NOTE: 您也可以使用 Trident Operator 手动安装 Trident。查看 Trident 文档中的步骤：link:https://docs.netapp.com/us-en/trident/trident-install/kubernetes-deploy-operator.html["手动部署 Trident Operator"^]
+
++
+在手动安装 Trident 之前，请确保已使用所需的 Pod 安全标签标记 `trident`命名空间。
 
 . 确认所有 Trident Pod 都在集群中运行。
 +
@@ -58,27 +70,15 @@ NOTE: 您也可以使用 Trident Operator 手动安装 Trident。查看 Trident 
 ----
 kubectl get pods -n trident
 ----
+image::vks-trident-install-001.png[安装Trident]
 
-NOTE: 此时可能无法创建 Trident Pod。如果您描述 ReplicaSet 对象，您可能会看到有关违反 PodSecurity 的错误，如下所示。此错误的原因是，在安装过程中创建的 `trident`命名空间强制执行 Kubernetes 受限 Pod 安全标准 (PSS)。Trident Operator 需要提升的系统权限来管理主机存储，无法在受限配置文件的严格约束下运行。要解决此问题，请为 `trident`命名空间授予特权配置文件，以便 ReplicaSet 控制器能够成功启动 Pod。
 
-[source, text]
-----
-Warning  FailedCreate  25s (x5 over 64s)  replicaset-controller  (combined from similar events): Error creating: pods "trident-operator-5cbf7f857-z7ztd" is forbidden: violates PodSecurity "restricted:latest": allowPrivilegeEscalation != false (container "trident-operator" must set securityContext.allowPrivilegeEscalation=false), unrestricted capabilities (container "trident-operator" must set securityContext.capabilities.drop=["ALL"]), runAsNonRoot != true (pod or container "trident-operator" must set securityContext.runAsNonRoot=true), seccompProfile (pod or container "trident-operator" must set securityContext.seccompProfile.type to "RuntimeDefault" or "Localhost")
-----
-将内置的 Kubernetes Pod Security Admission 标签应用于 `trident`命名空间，以将其从受限配置文件约束中豁免：
+NOTE: 如果 Trident Pod 启动失败并出现 `PodSecurity`准入错误，则 Pod 安全标签可能未在安装前应用于 `trident`命名空间。使用 `--overwrite`重新应用它们，然后验证 Pod 是否成功启动。
 
 [source, cli]
 ----
 kubectl label namespace trident pod-security.kubernetes.io/enforce=privileged --overwrite
-kubectl label namespace trident pod-security.kubernetes.io/audit=privileged --overwrite
-kubectl label namespace trident pod-security.kubernetes.io/warn=privileged --overwrite
 ----
-[source, cli]
-----
-kubectl get pods -n trident
-----
-image::vks-trident-install-001.png[安装Trident]
-
 ====
 
 

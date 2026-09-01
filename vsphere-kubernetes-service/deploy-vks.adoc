@@ -210,7 +210,9 @@ image::vks-005.png[使用 kubeconfig 通过 CLI 连接到 VKS 集群]
 [[video-demonstration]]
 == 视频演示
 
-以下视频演示如何创建 vSphere Kubernetes 集群。
+以下视频演示了两种创建 vSphere Kubernetes 集群的方法。
 
 .在 Supervisor 集群上创建 vSphere Kubernetes 集群
 video::4ef64b3c-7a68-41d5-bacf-b4a8012b49f8[panopto,width=360]
+.使用 VCF 自动化创建 vSphere Kubernetes 集群
+video::571ced1a-58e8-4bf4-9c24-b4b10118bc22[panopto,width=360]

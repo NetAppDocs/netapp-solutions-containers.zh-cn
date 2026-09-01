@@ -4,7 +4,7 @@ permalink: vsphere-kubernetes-service/vks-overview.html
 keywords: vks, vSphere Kubernetes Service, ONTAP, kubernetes, overview 
 summary: 了解 vSphere Kubernetes Service 及其如何与 NetApp ONTAP 集成以支持容器化工作负载。 
 ---
-= 了解如何将 vSphere Kubernetes 服务与 NetApp ONTAP 结合使用
+= 了解结合 NetApp ONTAP 的 VMware vSphere Kubernetes 服务
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -14,9 +14,9 @@ summary: 了解 vSphere Kubernetes Service 及其如何与 NetApp ONTAP 集成�
 
 
 [role="lead"]
-vSphere Kubernetes 服务 (VKS) 是 VMware 提供的托管 Kubernetes 产品，使组织能够使用 Kubernetes 部署、管理和扩展容器化应用程序。与 NetApp ONTAP 存储相结合，VKS 为云原生工作负载提供企业级持久性、性能和数据管理。
+VMware vSphere Kubernetes 服务 (VKS) 是 VMware 提供的托管 Kubernetes 产品，使组织能够使用 Kubernetes 部署、管理和扩展容器化应用程序。与 NetApp ONTAP 存储配合使用，VKS 为云原生工作负载提供企业级持久性、性能和数据管理。
 
-vSphere Kubernetes Service 通常集成到 VMware 更广泛的生态系统中，例如 VMware Tanzu，它为 Kubernetes 管理、应用程序现代化和 DevOps 实践提供了一套全面的工具。
+VKS 嵌入 VMware Cloud Foundation (VCF)，符合上游 CNCF Kubernetes，确保与更广泛的 Kubernetes 生态系统和工具的兼容性。
 
 
 
@@ -27,10 +27,10 @@ vSphere Kubernetes Service 通常集成到 VMware 更广泛的生态系统中，
 . *与 VMware 基础设施集成：* VKS 与 VMware vSphere、NSX-T 和其他 VMware 解决方案无缝集成，使组织能够利用其现有的 VMware 基础设施来处理 Kubernetes 工作负载。
 . *多云和混合云支持：* vSphere Kubernetes Service 支持在私有云、公共云（例如 AWS、Azure、Google Cloud）和混合云环境中进行部署，为组织提供管理应用程序的灵活性。
 . *内置安全性：* VKS 包括基于角色的访问控制 (RBAC)、策略实施以及与 VMware NSX 集成以实现网络安全等安全功能。
-. *开发人员友好型工具：* vSphere Kubernetes Service 与 Tanzu Application Platform 等开发人员工具集成，以简化容器化应用程序的开发和部署。
+. *支持 Kubernetes 生态系统：* VKS 支持完整的上游 Kubernetes API，确保跨环境的可移植性以及与更广泛的 Kubernetes 生态系统的兼容性，包括用于服务网格的 Istio、用于监控的 Prometheus 以及其他 CNCF 认证工具。组织可以将标准的 Kubernetes 技能和集成直接应用于 VKS 集群。
+. *开发人员友好型工具：* VKS 支持标准的 Kubernetes 开发人员工作流程，包括 CI/CD 管道、GitOps 实践以及 kubectl 和 Helm 等工具，使开发团队能够在无需学习专有接口的情况下构建和部署容器化应用程序。
 . *可扩展性和高可用性：* VKS 提供自动扩展和容错等功能，以确保应用程序保持高可用性和高性能。
-. *可观测性和监控：* vSphere Kubernetes Service 与 VMware Tanzu Observability（以前称为 Wavefront）和其他监控工具集成，可实时洞察集群和应用程序性能。
-. *支持 Kubernetes 生态系统：* VKS 完全符合上游 Kubernetes，这意味着它支持 Kubernetes API，并与 Helm、Istio 和 Prometheus 等 Kubernetes 原生工具配合使用。
+. *可观察性和监控：* VKS 与标准的 Kubernetes 兼容监控工具集成，可提供对集群和应用程序性能的实时洞察。
 
 
 

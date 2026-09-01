@@ -319,5 +319,5 @@ SELECT * FROM employees;
 
 以下视频演示在 vSphere Kubernetes 集群上安装 Trident，以及使用 Trident 部署具有持久存储的 PostgreSQL 数据库。
 
-.使用 Trident 持久存储部署 ONTAP 工作负载
+.使用 vSphere Kubernetes Service 集群（由 ONTAP 持久存储支持）上的 Trident 部署工作负载
 video::eb8bd0c0-a1fe-4288-a575-b4ac00e004a9[panopto,width=360]

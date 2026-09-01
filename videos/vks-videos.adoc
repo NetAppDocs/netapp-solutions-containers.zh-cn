@@ -18,15 +18,22 @@ summary: 演示本文档中记录的一些功能。
 
 
 
-[[deploying-a-vsphere-kubernetes-service-cluster-with-netapp-storage]]
-== 部署 vSphere Kubernetes Service 集群并使用 NetApp 存储
+[[create-a-vsphere-kubernetes-cluster-on-a-supervisor-cluster]]
+== 在 Supervisor 集群上创建 vSphere Kubernetes 集群
 
-.部署 vSphere Kubernetes Service 集群并使用 NetApp 存储
+.在 Supervisor 集群上创建 vSphere Kubernetes 集群
 video::4ef64b3c-7a68-41d5-bacf-b4a8012b49f8[panopto,width=360]
 
 
-[[deploying-workloads-with-ontap-persistent-storage-using-trident]]
-== 使用 Trident 持久存储部署 ONTAP 工作负载
+[[create-a-vsphere-kubernetes-cluster-with-vcf-automation]]
+== 使用 VCF Automation 创建 vSphere Kubernetes 集群
 
-.使用 Trident 持久存储部署 ONTAP 工作负载
+.使用 VCF Automation 创建 vSphere Kubernetes 集群
+video::571ced1a-58e8-4bf4-9c24-b4b10118bc22[panopto,width=360]
+
+
+[[deploying-workloads-on-a-vks-cluster-backed-by-ontap-persistent-storage-using-trident]]
+== 使用 Trident 在由 ONTAP 持久存储支持的 VKS 集群上部署工作负载
+
+.使用 Trident 在由 ONTAP 持久存储支持的 VKS 集群上部署工作负载
 video::eb8bd0c0-a1fe-4288-a575-b4ac00e004a9[panopto,width=360]

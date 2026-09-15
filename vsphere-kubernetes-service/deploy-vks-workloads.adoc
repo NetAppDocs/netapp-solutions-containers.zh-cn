@@ -211,8 +211,12 @@ spec:
 kubectl get all -n <namespace>
 kubectl get pvc -n <namespace>
 ----
+.显示示例
+[%collapsible]
+====
 image::vks-workload-001.png[使用永久存储部署的工作负载]
 
+====
 根据使用的协议，后端存储是卷、qtree 或 LUN。您可以通过描述 PersistentVolume（PV）来检索内部卷名称，然后在 ONTAP CLI 命令中使用它来获取存储详细信息，从而验证在 ONTAP 系统中配置的存储。使用以下命令来描述 PV 并检索内部卷名称：
 
 [source, bash]
@@ -220,6 +224,8 @@ image::vks-workload-001.png[使用永久存储部署的工作负载]
 kubectl describe pv/<pv-name>
 ----
 .显示示例
+[%collapsible]
+====
 image::vks-workload-002.png[NAS 卷的内部卷名称]
 
 image::vks-workload-003.png[SAN LUN 的内部卷名称]
@@ -242,10 +248,14 @@ lun show -vserver <vserver> -volume <internal-volume-name>
 ----
 image::vks-workload-005.png[SAN LUN 的 ONTAP CLI 输出]
 
+====
 如果在 NAS 或 NAS Economy 存储类中使用了 `nconnect`挂载选项，则可以验证从工作节点到存储服务器的活动 TCP 连接数。
 
 首先，列出 Trident 后端配置以查找后端名称，然后对其进行描述以检索 vserver 名称和数据 LIF：
 
+.显示示例
+[%collapsible]
+====
 [source, bash]
 ----
 kubectl get tbc -n trident
@@ -257,11 +267,14 @@ kubectl describe tbc <backend-name> -n trident
 ----
 network connections active show -local-address <data-lif> -local-port 2049
 ----
-.显示示例
 image::vks-workload-006.png[活动连接的 ONTAP 命令行界面输出]
 
+====
 Pod 处于运行状态后，连接到数据库并验证数据操作。
 
+.显示示例
+[%collapsible]
+====
 .步骤
 . 将 PostgreSQL 服务端口转发到本地计算机：
 +
@@ -312,6 +325,7 @@ SELECT * FROM employees;
 ----
 
 
+====
 
 
 [[video-demonstration]]
@@ -319,5 +333,5 @@ SELECT * FROM employees;
 
 以下视频演示在 vSphere Kubernetes 集群上安装 Trident，以及使用 Trident 部署具有持久存储的 PostgreSQL 数据库。
 
-.使用 vSphere Kubernetes Service 集群（由 ONTAP 持久存储支持）上的 Trident 部署工作负载
-video::eb8bd0c0-a1fe-4288-a575-b4ac00e004a9[panopto,width=360]
+.使用 Trident 在由 ONTAP 持久存储支持的 VKS 集群上部署工作负载
+video::ea2cd302-d556-4450-bd68-b4c0012a9b49[panopto,width=360]

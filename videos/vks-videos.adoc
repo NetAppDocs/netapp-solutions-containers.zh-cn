@@ -36,4 +36,18 @@ video::571ced1a-58e8-4bf4-9c24-b4b10118bc22[panopto,width=360]
 == 使用 Trident 在由 ONTAP 持久存储支持的 VKS 集群上部署工作负载
 
 .使用 Trident 在由 ONTAP 持久存储支持的 VKS 集群上部署工作负载
-video::eb8bd0c0-a1fe-4288-a575-b4ac00e004a9[panopto,width=360]
+video::ea2cd302-d556-4450-bd68-b4c0012a9b49[panopto,width=360]
+
+
+[[backup-workloads-on-a-vks-cluster-to-object-store-and-restore-using-netapp-console]]
+== 将 VKS 集群上的工作负载备份到对象存储，并使用 NetApp Console 进行还原
+
+.将 VKS 集群上的工作负载备份到对象存储，并使用 NetApp Console 进行还原
+video::02f61f3c-ae52-4f0b-9fe7-b4c0012ac7d8[panopto,width=360]
+
+
+[[netapp-console-local-overview]]
+== NetApp Console 本地概述
+
+.NetApp Console 本地概述
+video::5a0bdd54-7d38-494a-a224-b4b60011547f[panopto,width=360]
